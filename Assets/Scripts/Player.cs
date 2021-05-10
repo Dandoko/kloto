@@ -13,6 +13,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
+        // Check if space key is pressed down
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GetComponent<Rigidbody>().
+        }
     }
 }
