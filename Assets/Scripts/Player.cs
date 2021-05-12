@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
         // Check if space key is pressed down
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            GetComponent<Rigidbody>().
+            
         }
     }
 }
