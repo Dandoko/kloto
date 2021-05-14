@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private Transform groundCheckTransform = null;
+    [SerializeField] private LayerMask playerMask;
+
     private bool spacebarPressed;
     private float horizontalInput;
+    private Rigidbody rigidbodyComponent;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        rigidbodyComponent = GetComponent<Rigidbody>();
     }
     
     // Update is called once per frame
@@ -29,12 +33,18 @@ public class Player : MonoBehaviour
     // Called once every physics update (deault is 100/second)
     private void FixedUpdate()
     {
-        if (spacebarPressed)
+        rigidbodyComponent.velocity = new Vector3(horizontalInput * 2, rigidbodyComponent.velocity.y, 0);
+
+        // If the groundCheck collider is not colliding with anything (using a LayerMask to avoid colliding with the player itself)
+        if (Physics.OverlapSphere(groundCheckTransform.position, 0.1f, playerMask).Length == 0)
         {
-            GetComponent<Rigidbody>().AddForce(Vector3.up * 5, ForceMode.VelocityChange);
-            spacebarPressed = false;
+            return;
         }
 
-        GetComponent<Rigidbody>().velocity = new Vector3(horizontalInput, GetComponent<Rigidbody>().velocity.y, 0);
+        if (spacebarPressed)
+        {
+            rigidbodyComponent.AddForce(Vector3.up * 5, ForceMode.VelocityChange);
+            spacebarPressed = false;
+        }
     }
 }
