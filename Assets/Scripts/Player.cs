@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
 
         if (spacebarPressed)
         {
-            rigidbodyComponent.AddForce(Vector3.up * 5, ForceMode.VelocityChange);
+            rigidbodyComponent.AddForce(Vector3.up * 6, ForceMode.VelocityChange);
             spacebarPressed = false;
         }
     }
