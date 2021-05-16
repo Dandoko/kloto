@@ -5,6 +5,7 @@
 	- After completing your tasks on your branch, submit a pull request to the main branch
 - Remember to pull from the main branch before starting on anything (programming, modelling, etc.) to minimize merge conflicts
 	- After pulling, merge your branch with the main branch
+	- After merging, ```git push``` immediately to be even with main
 
 ## Links
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)
