@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     private bool spacebarPressed;
     private float horizontalInput;
     private Rigidbody rigidbodyComponent;
+    private int superJumpsRemaining;
 
     // Start is called before the first frame update
     void Start()
@@ -43,8 +44,25 @@ public class Player : MonoBehaviour
 
         if (spacebarPressed)
         {
-            rigidbodyComponent.AddForce(Vector3.up * 6, ForceMode.VelocityChange);
+            float jumpPower = 5f;
+            if (superJumpsRemaining > 0)
+            {
+                jumpPower *= 1.3f;
+                superJumpsRemaining--;
+            }
+
+            rigidbodyComponent.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
             spacebarPressed = false;
+        }
+    }
+
+    // Gets called when collided with the Is Trigger field enabled
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == 7)
+        {
+            Destroy(other.gameObject);
+            superJumpsRemaining++;
         }
     }
 }
