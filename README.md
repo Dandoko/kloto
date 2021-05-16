@@ -1,12 +1,12 @@
 # kloto
 
 ## Remarks About Branching
-- Remember to use and push to your branch, not the main branch
+- Remember to **use and push to your branch**, not the main branch
 	- To be on your branch, `git checkout <user>Branch`
 	- To push to your branch, `git push -u origin <user>Branch`
 	- After pushing to your branch, submit a pull request to the main branch
 		- Note: Pull requests can be done remotely through the GitHub website
-- Remember to pull from the main branch before starting on anything
+- Remember to **pull from the main branch before starting on anything**
 (programming, modelling, etc.) to minimize merge conflicts and to update your local
 directory with changes someone else could have made
 	- Change branches locally to the main branch by `git checkout main`
