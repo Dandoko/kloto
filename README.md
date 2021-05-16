@@ -1,15 +1,20 @@
 # kloto
 
-## Remarks
-- Remember to use and push to your branch, not the main branch
+## Remarks About Branching
+- Remember to **use and push to your branch**, not the main branch
+	- To be on your branch, `git checkout <user>Branch`
+	- To push to your branch, `git push -u origin <user>Branch`
 	- After pushing to your branch, submit a pull request to the main branch
-	- Pull requests can be done remotely through the GitHub website
-- Remember to pull from the main branch before starting on anything (programming, modelling, etc.) to minimize merge conflicts
-	- Change branches locally to the main branch by ```git checkout main``` and ```git pull```
-	- After pulling, change branches to your branch through ```git checkout <user>Branch``` 
-	- In your branch, merge with the main branch by ```git merge main```
-	- After merging, ```git status``` to see the status of your branch
-	- If asked after ```git status```, ```git push``` immediately to be even with main
+		- Note: Pull requests can be done remotely through the GitHub website
+- Remember to **pull from the main branch before starting on anything**
+(programming, modelling, etc.) to minimize merge conflicts and to update your local
+directory with changes someone else could have made
+	- Change branches locally to the main branch by `git checkout main`
+	- Pull from the remote GitHub repository by `git pull`
+	- After pulling, change branches to your branch through `git checkout <user>Branch` 
+	- In your branch, merge with the main branch by `git merge main`
+	- After merging, `git status` to see the status of your branch
+	- If asked after `git status`, `git push` immediately to be even with main
 
 ## Links
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)
