@@ -13,8 +13,8 @@ directory with changes someone else could have made
 	- Pull from the remote GitHub repository by `git pull`
 	- After pulling, change branches to your branch through `git checkout <user>Branch` 
 	- In your branch, merge with the main branch by `git merge main`
-	- After merging, `git status` to see the status of your branch
-	- If asked after `git status`, `git push` immediately to be even with main
+	- After merging, `git push` immediately to have the branch on the remote repo be
+	even with main
 
 ## Links
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)
