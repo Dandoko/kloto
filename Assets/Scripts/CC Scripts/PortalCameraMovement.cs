@@ -59,7 +59,9 @@ public class PortalCameraMovement : MonoBehaviour
 
 
         //Changes the normal vector of the plane so that the near clip plane is always facing the right direction, lowering the possibility of optical glitches
-        sign = System.Math.Sign(Vector3.Dot(renderingOnPortal.transform.forward, playerCamera.transform.position - renderingOnPortal.transform.position));
+        sign = System.Math.Sign(Vector3.Dot(lookingAtPortal.transform.forward, transform.position - lookingAtPortal.transform.position));
+
+
 
         //Creates a near clip plane and transforms it to world coordinates
         nearClipPlane = new Vector4(portalScreenPlane.normal.x * sign, portalScreenPlane.normal.y * sign, portalScreenPlane.normal.z * sign, -portalScreenPlane.distance);
