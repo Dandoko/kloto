@@ -12,6 +12,7 @@ public class PortalCameraMovement : MonoBehaviour
     private Vector3 cameraToPortal2;
     private Quaternion rotPlayerToPortal1;
     private Quaternion rotCameraToPortal2;
+    private Matrix4x4 rotMatrix; 
 
     private Vector4 nearClipPlane;
     private Vector3[] portalCoords = new Vector3[3];
@@ -36,15 +37,19 @@ public class PortalCameraMovement : MonoBehaviour
     void Update()
     {
 
-        //Needs to be fixed so that angle of portal is accounted for
-        playerToPortal1 = playerCamera.transform.position - renderingOnPortal.transform.position;
-        cameraToPortal2 = playerToPortal1;
-        transform.position = cameraToPortal2 + lookingAtPortal.transform.position;
+
 
         //Mimics the player camera rotations relative to portal 1
         rotPlayerToPortal1 = playerCamera.transform.rotation * Quaternion.Inverse(renderingOnPortal.transform.rotation);
         rotCameraToPortal2 = rotPlayerToPortal1;
         transform.rotation =  lookingAtPortal.transform.rotation * rotCameraToPortal2;
+
+        rotMatrix = Matrix4x4.Rotate(lookingAtPortal.transform.rotation);
+
+        //Positions the camera the same distance from portal 2 as the player is from portal 1
+        playerToPortal1 = playerCamera.transform.position - renderingOnPortal.transform.position;
+        cameraToPortal2 = rotMatrix.MultiplyPoint(playerToPortal1);
+        transform.position = cameraToPortal2 + lookingAtPortal.transform.position;
 
 
         //nearClipPlane = new Vector4(portalScreenPlane.normal.x, portalScreenPlane.normal.y, portalScreenPlane.normal.z, -Vector3.Dot(portalScreenPlane.normal, transform.position));
