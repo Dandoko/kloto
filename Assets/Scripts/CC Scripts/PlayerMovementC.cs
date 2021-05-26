@@ -6,13 +6,14 @@ public class PlayerMovementC : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
 
-    private float speed = 6f;
+    private float speed = 10f;
+    private float jumpHeight = 4f;
     private float gravity = -9.81f;
     private float yVel;
 
 
     private bool charIsGrounded;
-    private float jumpHeight = 6f;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -27,8 +28,7 @@ public class PlayerMovementC : MonoBehaviour
 
 
 
-        // Applying gravity
-        yVel += gravity * Time.deltaTime;
+
 
 
         if (charIsGrounded)
@@ -41,6 +41,11 @@ public class PlayerMovementC : MonoBehaviour
             {
                 yVel = -2f;
             }
+        }
+        else
+        {
+            // Applying gravity
+            yVel += gravity * Time.deltaTime;
         }
 
 
