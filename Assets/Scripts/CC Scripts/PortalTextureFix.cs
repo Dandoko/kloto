@@ -8,10 +8,11 @@ public class PortalTextureFix : MonoBehaviour
     {
         Vector2[] uvs = GetComponent<MeshFilter>().sharedMesh.uv;
 
-        uvs[6] = new Vector2(0, 0);
-        uvs[7] = new Vector2(1, 0);
-        uvs[10] = new Vector2(0, 1);
-        uvs[11] = new Vector2(1, 1);
+        //Flips the UV mapping of the back of the portal screen so that the back is not mirrored
+        uvs[6] = new Vector2(1, 0);
+        uvs[7] = new Vector2(0, 0);
+        uvs[10] = new Vector2(1, 1);
+        uvs[11] = new Vector2(0, 1);
 
         GetComponent<MeshFilter>().sharedMesh.uv = uvs;
     }
