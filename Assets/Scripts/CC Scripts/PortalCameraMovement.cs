@@ -12,6 +12,7 @@ public class PortalCameraMovement : MonoBehaviour
     private Vector3 cameraToPortal2;
     private Quaternion rotPlayerToPortal1;
     private Quaternion rotCameraToPortal2;
+    private Quaternion portalRotDif;
     private Matrix4x4 rotMatrix; 
 
     private Vector4 nearClipPlane;
@@ -37,25 +38,29 @@ public class PortalCameraMovement : MonoBehaviour
     void Update()
     {
 
-
-
         //Mimics the player camera rotations relative to portal 1
-        rotPlayerToPortal1 = playerCamera.transform.rotation * Quaternion.Inverse(renderingOnPortal.transform.rotation);
+        rotPlayerToPortal1 = Quaternion.Inverse(renderingOnPortal.transform.rotation) * playerCamera.transform.rotation;
         rotCameraToPortal2 = rotPlayerToPortal1;
-        transform.rotation =  lookingAtPortal.transform.rotation * rotCameraToPortal2;
+        transform.rotation = lookingAtPortal.transform.rotation * rotCameraToPortal2;
 
-        rotMatrix = Matrix4x4.Rotate(lookingAtPortal.transform.rotation);
 
-        //Positions the camera the same distance from portal 2 as the player is from portal 1
+
+        //Gets the difference in rotations between the two portals
+        portalRotDif = lookingAtPortal.transform.rotation * Quaternion.Inverse(renderingOnPortal.transform.rotation);
+        //Calculates a transformation matrix that would rotate any vector by the difference in rotation of the two portals
+        rotMatrix = Matrix4x4.Rotate(portalRotDif);
+
+        //Positions the camera the same distance from portal 2 as the player is from portal 1 VVV THIS IS CORRECT
         playerToPortal1 = playerCamera.transform.position - renderingOnPortal.transform.position;
         cameraToPortal2 = rotMatrix.MultiplyPoint(playerToPortal1);
         transform.position = cameraToPortal2 + lookingAtPortal.transform.position;
 
 
         //nearClipPlane = new Vector4(portalScreenPlane.normal.x, portalScreenPlane.normal.y, portalScreenPlane.normal.z, -Vector3.Dot(portalScreenPlane.normal, transform.position));
+        nearClipPlane = new Vector4(portalScreenPlane.normal.x, portalScreenPlane.normal.y, portalScreenPlane.normal.z, -Vector3.Dot(portalScreenPlane.normal, portalCoords[0]));
 
 
-        //camComponent.projectionMatrix = camComponent.CalculateObliqueMatrix(nearClipPlane);
+        camComponent.projectionMatrix = camComponent.CalculateObliqueMatrix(nearClipPlane);
     }
 
 
