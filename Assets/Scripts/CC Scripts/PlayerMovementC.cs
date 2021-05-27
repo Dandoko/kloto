@@ -44,7 +44,7 @@ public class PlayerMovementC : MonoBehaviour
         }
         else
         {
-            // Applying gravity
+            //Applying gravity
             yVel += gravity * Time.deltaTime;
         }
 

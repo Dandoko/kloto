@@ -46,7 +46,6 @@ public class PortalCameraMovement : MonoBehaviour
         transform.rotation = lookingAtPortal.transform.rotation * rotCameraToPortal2;
 
 
-
         //Gets the difference in rotations between the two portals
         portalRotDif = lookingAtPortal.transform.rotation * Quaternion.Inverse(renderingOnPortal.transform.rotation);
         //Calculates a transformation matrix that would rotate any vector by the difference in rotation of the two portals
@@ -58,12 +57,13 @@ public class PortalCameraMovement : MonoBehaviour
         transform.position = cameraToPortal2 + lookingAtPortal.transform.position;
 
 
+
+
         //Changes the normal vector of the plane so that the near clip plane is always facing the right direction, lowering the possibility of optical glitches
         sign = System.Math.Sign(Vector3.Dot(lookingAtPortal.transform.forward, transform.position - lookingAtPortal.transform.position));
 
-
         //Creates a near clip plane and transforms it to world coordinates
-        nearClipPlane = new Vector4(portalScreenPlane.normal.x * sign, portalScreenPlane.normal.y * sign, portalScreenPlane.normal.z * sign, portalScreenPlane.distance * sign);
+        nearClipPlane = new Vector4(portalScreenPlane.normal.x * sign, portalScreenPlane.normal.y * sign, portalScreenPlane.normal.z * sign, sign * portalScreenPlane.distance);
         nearClipPlaneWorld = Matrix4x4.Transpose(Matrix4x4.Inverse(camComponent.worldToCameraMatrix)) * nearClipPlane;
 
         camComponent.projectionMatrix = camComponent.CalculateObliqueMatrix(nearClipPlaneWorld);

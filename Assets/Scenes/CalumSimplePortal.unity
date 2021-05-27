@@ -154,7 +154,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1448184103}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &184574721
 CapsuleCollider:
@@ -165,7 +165,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 184574719}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
@@ -398,7 +398,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1448184103}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &465113460
 GameObject:
@@ -566,6 +566,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 45abcc5f2961477408ded6cd3f01b971, type: 2}
+    - target: {fileID: 4459743956800959033, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: thisPortal
+      value: 
+      objectReference: {fileID: 690531064}
+    - target: {fileID: 4459743956800959033, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: otherPortal
+      value: 
+      objectReference: {fileID: 1065116162}
+    - target: {fileID: 4504466156567620868, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1627343711710613511, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
@@ -778,7 +790,7 @@ GameObject:
   - component: {fileID: 567209106}
   - component: {fileID: 567209109}
   m_Layer: 0
-  m_Name: Portal Cam
+  m_Name: Portal Cam 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -843,7 +855,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 567209105}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.44000077, y: 2.35, z: -3.3099995}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1588605315}
@@ -1711,7 +1723,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1379765424}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.21, y: 0, z: -4.932826}
+  m_LocalPosition: {x: 5.94, y: 0, z: -4.932826}
   m_LocalScale: {x: 1.960233, y: 1, z: 2.9118}
   m_Children: []
   m_Father: {fileID: 1204794040}
@@ -1838,11 +1850,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448184100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.08, y: 4.31, z: -2.29}
+  m_LocalPosition: {x: 16.08, y: 2.65, z: -2.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 184574720}
   - {fileID: 428425387}
+  - {fileID: 184574720}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2064,7 +2076,7 @@ GameObject:
   - component: {fileID: 1682001239}
   - component: {fileID: 1682001238}
   m_Layer: 0
-  m_Name: Portal Cam (1)
+  m_Name: Portal Cam 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2144,7 +2156,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1682001237}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.77, y: 2.35, z: -3.3099995}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 928754738}
@@ -2417,6 +2429,15 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ee74a3c8062bdbc4a97029875fd3b4e2, type: 2}
+    - target: {fileID: 4459743956800959033, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: thisPortal
+      value: 
+      objectReference: {fileID: 1065116162}
+    - target: {fileID: 4459743956800959033, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: otherPortal
+      value: 
+      objectReference: {fileID: 690531064}
     m_RemovedComponents:
     - {fileID: 1627343711710613511, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+    - {fileID: 4459743956800959033, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
