@@ -23,13 +23,13 @@ Shader "Unlit/PortalScreenShader"
             struct appdata
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                //float2 uv : TEXCOORD0;
             };
 
             struct v2f
             {
                 //float2 uv : TEXCOORD0;
-                float4 screenPos : TEXCOORD1;
+                float4 screenPos : TEXCOORD0;
                 float4 vertex : SV_POSITION;
             };
 
@@ -47,11 +47,12 @@ Shader "Unlit/PortalScreenShader"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                i.screenPos /= i.screenPos.w;
-                fixed4 col = tex2D(_MainTex, float2(i.screenPos.x, i.screenPos.y));
+                float2 screenSpaceUV = i.screenPos.xy / i.screenPos.w;
+                //i.screenPos /= i.screenPos.w;
+                //fixed4 col = tex2D(_MainTex, float2(i.screenPos.x, i.screenPos.y));
+                return tex2D(_MainTex, screenSpaceUV);
 
-
-                return col;
+                //return col;
             }
             ENDCG
         }
