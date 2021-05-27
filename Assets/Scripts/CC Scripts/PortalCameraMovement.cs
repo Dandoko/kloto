@@ -20,7 +20,7 @@ public class PortalCameraMovement : MonoBehaviour
     private Vector3[] portalCoords = new Vector3[3];
     private Plane portalScreenPlane;
     private Camera camComponent;
-    int sign;
+    private int sign;
 
 
     // Start is called before the first frame update
@@ -31,8 +31,8 @@ public class PortalCameraMovement : MonoBehaviour
         portalCoords[0] = lookingAtPortal.transform.GetChild(0).gameObject.GetComponent<Renderer>().bounds.max;
         portalCoords[1] = lookingAtPortal.transform.GetChild(0).gameObject.GetComponent<Renderer>().bounds.min;
         portalCoords[2] = lookingAtPortal.transform.GetChild(0).gameObject.GetComponent<Renderer>().bounds.center;
-        portalScreenPlane = new Plane(-Vector3.Cross(portalCoords[0], portalCoords[1]), portalCoords[2]);
-        //portalScreenPlane = new Plane(-lookingAtPortal.transform.forward, lookingAtPortal.transform.position);
+        //portalScreenPlane = new Plane(-Vector3.Cross(portalCoords[0], portalCoords[1]), portalCoords[2]);
+        portalScreenPlane = new Plane(-lookingAtPortal.transform.forward, lookingAtPortal.transform.position);
 
         DrawPlane(portalCoords[2], portalScreenPlane.normal);
     }
@@ -62,9 +62,8 @@ public class PortalCameraMovement : MonoBehaviour
         sign = System.Math.Sign(Vector3.Dot(lookingAtPortal.transform.forward, transform.position - lookingAtPortal.transform.position));
 
 
-
         //Creates a near clip plane and transforms it to world coordinates
-        nearClipPlane = new Vector4(portalScreenPlane.normal.x * sign, portalScreenPlane.normal.y * sign, portalScreenPlane.normal.z * sign, -portalScreenPlane.distance);
+        nearClipPlane = new Vector4(portalScreenPlane.normal.x * sign, portalScreenPlane.normal.y * sign, portalScreenPlane.normal.z * sign, portalScreenPlane.distance * sign);
         nearClipPlaneWorld = Matrix4x4.Transpose(Matrix4x4.Inverse(camComponent.worldToCameraMatrix)) * nearClipPlane;
 
         camComponent.projectionMatrix = camComponent.CalculateObliqueMatrix(nearClipPlaneWorld);
