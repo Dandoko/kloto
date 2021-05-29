@@ -158,6 +158,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2769183773777163499, guid: 164bf4f88212f2b4f8fe9333f6abc4f5, type: 3}
   m_PrefabInstance: {fileID: 1840670348}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &126049260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126049259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c465e0c57aa5499337c5be428d2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  linkedPortal: {fileID: 1255798298}
 --- !u!1 &542604770
 GameObject:
   m_ObjectHideFlags: 0
@@ -696,7 +709,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2769183773777163499, guid: 164bf4f88212f2b4f8fe9333f6abc4f5, type: 3}
       propertyPath: m_Name
-      value: Portal
+      value: PortalA
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 164bf4f88212f2b4f8fe9333f6abc4f5, type: 3}
@@ -828,7 +841,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2769183773777163499, guid: 164bf4f88212f2b4f8fe9333f6abc4f5, type: 3}
       propertyPath: m_Name
-      value: Portal
+      value: PortalB
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 164bf4f88212f2b4f8fe9333f6abc4f5, type: 3}
