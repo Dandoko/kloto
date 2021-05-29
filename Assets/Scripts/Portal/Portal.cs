@@ -21,9 +21,5 @@ public class Portal : MonoBehaviour
     {
         var cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * playerCamera.transform.localToWorldMatrix;
         myCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
-
-        //Vector3 playerOffset = playerCamera.transform.TransformPoint(playerCamera.transform.position) - linkedPortal.transform.TransformPoint(linkedPortal.transform.position);
-        //myCamera.transform.position = transform.TransformPoint(transform.position) + playerOffset;
-        //myCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
     }
 }
