@@ -9,12 +9,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundMask;
 
     private float speed = 6f;
-    private float gravity = -9.81f;
+    private float gravity = -19.62f;
     private Vector3 velocity;
 
     private float groundCheckRadius = 0.4f;
     private bool isGrounded;
-    private float jumpHeight = 3f;
+    private float jumpHeight = 2f;
 
     // Start is called before the first frame update
     void Start()

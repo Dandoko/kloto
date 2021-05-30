@@ -19,6 +19,7 @@ public class Portal : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Moves the portal camera relative to the player
         var cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * playerCamera.transform.localToWorldMatrix;
         myCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
     }
