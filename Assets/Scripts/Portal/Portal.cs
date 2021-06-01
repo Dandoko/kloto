@@ -5,7 +5,7 @@ using UnityEngine;
 public class Portal : MonoBehaviour
 {
     [SerializeField] private GameObject linkedPortal;
-    [SerializeField] private Material myCameraMaterial;
+    [SerializeField] private Material linkedPortalCameraMat;
 
     private Camera playerCamera;
     private Camera myCamera;
@@ -15,6 +15,15 @@ public class Portal : MonoBehaviour
     {
         playerCamera = Camera.main;
         myCamera = GetComponentInChildren<Camera>();
+
+        // If the portal camera already has a render texture
+        if (null != myCamera.targetTexture)
+        {
+            // Remove the texture
+            myCamera.targetTexture.Release();
+        }
+        myCamera.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
+        linkedPortalCameraMat.mainTexture = myCamera.targetTexture;
     }
 
     // Update is called once per frame
