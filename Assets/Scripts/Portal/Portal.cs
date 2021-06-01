@@ -5,6 +5,7 @@ using UnityEngine;
 public class Portal : MonoBehaviour
 {
     [SerializeField] private GameObject linkedPortal;
+    [SerializeField] private Material myCameraMaterial;
 
     private Camera playerCamera;
     private Camera myCamera;
