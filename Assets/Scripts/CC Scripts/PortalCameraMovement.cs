@@ -5,8 +5,8 @@ using UnityEngine;
 public class PortalCameraMovement : MonoBehaviour
 {
 
-    [SerializeField] GameObject playerCamera;
-    [SerializeField] GameObject lookingAtPortal;
+    private GameObject playerCamera;
+    private GameObject lookingAtPortal;
     [SerializeField] GameObject renderingOnPortal;
     private Vector3 playerToPortal1;
     private Vector3 cameraToPortal2;
@@ -26,7 +26,9 @@ public class PortalCameraMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        lookingAtPortal = transform.parent.gameObject;
         camComponent = GetComponent<Camera>();
+        playerCamera = Camera.main.gameObject;
 
         portalCoords[0] = lookingAtPortal.transform.GetChild(0).gameObject.GetComponent<Renderer>().bounds.max;
         portalCoords[1] = lookingAtPortal.transform.GetChild(0).gameObject.GetComponent<Renderer>().bounds.min;
@@ -34,7 +36,6 @@ public class PortalCameraMovement : MonoBehaviour
         //portalScreenPlane = new Plane(-Vector3.Cross(portalCoords[0], portalCoords[1]), portalCoords[2]);
         portalScreenPlane = new Plane(-lookingAtPortal.transform.forward, lookingAtPortal.transform.position);
 
-        DrawPlane(portalCoords[2], portalScreenPlane.normal);
     }
 
     // Update is called once per frame
@@ -67,33 +68,5 @@ public class PortalCameraMovement : MonoBehaviour
         nearClipPlaneWorld = Matrix4x4.Transpose(Matrix4x4.Inverse(camComponent.worldToCameraMatrix)) * nearClipPlane;
 
         camComponent.projectionMatrix = camComponent.CalculateObliqueMatrix(nearClipPlaneWorld);
-    }
-
-
-    //FOR DEBUGGING vv
-    void DrawPlane(Vector3 position,Vector3 normal )
-    {
-
-        Vector3 v3;
-
-        if (normal.normalized != Vector3.forward)
-            v3 = Vector3.Cross(normal, Vector3.forward).normalized * normal.magnitude;
-        else
-            v3 = Vector3.Cross(normal, Vector3.up).normalized * normal.magnitude; ;
-
-        var corner0 = position + v3;
-        var corner2 = position - v3;
-        var q = Quaternion.AngleAxis(90.0f, normal);
-        v3 = q * v3;
-        var corner1 = position + v3;
-        var corner3 = position - v3;
-
-        Debug.DrawLine(corner0, corner2, Color.green, 100);
-        Debug.DrawLine(corner1, corner3, Color.green, 100);
-        Debug.DrawLine(corner0, corner1, Color.green, 100);
-        Debug.DrawLine(corner1, corner2, Color.green, 100);
-        Debug.DrawLine(corner2, corner3, Color.green, 100);
-        Debug.DrawLine(corner3, corner0, Color.green, 100);
-        Debug.DrawRay(position, normal, Color.red, 100);
     }
 }

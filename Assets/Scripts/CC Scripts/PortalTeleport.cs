@@ -7,7 +7,7 @@ public class PortalTeleport : MonoBehaviour
 
 
     //Change thisPortal field to be parent
-    [SerializeField] GameObject thisPortal;
+    private GameObject thisPortal;
     [SerializeField] GameObject otherPortal;
     private GameObject hitObject;
     private GameObject playerCamera;
@@ -23,7 +23,7 @@ public class PortalTeleport : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        thisPortal = transform.parent.gameObject;
     }
 
     // Update is called once per frame
@@ -42,14 +42,13 @@ public class PortalTeleport : MonoBehaviour
         if (hitObject.name == "Player")
         {
             playerCamera = hitObject.transform.GetChild(0).gameObject;
-            
+
 
             //Problem: Can't rotate player camera. It just snaps back immediately following any transformation to the mouse coordinates. When the camera moves with the mouse, the movement needs to be added, not set.
-            rotObjToPortal1 = thisPortal.transform.eulerAngles - playerCamera.transform.eulerAngles;
-            rotObjToPortal2 = rotObjToPortal1;
-            playerCamera.transform.eulerAngles = otherPortal.transform.eulerAngles + rotObjToPortal2;
-
-
+            //rotObjToPortal1 = thisPortal.transform.eulerAngles - playerCamera.transform.eulerAngles;
+            //rotObjToPortal2 = rotObjToPortal1;
+            //playerCamera.transform.eulerAngles = otherPortal.transform.eulerAngles + rotObjToPortal2;
+            Debug.Log(otherPortal.transform.eulerAngles + rotObjToPortal2);
 
 
             //Gets the difference in rotations between the two portals
