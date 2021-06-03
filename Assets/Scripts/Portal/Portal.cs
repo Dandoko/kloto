@@ -4,33 +4,48 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
-    [SerializeField] private GameObject linkedPortal;
-    [SerializeField] private Material linkedPortalCameraMat;
+    [SerializeField] private Portal linkedPortal;
+    [SerializeField] private MeshRenderer screenFront;
+    [SerializeField] private MeshRenderer screenBack;
 
     private Camera playerCamera;
-    private Camera myCamera;
+    private Camera portalCamera;
+    private RenderTexture cameraTexture;
 
     // Start is called before the first frame update
     void Start()
     {
         playerCamera = Camera.main;
-        myCamera = GetComponentInChildren<Camera>();
+        portalCamera = GetComponentInChildren<Camera>();
 
-        // If the portal camera already has a render texture
-        if (null != myCamera.targetTexture)
-        {
-            // Remove the texture
-            myCamera.targetTexture.Release();
-        }
-        myCamera.targetTexture = new RenderTexture(Screen.width, Screen.height, 24);
-        linkedPortalCameraMat.mainTexture = myCamera.targetTexture;
+        // Must disable the portal camera to render the other portal camera onto the portal screen manually
+        portalCamera.enabled = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Moves the portal camera relative to the player
+        screenFront.enabled = false;
+        screenBack.enabled = false;
+
+        if (null == cameraTexture || cameraTexture.width != Screen.width || cameraTexture.height != Screen.height)
+        {
+            if (cameraTexture != null)
+            {
+                cameraTexture.Release();
+            }
+            cameraTexture = new RenderTexture(Screen.width, Screen.height, 24);
+            portalCamera.targetTexture = cameraTexture;
+            linkedPortal.screenFront.material.mainTexture = cameraTexture;
+            linkedPortal.screenBack.material.mainTexture = cameraTexture;
+        }
+
         var cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * playerCamera.transform.localToWorldMatrix;
-        myCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
+        portalCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
+
+        // Renders the camera manually
+        portalCamera.Render();
+
+        screenFront.enabled = true;
+        screenBack.enabled = true;
     }
 }
