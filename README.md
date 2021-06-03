@@ -17,5 +17,14 @@ directory with changes someone else could have made
 	even with main
 
 ## Links
+### Tutorial
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)
 - [Learn Low Poly Blender Tutorial](https://youtu.be/1jHUY3qoBu8)
+
+### Portal Examples
+- [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
+- [Smooth Portals in Unity](https://youtu.be/cuQao3hEKfs)
+
+### Unity Documentation
+- [Camera.Render](https://docs.unity3d.com/ScriptReference/Camera.Render.html)
+- 
