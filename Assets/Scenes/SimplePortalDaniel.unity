@@ -730,8 +730,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedPortal: {fileID: 2769183772345963112}
-  screenFront: {fileID: 3239892677007892628}
-  screenBack: {fileID: 4875450552653572694}
 --- !u!1 &1790864887
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,8 +1096,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkedPortal: {fileID: 1255798300}
-  screenFront: {fileID: 763488509349397737}
-  screenBack: {fileID: 7333841006779502123}
 --- !u!64 &2769183772906380217
 MeshCollider:
   m_ObjectHideFlags: 0
