@@ -25,6 +25,10 @@ directory with changes someone else could have made
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
 - [Smooth Portals in Unity](https://youtu.be/cuQao3hEKfs)
 
-### Unity Documentation
+### General
+- [Local to World Matrix](https://docs.unity3d.com/ScriptReference/Transform-localToWorldMatrix.html)
+
+### Camera and Renderer
 - [Camera.Render](https://docs.unity3d.com/ScriptReference/Camera.Render.html)
-- 
+- [RenderTexture](https://docs.unity3d.com/ScriptReference/RenderTexture-ctor.html)
+- [RenderTexture.Release](https://docs.unity3d.com/ScriptReference/RenderTexture.Release.html)

@@ -24,13 +24,16 @@ public class Portal : MonoBehaviour
 
     void Update()
     {
+        // Hide the portal render screens while the render texture is being created
         screenFront.enabled = false;
         screenBack.enabled = false;
 
+        // If the render texture has not been created yet, or if the dimensions of the render texture have changed
         if (null == cameraTexture || cameraTexture.width != Screen.width || cameraTexture.height != Screen.height)
         {
             if (cameraTexture != null)
             {
+                // Release the hardware resources used by the existing render texture
                 cameraTexture.Release();
             }
             cameraTexture = new RenderTexture(Screen.width, Screen.height, 24);
@@ -39,10 +42,11 @@ public class Portal : MonoBehaviour
             linkedPortal.screenBack.material.mainTexture = cameraTexture;
         }
 
+        // Calculate the position and rotation of the portal camera using the world space
         var cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * playerCamera.transform.localToWorldMatrix;
         portalCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
 
-        // Renders the camera manually
+        // Renders the camera manually each update frame
         portalCamera.Render();
 
         screenFront.enabled = true;
