@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PortalTextureFix : MonoBehaviour
 {
+
+
     void OnValidate()
     {
         Vector2[] uvs = GetComponent<MeshFilter>().sharedMesh.uv;

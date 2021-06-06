@@ -13,7 +13,8 @@ public class PortalCameraMovement : MonoBehaviour
     private Quaternion rotPlayerToPortal1;
     private Quaternion rotCameraToPortal2;
     private Quaternion portalRotDif;
-    private Matrix4x4 rotMatrix; 
+    private Matrix4x4 rotMatrix;
+    private RenderTexture camTexture;
 
     private Vector4 nearClipPlane;
     private Vector4 nearClipPlaneWorld;
@@ -21,7 +22,7 @@ public class PortalCameraMovement : MonoBehaviour
     private Plane portalScreenPlane;
     private Camera camComponent;
     private int sign;
-
+    
 
     // Start is called before the first frame update
     void Start()
@@ -30,17 +31,24 @@ public class PortalCameraMovement : MonoBehaviour
         camComponent = GetComponent<Camera>();
         playerCamera = Camera.main.gameObject;
 
+
+
         portalCoords[0] = lookingAtPortal.transform.GetChild(0).gameObject.GetComponent<Renderer>().bounds.max;
         portalCoords[1] = lookingAtPortal.transform.GetChild(0).gameObject.GetComponent<Renderer>().bounds.min;
         portalCoords[2] = lookingAtPortal.transform.GetChild(0).gameObject.GetComponent<Renderer>().bounds.center;
         portalScreenPlane = new Plane(-lookingAtPortal.transform.forward, lookingAtPortal.transform.position);
 
+
+
+        //Applies camera texture to the other portal's screen
+        camTexture = new RenderTexture(Screen.width, Screen.height, 24);
+        camComponent.targetTexture = camTexture;
+        renderingOnPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material.mainTexture = camTexture;
     }
 
     // Update is called once per frame
     void Update()
     {
-
 
 
         //Mimics the player camera rotations relative to portal 1
