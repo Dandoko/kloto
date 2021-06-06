@@ -25,6 +25,13 @@ directory with changes someone else could have made
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
 - [Smooth Portals in Unity](https://youtu.be/cuQao3hEKfs)
 
-### Unity Documentation
+### General
+- [Local to World Matrix](https://docs.unity3d.com/ScriptReference/Transform-localToWorldMatrix.html)
+- [Access Child GameObject](https://answers.unity.com/questions/464616/access-child-of-a-gameobject.html)
+- [Get MeshRenderer of GameObject](https://answers.unity.com/questions/959195/get-meshrenderer-component-of-gameobjects-in-an-ar.html)
+
+### Camera and Renderer
 - [Camera.Render](https://docs.unity3d.com/ScriptReference/Camera.Render.html)
-- 
+- [RenderTexture](https://docs.unity3d.com/ScriptReference/RenderTexture-ctor.html)
+- [RenderTexture.Release](https://docs.unity3d.com/ScriptReference/RenderTexture.Release.html)
+- [Checks if Renderer is Visible](https://wiki.unity3d.com/index.php/IsVisibleFrom)
