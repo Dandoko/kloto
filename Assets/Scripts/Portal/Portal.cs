@@ -5,12 +5,15 @@ using UnityEngine;
 public class Portal : MonoBehaviour
 {
     [SerializeField] private Portal linkedPortal;
+    [SerializeField] private Transform player;
     
     private Camera playerCamera;
     private Camera portalCamera;
     private RenderTexture cameraTexture;
     private MeshRenderer screenFront;
     private MeshRenderer screenBack;
+
+    private bool isTeleporting;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +26,8 @@ public class Portal : MonoBehaviour
 
         screenFront = transform.GetChild(1).gameObject.GetComponent<MeshRenderer>();
         screenBack = transform.GetChild(2).gameObject.GetComponent<MeshRenderer>();
+
+        isTeleporting = false;
     }
 
     void Update()
@@ -62,6 +67,23 @@ public class Portal : MonoBehaviour
         screenBack.enabled = true;
     }
 
+    private void LateUpdate()
+    {
+        if (isTeleporting)
+        {
+            Vector3 offsetFromPortal = player.position - transform.TransformPoint(transform.position);
+            float dotProduct = Vector3.Dot(transform.up, offsetFromPortal);
+
+            if (dotProduct < 0f)
+            {
+                var playerPositionMatrix = linkedPortal.transform.worldToLocalMatrix * transform.localToWorldMatrix * player.localToWorldMatrix;
+                //player.SetPositionAndRotation(playerPositionMatrix.GetColumn(3), playerPositionMatrix.rotation);
+
+                isTeleporting = false;
+            }
+        }
+    }
+
     public MeshRenderer getFrontScreen()
     {
         return screenFront;
@@ -78,5 +100,21 @@ public class Portal : MonoBehaviour
     {
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(playerCamera);
         return GeometryUtility.TestPlanesAABB(planes, linkedPortal.getFrontScreen().bounds) || GeometryUtility.TestPlanesAABB(planes, linkedPortal.getBackScreen().bounds);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            isTeleporting = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            isTeleporting = false;
+        }
     }
 }
