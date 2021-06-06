@@ -14,6 +14,7 @@ public class Portal : MonoBehaviour
     private MeshRenderer screenBack;
 
     private bool isTeleporting;
+    private List<Transform> teleporters;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,7 @@ public class Portal : MonoBehaviour
         screenBack = transform.GetChild(2).gameObject.GetComponent<MeshRenderer>();
 
         isTeleporting = false;
+        teleporters = new List<Transform>();
     }
 
     void Update()
@@ -69,17 +71,58 @@ public class Portal : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (isTeleporting)
+        //if (isTeleporting)
+        //{
+        //    Vector3 offsetFromPortal = player.position - transform.TransformPoint(transform.position);
+        //    float dotProduct = Vector3.Dot(transform.up, offsetFromPortal);
+
+        //    if (dotProduct < 0f)
+        //    {
+        //        Debug.Log("player before: " + player.TransformPoint(player.position));
+        //        Debug.Log("linkedPortal: " + linkedPortal.transform.TransformPoint(linkedPortal.transform.position));
+        //        Debug.Log("portal: " + transform.TransformPoint(transform.position));
+        //        var playerPositionMatrix = linkedPortal.transform.worldToLocalMatrix * transform.localToWorldMatrix * player.localToWorldMatrix;
+        //        player.SetPositionAndRotation(playerPositionMatrix.GetColumn(3), playerPositionMatrix.rotation);
+        //        Debug.Log("player after: " + player.TransformPoint(player.position));
+
+        //        isTeleporting = false;
+        //    }
+        //}
+
+        for (int i = 0; i < teleporters.Count; i++)
         {
-            Vector3 offsetFromPortal = player.position - transform.TransformPoint(transform.position);
-            float dotProduct = Vector3.Dot(transform.up, offsetFromPortal);
+            Transform teleporter = teleporters[i];
+            Vector3 offsetFromPortal = teleporter.position - transform.TransformPoint(transform.position);
+            float dotProduct = Vector3.Dot(transform.forward, offsetFromPortal);
 
             if (dotProduct < 0f)
             {
-                var playerPositionMatrix = linkedPortal.transform.worldToLocalMatrix * transform.localToWorldMatrix * player.localToWorldMatrix;
-                //player.SetPositionAndRotation(playerPositionMatrix.GetColumn(3), playerPositionMatrix.rotation);
+                Debug.Log(this);
 
-                isTeleporting = false;
+                //Debug.Log("i: " + i);
+                Debug.Log("player before: " + teleporter.TransformPoint(teleporter.position));
+                Debug.Log("player before: " + player.TransformPoint(player.position));
+                Debug.Log("linkedPortal: " + linkedPortal.transform.TransformPoint(linkedPortal.transform.position));
+                Debug.Log("portal: " + transform.TransformPoint(transform.position));
+                var playerPositionMatrix = linkedPortal.transform.worldToLocalMatrix * transform.localToWorldMatrix * teleporter.localToWorldMatrix;
+                teleporter.SetPositionAndRotation(playerPositionMatrix.GetColumn(3), playerPositionMatrix.rotation);
+                //teleporter.SetPositionAndRotation(linkedPortal.transform.position, playerPositionMatrix.rotation);
+                Debug.Log("playerPositionMatrix: " + playerPositionMatrix.GetColumn(3));
+                Debug.Log("player after: " + teleporter.TransformPoint(teleporter.position));
+                Debug.Log("player after: " + player.TransformPoint(player.position));
+
+
+                //Debug.Log("linkedPortal.teleporters: " + linkedPortal.teleporters.Count);
+                //Debug.Log("teleporters: " + teleporters.Count);
+
+                linkedPortal.teleporters.Add(teleporter);
+                teleporters.RemoveAt(i);
+                i--;
+
+                //Debug.Log("linkedPortal.teleporters: " + linkedPortal.teleporters.Count);
+                //Debug.Log("teleporters: " + teleporters.Count);
+
+                Debug.Log("===================================");
             }
         }
     }
@@ -107,6 +150,7 @@ public class Portal : MonoBehaviour
         if (other.tag == "Player")
         {
             isTeleporting = true;
+            teleporters.Add(other.transform);
         }
     }
 
@@ -115,6 +159,12 @@ public class Portal : MonoBehaviour
         if (other.tag == "Player")
         {
             isTeleporting = false;
+
+            if (teleporters.Contains(other.transform))
+            {
+                teleporters.Remove(other.transform);
+                Debug.Log("bruh");
+            }
         }
     }
 }
