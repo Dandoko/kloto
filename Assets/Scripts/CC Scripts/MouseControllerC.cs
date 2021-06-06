@@ -7,8 +7,8 @@ public class MouseControllerC : MonoBehaviour
     [SerializeField] private Transform playerCamera;
 
 
-    private float mouseXSensitivity = 300f;
-    private float mouseYSensitivity = 300f;
+    private float mouseXSensitivity = 500f;
+    private float mouseYSensitivity = 500f;
     private Vector2 rotation;
 
     // Start is called before the first frame update

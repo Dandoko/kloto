@@ -33,7 +33,6 @@ public class PortalCameraMovement : MonoBehaviour
         portalCoords[0] = lookingAtPortal.transform.GetChild(0).gameObject.GetComponent<Renderer>().bounds.max;
         portalCoords[1] = lookingAtPortal.transform.GetChild(0).gameObject.GetComponent<Renderer>().bounds.min;
         portalCoords[2] = lookingAtPortal.transform.GetChild(0).gameObject.GetComponent<Renderer>().bounds.center;
-        //portalScreenPlane = new Plane(-Vector3.Cross(portalCoords[0], portalCoords[1]), portalCoords[2]);
         portalScreenPlane = new Plane(-lookingAtPortal.transform.forward, lookingAtPortal.transform.position);
 
     }
@@ -41,6 +40,9 @@ public class PortalCameraMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
+
         //Mimics the player camera rotations relative to portal 1
         rotPlayerToPortal1 = Quaternion.Inverse(renderingOnPortal.transform.rotation) * playerCamera.transform.rotation;
         rotCameraToPortal2 = rotPlayerToPortal1;
@@ -56,8 +58,6 @@ public class PortalCameraMovement : MonoBehaviour
         playerToPortal1 = playerCamera.transform.position - renderingOnPortal.transform.position;
         cameraToPortal2 = rotMatrix.MultiplyPoint(playerToPortal1);
         transform.position = cameraToPortal2 + lookingAtPortal.transform.position;
-
-
 
 
         //Changes the normal vector of the plane so that the near clip plane is always facing the right direction, lowering the possibility of optical glitches

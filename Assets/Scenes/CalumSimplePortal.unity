@@ -582,6 +582,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 45abcc5f2961477408ded6cd3f01b971, type: 2}
+    - target: {fileID: 3621595362733357254, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.001
+      objectReference: {fileID: 0}
     - target: {fileID: 4459743956800959033, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: thisPortal
       value: 
@@ -595,9 +599,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8258717525746539813, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: field of view
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8258717525746539813, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: m_TargetTexture
       value: 
       objectReference: {fileID: 8400000, guid: 87d6a16776941e741abdca67391b4865, type: 2}
+    - target: {fileID: 8258717525746539813, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1627343711710613511, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
@@ -2102,6 +2114,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ee74a3c8062bdbc4a97029875fd3b4e2, type: 2}
+    - target: {fileID: 3621595362733357254, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.001
+      objectReference: {fileID: 0}
     - target: {fileID: 4459743956800959033, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: thisPortal
       value: 
@@ -2111,9 +2127,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 690531064}
     - target: {fileID: 8258717525746539813, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: field of view
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8258717525746539813, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: m_TargetTexture
       value: 
       objectReference: {fileID: 8400000, guid: 619e9957634dad04bbd9256b61dbb60a, type: 2}
+    - target: {fileID: 8258717525746539813, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1627343711710613511, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
     - {fileID: 4459743956800959033, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
