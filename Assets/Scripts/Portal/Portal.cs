@@ -54,8 +54,8 @@ public class Portal : MonoBehaviour
             }
             cameraTexture = new RenderTexture(Screen.width, Screen.height, 24);
             portalCamera.targetTexture = cameraTexture;
-            linkedPortal.getFrontScreen().material.mainTexture = cameraTexture;
-            linkedPortal.getBackScreen().material.mainTexture = cameraTexture;
+            linkedPortal.screenFront.material.mainTexture = cameraTexture;
+            linkedPortal.screenBack.material.mainTexture = cameraTexture;
         }
 
         // Calculate the position and rotation of the portal camera using the world space
@@ -107,7 +107,14 @@ public class Portal : MonoBehaviour
                 var playerPositionMatrix = linkedPortal.transform.worldToLocalMatrix * transform.localToWorldMatrix * teleporter.localToWorldMatrix;
                 teleporter.SetPositionAndRotation(playerPositionMatrix.GetColumn(3), playerPositionMatrix.rotation);
                 //teleporter.SetPositionAndRotation(linkedPortal.transform.position, playerPositionMatrix.rotation);
-                Debug.Log("playerPositionMatrix: " + playerPositionMatrix.GetColumn(3));
+
+                //float rotationDiff = -Quaternion.Angle(transform.rotation, linkedPortal.transform.rotation);
+                //player.Rotate(Vector3.up, rotationDiff);
+                //Vector3 positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * offsetFromPortal;
+                //player.position = linkedPortal.transform.position + offsetFromPortal;
+
+
+                //Debug.Log("playerPositionMatrix: " + playerPositionMatrix.GetColumn(3));
                 Debug.Log("player after: " + teleporter.TransformPoint(teleporter.position));
                 Debug.Log("player after: " + player.TransformPoint(player.position));
 
@@ -127,22 +134,12 @@ public class Portal : MonoBehaviour
         }
     }
 
-    public MeshRenderer getFrontScreen()
-    {
-        return screenFront;
-    }
-
-    public MeshRenderer getBackScreen()
-    {
-        return screenBack;
-    }
-
     // Returns true if the player camera can see the linked portal
     // @see https://wiki.unity3d.com/index.php/IsVisibleFrom
     private bool isVisibleOnPlayerCamera()
     {
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(playerCamera);
-        return GeometryUtility.TestPlanesAABB(planes, linkedPortal.getFrontScreen().bounds) || GeometryUtility.TestPlanesAABB(planes, linkedPortal.getBackScreen().bounds);
+        return GeometryUtility.TestPlanesAABB(planes, linkedPortal.screenFront.bounds) || GeometryUtility.TestPlanesAABB(planes, linkedPortal.screenBack.bounds);
     }
 
     private void OnTriggerEnter(Collider other)
