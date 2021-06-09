@@ -6,28 +6,42 @@ public class MouseController : MonoBehaviour
 {
     [SerializeField] private Transform playerBody;
 
-    private float mouseXSensitivity = 300f;
-    private float mouseYSensitivity = 250f;
-    private float xRotation = 0f;
+    public float sensitivity = 2.0f;
+    public float smoothing = 2.0f;
+    public float mouseMoveSpeedFactor = 0.15f;
+    public Vector2 mouseMovement;
+    private Vector2 smoothV;
 
     // Start is called before the first frame update
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseXSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseYSensitivity * Time.deltaTime;
 
-        // Rotating the camera only about the x axis
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90, 90);
-        transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
-        
-        // Rotating the player body about the y axis
-        playerBody.Rotate(Vector3.up * mouseX);
+        mouseMovement = new Vector2(Input.GetAxisRaw("Mouse X") * mouseMoveSpeedFactor, Input.GetAxisRaw("Mouse Y") * mouseMoveSpeedFactor);
+
+        mouseMovement = sensitivity * smoothing * mouseMovement;
+        smoothV.x = Mathf.Lerp(smoothV.x, mouseMovement.x, 1f / smoothing);
+        smoothV.y = Mathf.Lerp(smoothV.y, mouseMovement.y, 1f / smoothing);
+
+        Vector3 modifiedEulers = transform.localEulerAngles + Vector3.left * smoothV.y;
+
+        //Transform euler angles from [0,360) to [-180,180) before clamp
+        modifiedEulers.x = Mathf.Repeat(modifiedEulers.x + 180f, 360f) - 180f;
+        modifiedEulers.x = Mathf.Clamp(modifiedEulers.x, -90f, 90f);
+
+        //Rotate the camera about the x axis
+        transform.localEulerAngles = modifiedEulers;
+        //Rotate the body about the y axis
+        playerBody.transform.Rotate(0f, smoothV.x, 0f);
+
+
+
     }
+
 }
