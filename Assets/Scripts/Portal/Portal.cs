@@ -19,8 +19,10 @@ public class Portal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         playerCamera = Camera.main;
         portalCamera = GetComponentInChildren<Camera>();
+
 
         // Must disable the portal camera to render the other portal camera onto the portal screen manually
         portalCamera.enabled = false;
