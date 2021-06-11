@@ -5,16 +5,15 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private LayerMask groundMask;
 
-    private float speed = 6f;
-    private float gravity = -19.62f;
-    private Vector3 velocity;
+    private float speed = 8.5f;
+    private float jumpHeight = 3f;
+    private float gravity = -9.81f;
+    private float yVel;
 
-    private float groundCheckRadius = 0.4f;
-    private bool isGrounded;
-    private float jumpHeight = 2f;
+
+    private bool charIsGrounded;
+   
 
     // Start is called before the first frame update
     void Start()
@@ -25,26 +24,35 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Resetting the y velocity after landing
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
-        if (isGrounded && velocity.y < 0)
+        charIsGrounded = controller.isGrounded;
+
+
+
+        if (charIsGrounded)
         {
-            velocity.y = -2f;
+            if (Input.GetButtonDown("Jump"))
+            {
+                yVel = jumpHeight;
+            }
+            else
+            {
+                yVel = -2f;
+            }
         }
+        else
+        {
+            //Applying gravity
+            yVel += gravity * Time.deltaTime;
+        }
+
+
 
         float movementX = Input.GetAxis("Horizontal");
         float movementZ = Input.GetAxis("Vertical");
 
-        Vector3 movement = transform.right * movementX + transform.forward * movementZ;
+        //Set left-right and forward-back movement relative to player view
+        Vector3 movement = transform.right * movementX + transform.forward * movementZ + transform.up*yVel;
+
         controller.Move(movement * speed * Time.deltaTime);
-
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-
-        // Applying gravity
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
     }
 }

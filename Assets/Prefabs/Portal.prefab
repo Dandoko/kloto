@@ -96,8 +96,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fec93f79257ce1409fae576277afed8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 0}
-  lookingAtPortal: {fileID: 0}
   renderingOnPortal: {fileID: 0}
 --- !u!1 &3621595362681529553
 GameObject:
@@ -162,7 +160,7 @@ Transform:
   m_GameObject: {fileID: 3621595362733357255}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 2.5, z: 0}
-  m_LocalScale: {x: 4.8, y: 4.800002, z: 0.100000046}
+  m_LocalScale: {x: 4.8, y: 4.800002, z: 0.2}
   m_Children: []
   m_Father: {fileID: 3621595362681529552}
   m_RootOrder: 0
@@ -253,7 +251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfbc47586c5b40145920165b77a9d43a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisPortal: {fileID: 0}
   otherPortal: {fileID: 0}
 --- !u!1001 &2395160175629263840
 PrefabInstance:
