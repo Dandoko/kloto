@@ -12,11 +12,10 @@ public class Portal : MonoBehaviour
     private RenderTexture cameraTexture;
     private MeshRenderer portalScreen;
 
+    private List<GameObject> teleporters;
+
     private Transform clipPlane;
     private Vector4 nearClipPlane;
-
-    private bool isTeleporting;
-    private List<Transform> teleporters;
 
 
     // Start is called before the first frame update
@@ -33,8 +32,6 @@ public class Portal : MonoBehaviour
 
         portalScreen = transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
 
-        isTeleporting = false;
-        teleporters = new List<Transform>();
     }
 
     void Update()
@@ -66,31 +63,23 @@ public class Portal : MonoBehaviour
         portalCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
 
 
-
-
-
+        //Calculates and sets the clip plane
         clipPlane = transform;
         int sign = System.Math.Sign(Vector3.Dot(clipPlane.forward, transform.position - portalCamera.transform.position));
 
         Vector3 camSpacePos = portalCamera.worldToCameraMatrix.MultiplyPoint(clipPlane.position);
         Vector3 camSpaceNormal = portalCamera.worldToCameraMatrix.MultiplyVector(clipPlane.forward) * sign;
 
-        //Creates a near clip plane and transforms it to world coordinates
+        //Creates a near clip plane based on the portal screen's position
         nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, -Vector3.Dot( camSpacePos, camSpaceNormal) + 0.1f);
 
         portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
 
 
 
-
-
-
-
-
-
-
         // Renders the camera manually each update frame
         portalCamera.Render();
+
 
 
         portalScreen.enabled = true;
@@ -116,7 +105,7 @@ public class Portal : MonoBehaviour
         //    }
         //}
 
-        for (int i = 0; i < teleporters.Count; i++)
+        /*for (int i = 0; i < teleporters.Count; i++)
         {
             Transform teleporter = teleporters[i];
             Vector3 offsetFromPortal = teleporter.position - transform.TransformPoint(transform.position);
@@ -158,7 +147,7 @@ public class Portal : MonoBehaviour
 
                 Debug.Log("===================================");
             }
-        }
+        }*/
     }
 
     // Returns true if the player camera can see the linked portal
@@ -169,26 +158,5 @@ public class Portal : MonoBehaviour
         return GeometryUtility.TestPlanesAABB(planes, linkedPortal.portalScreen.bounds);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            isTeleporting = true;
-            teleporters.Add(other.transform);
-        }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            isTeleporting = false;
-
-            if (teleporters.Contains(other.transform))
-            {
-                teleporters.Remove(other.transform);
-                Debug.Log("bruh");
-            }
-        }
-    }
 }
