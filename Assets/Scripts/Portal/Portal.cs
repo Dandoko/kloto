@@ -10,11 +10,14 @@ public class Portal : MonoBehaviour
     private Camera playerCamera;
     private Camera portalCamera;
     private RenderTexture cameraTexture;
-    private MeshRenderer screenFront;
-    private MeshRenderer screenBack;
+    private MeshRenderer portalScreen;
+
+    private Transform clipPlane;
+    private Vector4 nearClipPlane;
 
     private bool isTeleporting;
     private List<Transform> teleporters;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,12 +26,12 @@ public class Portal : MonoBehaviour
         playerCamera = Camera.main;
         portalCamera = GetComponentInChildren<Camera>();
 
+        
 
         // Must disable the portal camera to render the other portal camera onto the portal screen manually
         portalCamera.enabled = false;
 
-        screenFront = transform.GetChild(1).gameObject.GetComponent<MeshRenderer>();
-        screenBack = transform.GetChild(2).gameObject.GetComponent<MeshRenderer>();
+        portalScreen = transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
 
         isTeleporting = false;
         teleporters = new List<Transform>();
@@ -43,8 +46,7 @@ public class Portal : MonoBehaviour
         }
 
         // Hide the portal render screens while the render texture is being created
-        screenFront.enabled = false;
-        screenBack.enabled = false;
+        portalScreen.enabled = false;
 
         // If the render texture has not been created yet, or if the dimensions of the render texture have changed
         if (null == cameraTexture || cameraTexture.width != Screen.width || cameraTexture.height != Screen.height)
@@ -56,19 +58,42 @@ public class Portal : MonoBehaviour
             }
             cameraTexture = new RenderTexture(Screen.width, Screen.height, 24);
             portalCamera.targetTexture = cameraTexture;
-            linkedPortal.screenFront.material.mainTexture = cameraTexture;
-            linkedPortal.screenBack.material.mainTexture = cameraTexture;
+            linkedPortal.portalScreen.material.mainTexture = cameraTexture;
         }
 
         // Calculate the position and rotation of the portal camera using the world space
         var cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * playerCamera.transform.localToWorldMatrix;
         portalCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
 
+
+
+
+
+        clipPlane = transform;
+        int sign = System.Math.Sign(Vector3.Dot(clipPlane.forward, transform.position - portalCamera.transform.position));
+
+        Vector3 camSpacePos = portalCamera.worldToCameraMatrix.MultiplyPoint(clipPlane.position);
+        Vector3 camSpaceNormal = portalCamera.worldToCameraMatrix.MultiplyVector(clipPlane.forward) * sign;
+
+        //Creates a near clip plane and transforms it to world coordinates
+        nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, -Vector3.Dot( camSpacePos, camSpaceNormal) + 0.1f);
+
+        portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
+
+
+
+
+
+
+
+
+
+
         // Renders the camera manually each update frame
         portalCamera.Render();
 
-        screenFront.enabled = true;
-        screenBack.enabled = true;
+
+        portalScreen.enabled = true;
     }
 
     private void LateUpdate()
@@ -141,7 +166,7 @@ public class Portal : MonoBehaviour
     private bool isVisibleOnPlayerCamera()
     {
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes(playerCamera);
-        return GeometryUtility.TestPlanesAABB(planes, linkedPortal.screenFront.bounds) || GeometryUtility.TestPlanesAABB(planes, linkedPortal.screenBack.bounds);
+        return GeometryUtility.TestPlanesAABB(planes, linkedPortal.portalScreen.bounds);
     }
 
     private void OnTriggerEnter(Collider other)
