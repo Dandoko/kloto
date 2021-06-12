@@ -21,6 +21,7 @@ directory with changes someone else could have made
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)
 - [Learn Low Poly Blender Tutorial](https://youtu.be/1jHUY3qoBu8)
 - [Retro Sci-Fi Gun Blender Model](https://youtu.be/nBmtTOQCfTo)
+- [Unity FPS Gun with Raycasts](https://youtu.be/THnivyG0Mvo)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
