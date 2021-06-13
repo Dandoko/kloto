@@ -32,7 +32,10 @@ directory with changes someone else could have made
 - [Local to World Matrix](https://docs.unity3d.com/ScriptReference/Transform-localToWorldMatrix.html)
 - [Access Child GameObject](https://answers.unity.com/questions/464616/access-child-of-a-gameobject.html)
 - [Get MeshRenderer of GameObject](https://answers.unity.com/questions/959195/get-meshrenderer-component-of-gameobjects-in-an-ar.html)
-- [Linear Interpolation between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
+
+### Math
+- [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
+- [Get Direction Between Two Points](https://answers.unity.com/questions/697830/how-to-calculate-direction-between-2-objects.html)
 
 ### Camera and Renderer
 - [Camera.Render](https://docs.unity3d.com/ScriptReference/Camera.Render.html)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BulletDaniel : MonoBehaviour
 {
-    private float speed = 10f;
+    private const float speed = 15f;
 
     // Start is called before the first frame update
     void Start()
