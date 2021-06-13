@@ -23,6 +23,7 @@ directory with changes someone else could have made
 - [Retro Sci-Fi Gun Blender Model](https://youtu.be/nBmtTOQCfTo)
 - [Unity FPS Gun with Raycasts](https://youtu.be/THnivyG0Mvo)
 - [Unity Shooting Bullets](https://youtu.be/6eIVxyxoimc)
+- [Unity Muzzle Flash](https://youtu.be/rf7gHVixmmc)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
@@ -32,6 +33,7 @@ directory with changes someone else could have made
 - [Local to World Matrix](https://docs.unity3d.com/ScriptReference/Transform-localToWorldMatrix.html)
 - [Access Child GameObject](https://answers.unity.com/questions/464616/access-child-of-a-gameobject.html)
 - [Get MeshRenderer of GameObject](https://answers.unity.com/questions/959195/get-meshrenderer-component-of-gameobjects-in-an-ar.html)
+- [Change Material Programmatically(https://stackoverflow.com/questions/39930186/create-material-from-code-and-assign-it-to-an-object)
 
 ### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)

@@ -7,6 +7,7 @@ public class GunDaniel : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Material bulletBlueMat;
     [SerializeField] private Material bulletRedMat;
+    [SerializeField] private ParticleSystem muzzleFlash;
     
     private Camera playerCamera;
     private Transform gunTip;
@@ -39,6 +40,8 @@ public class GunDaniel : MonoBehaviour
         RaycastHit hitObject;
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitObject, gunRange))
         {
+            muzzleFlash.Play();
+
             // Creating the bullet
             GameObject bullet = Instantiate(bulletPrefab);
             if ("Fire1" == fireMouseClick)
