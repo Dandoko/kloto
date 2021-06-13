@@ -237,7 +237,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 1940447251782552836, guid: 7d02f63f99975614fbb7becea82560ca, type: 3}
-  gunTip: {fileID: 566672706}
+  bulletBlueMat: {fileID: 2100000, guid: cc7191043ea69a249bbb44598a76380b, type: 2}
+  bulletRedMat: {fileID: 2100000, guid: 2f404c59a01990e408c540cc93099a3f, type: 2}
 --- !u!1 &566672705
 GameObject:
   m_ObjectHideFlags: 0
