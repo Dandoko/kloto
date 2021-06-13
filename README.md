@@ -21,6 +21,10 @@ directory with changes someone else could have made
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)
 - [Learn Low Poly Blender Tutorial](https://youtu.be/1jHUY3qoBu8)
 - [Retro Sci-Fi Gun Blender Model](https://youtu.be/nBmtTOQCfTo)
+- [Unity FPS Gun with Raycasts](https://youtu.be/THnivyG0Mvo)
+- [Unity Shooting Bullets](https://youtu.be/6eIVxyxoimc)
+- [Unity Muzzle Flash](https://youtu.be/rf7gHVixmmc)
+- [Unity Interval Between Shooting](https://forum.unity.com/threads/script-for-bullet-with-a-second-delay.720470/)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
@@ -30,10 +34,25 @@ directory with changes someone else could have made
 - [Local to World Matrix](https://docs.unity3d.com/ScriptReference/Transform-localToWorldMatrix.html)
 - [Access Child GameObject](https://answers.unity.com/questions/464616/access-child-of-a-gameobject.html)
 - [Get MeshRenderer of GameObject](https://answers.unity.com/questions/959195/get-meshrenderer-component-of-gameobjects-in-an-ar.html)
-- [Linear Interpolation between Two Poitns](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
+- [Change Material Programmatically(https://stackoverflow.com/questions/39930186/create-material-from-code-and-assign-it-to-an-object)
+
+### Math
+- [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
+- [Get Direction Between Two Points](https://answers.unity.com/questions/697830/how-to-calculate-direction-between-2-objects.html)
 
 ### Camera and Renderer
 - [Camera.Render](https://docs.unity3d.com/ScriptReference/Camera.Render.html)
 - [RenderTexture](https://docs.unity3d.com/ScriptReference/RenderTexture-ctor.html)
 - [RenderTexture.Release](https://docs.unity3d.com/ScriptReference/RenderTexture.Release.html)
 - [Checks if Renderer is Visible](https://wiki.unity3d.com/index.php/IsVisibleFrom)
+
+#### Raycasts
+- [Physics.Raycast](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html)
+
+## Bugs
+- `OnCollisionEnter()` not working
+	- [Solution Source](https://forum.unity.com/threads/oncollisionenter-not-working.99149/)
+	- One of the colliders needs a rigidBody
+- `Destroy(this)` not working
+	- [Solution Source](https://answers.unity.com/questions/478876/destroythis-not-working-properly.html)
+	- Use `Destroy(this.gameObject)` or `Destroy(gameObject)`
