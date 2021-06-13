@@ -22,6 +22,7 @@ directory with changes someone else could have made
 - [Learn Low Poly Blender Tutorial](https://youtu.be/1jHUY3qoBu8)
 - [Retro Sci-Fi Gun Blender Model](https://youtu.be/nBmtTOQCfTo)
 - [Unity FPS Gun with Raycasts](https://youtu.be/THnivyG0Mvo)
+- [Unity Shooting Bullets](https://youtu.be/6eIVxyxoimc)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
@@ -41,3 +42,11 @@ directory with changes someone else could have made
 
 #### Raycasts
 - [Physics.Raycast](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html)
+
+## Bugs
+- `OnCollisionEnter()` not working
+	- [Solution Source](https://forum.unity.com/threads/oncollisionenter-not-working.99149/)
+	- One of the colliders needs a rigidBody
+- `Destroy(this)` not working
+	- [Solution Source](https://answers.unity.com/questions/478876/destroythis-not-working-properly.html)
+	- Use `Destroy(this.gameObject)` or `Destroy(gameObject)`
