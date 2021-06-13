@@ -11,7 +11,9 @@ public class GunDaniel : MonoBehaviour
     
     private Camera playerCamera;
     private Transform gunTip;
-    private const float gunRange = 100f;
+    private float gunRange = 100f;
+    private float shootingTime = 0f;
+    private float shootingInterval = 0.7f;
 
     // Start is called before the first frame update
     void Start()
@@ -23,14 +25,16 @@ public class GunDaniel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Mouse Click
-        if (Input.GetButtonDown("Fire1"))
+        if (shootingTime <= Time.time)
         {
-            shootGun("Fire1");
-        }
-        else if (Input.GetButtonDown("Fire2"))
-        {
-            shootGun("Fire2");
+            if (Input.GetButtonDown("Fire1"))
+            {
+                shootGun("Fire1");
+            }
+            else if (Input.GetButtonDown("Fire2"))
+            {
+                shootGun("Fire2");
+            }
         }
     }
 
@@ -55,6 +59,8 @@ public class GunDaniel : MonoBehaviour
             bullet.transform.position = gunTip.position;
             Vector3 bulletDir = (hitObject.point - gunTip.position).normalized;
             bullet.transform.forward = bulletDir;
+
+            shootingTime = Time.time + shootingInterval;
         }
     }
 }

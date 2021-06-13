@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class BulletDaniel : MonoBehaviour
 {
-    private const float speed = 20f;
+    private const int dyingTime = 2;
+    private float speed = 30f;
 
     // Start is called before the first frame update
     void Start()
     {
         // Temporary patch to destroy bullets after 5 seconds if they pass through walls without colliding
         // because there isn't continuous collision detection
-        Destroy(gameObject, 5);
+        Destroy(gameObject, dyingTime);
     }
 
     // Update is called once per frame

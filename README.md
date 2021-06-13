@@ -24,6 +24,7 @@ directory with changes someone else could have made
 - [Unity FPS Gun with Raycasts](https://youtu.be/THnivyG0Mvo)
 - [Unity Shooting Bullets](https://youtu.be/6eIVxyxoimc)
 - [Unity Muzzle Flash](https://youtu.be/rf7gHVixmmc)
+- [Unity Interval Between Shooting](https://forum.unity.com/threads/script-for-bullet-with-a-second-delay.720470/)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
