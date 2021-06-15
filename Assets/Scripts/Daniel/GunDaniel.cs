@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GunDaniel : MonoBehaviour
 {
@@ -15,17 +16,32 @@ public class GunDaniel : MonoBehaviour
     private float gunRange = 100f;
     private float shootingTime = 0f;
     private float shootingInterval = 0.7f;
+    private Color canShootColor;
+    private Color cannotShootColor;
 
     // Start is called before the first frame update
     void Start()
     {
         playerCamera = Camera.main;
         gunTip = transform.GetChild(0);
+
+        canShootColor = new Color(1, 0, 0, 1);
+        cannotShootColor = new Color(1, 0.3f, 0.6f, 0.5f);
     }
 
     // Update is called once per frame
     void Update()
     {
+        RaycastHit hitObject;
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitObject, gunRange))
+        {
+            crosshair.color = canShootColor;
+        }
+        else
+        {
+            crosshair.color = cannotShootColor;
+        }
+
         if (shootingTime <= Time.time)
         {
             if (Input.GetButtonDown("Fire1"))
