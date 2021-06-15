@@ -8,6 +8,7 @@ public class GunDaniel : MonoBehaviour
     [SerializeField] private Material bulletBlueMat;
     [SerializeField] private Material bulletRedMat;
     [SerializeField] private ParticleSystem muzzleFlash;
+    [SerializeField] private Image crosshair;
     
     private Camera playerCamera;
     private Transform gunTip;
