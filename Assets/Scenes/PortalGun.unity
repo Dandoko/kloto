@@ -240,6 +240,7 @@ MonoBehaviour:
   bulletBlueMat: {fileID: 2100000, guid: cc7191043ea69a249bbb44598a76380b, type: 2}
   bulletRedMat: {fileID: 2100000, guid: 2f404c59a01990e408c540cc93099a3f, type: 2}
   muzzleFlash: {fileID: 594417406}
+  crosshair: {fileID: 733939316}
 --- !u!1 &566672705
 GameObject:
   m_ObjectHideFlags: 0
@@ -5452,7 +5453,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
+  m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &733939316
 MonoBehaviour:
@@ -5467,7 +5468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.032075405, b: 0.032075405, a: 1}
+  m_Color: {r: 0.9716981, g: 0.9716981, b: 0.9716981, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
