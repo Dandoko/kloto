@@ -10,6 +10,7 @@ public class GunDaniel : MonoBehaviour
     [SerializeField] private Material bulletRedMat;
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private Image crosshair;
+    [SerializeField] private GameObject portalPrefab;
     
     private Camera playerCamera;
     private Transform gunTip;
@@ -18,6 +19,8 @@ public class GunDaniel : MonoBehaviour
     private float shootingInterval = 0.7f;
     private Color canShootColor;
     private Color cannotShootColor;
+    private GameObject portalScreen;
+    private float portalColliderRadius = 0.4f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,8 @@ public class GunDaniel : MonoBehaviour
 
         canShootColor = new Color(1, 0, 0, 1);
         cannotShootColor = new Color(1, 0.3f, 0.6f, 0.5f);
+
+        portalScreen = portalPrefab.transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
@@ -61,23 +66,55 @@ public class GunDaniel : MonoBehaviour
         RaycastHit hitObject;
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitObject, gunRange))
         {
-            muzzleFlash.Play();
-
-            // Creating the bullet
-            GameObject bullet = Instantiate(bulletPrefab);
-            if ("Fire1" == fireMouseClick)
+            if (canCreatePortal(hitObject))
             {
-                bullet.GetComponent<MeshRenderer>().material = bulletBlueMat;
-            }
-            else
-            {
-                bullet.GetComponent<MeshRenderer>().material = bulletRedMat;
-            }
-            bullet.transform.position = gunTip.position;
-            Vector3 bulletDir = (hitObject.point - gunTip.position).normalized;
-            bullet.transform.forward = bulletDir;
+                muzzleFlash.Play();
 
-            shootingTime = Time.time + shootingInterval;
+                // Creating the bullet
+                GameObject bullet = Instantiate(bulletPrefab);
+                if ("Fire1" == fireMouseClick)
+                {
+                    bullet.GetComponent<MeshRenderer>().material = bulletBlueMat;
+                }
+                else
+                {
+                    bullet.GetComponent<MeshRenderer>().material = bulletRedMat;
+                }
+                bullet.transform.position = gunTip.position;
+                Vector3 bulletDir = (hitObject.point - gunTip.position).normalized;
+                bullet.transform.forward = bulletDir;
+
+                shootingTime = Time.time + shootingInterval;
+            }
         }
+    }
+
+    private bool canCreatePortal(RaycastHit hitObject)
+    {
+        // Make the centre of the portal the position of the raycast
+        Vector3 portalCentre = hitObject.point;
+
+        // Create a temporary portal mold with sphere colliders at the corners of the mold
+        Vector3 portalSize = portalScreen.GetComponent<MeshRenderer>().bounds.size;
+        Vector3 topLeftPos = new Vector3(portalCentre.x, portalCentre.y + portalSize.z / 2, portalCentre.z + portalSize.y / 2);
+
+        //=====================================================================
+        // Start - Debugging
+        //=====================================================================
+        GameObject testSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        testSphere.transform.position = topLeftPos;
+        testSphere.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        //=====================================================================
+        // End - Debugging
+        //=====================================================================
+
+        Debug.Log("portalCentre: " + portalCentre);
+        Debug.Log("portalSize: " + portalSize);
+        Debug.Log("portalSize.y: " + portalSize.y);
+        Debug.Log("================");
+
+        // Check if all sphere colliders colide with the same object
+
+        return true;
     }
 }
