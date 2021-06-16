@@ -35,7 +35,7 @@ directory with changes someone else could have made
 - [Access Child GameObject](https://answers.unity.com/questions/464616/access-child-of-a-gameobject.html)
 - [Get MeshRenderer of GameObject](https://answers.unity.com/questions/959195/get-meshrenderer-component-of-gameobjects-in-an-ar.html)
 - [Change Material Programmatically](https://stackoverflow.com/questions/39930186/create-material-from-code-and-assign-it-to-an-object)
-- [Create Primitive Game Objects Through Coode])(https://docs.unity3d.com/ScriptReference/GameObject.CreatePrimitive.html)
+- [Create Primitive Game Objects Through Coode](https://docs.unity3d.com/ScriptReference/GameObject.CreatePrimitive.html)
 - [Size of GameObject](https://answers.unity.com/questions/24012/find-size-of-gameobject.html)
 - [Change Radius of Primitive Sphere](https://answers.unity.com/questions/577187/increase-the-radius-of-unitys-primitive-sphere.html)
 
