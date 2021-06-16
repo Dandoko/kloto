@@ -10,6 +10,7 @@ public class GunDaniel : MonoBehaviour
     [SerializeField] private Material bulletRedMat;
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private Image crosshair;
+    [SerializeField] private GameObject portalPrefab;
     
     private Camera playerCamera;
     private Transform gunTip;
@@ -61,23 +62,37 @@ public class GunDaniel : MonoBehaviour
         RaycastHit hitObject;
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitObject, gunRange))
         {
-            muzzleFlash.Play();
-
-            // Creating the bullet
-            GameObject bullet = Instantiate(bulletPrefab);
-            if ("Fire1" == fireMouseClick)
+            if (canCreatePortal(hitObject))
             {
-                bullet.GetComponent<MeshRenderer>().material = bulletBlueMat;
-            }
-            else
-            {
-                bullet.GetComponent<MeshRenderer>().material = bulletRedMat;
-            }
-            bullet.transform.position = gunTip.position;
-            Vector3 bulletDir = (hitObject.point - gunTip.position).normalized;
-            bullet.transform.forward = bulletDir;
+                muzzleFlash.Play();
 
-            shootingTime = Time.time + shootingInterval;
+                // Creating the bullet
+                GameObject bullet = Instantiate(bulletPrefab);
+                if ("Fire1" == fireMouseClick)
+                {
+                    bullet.GetComponent<MeshRenderer>().material = bulletBlueMat;
+                }
+                else
+                {
+                    bullet.GetComponent<MeshRenderer>().material = bulletRedMat;
+                }
+                bullet.transform.position = gunTip.position;
+                Vector3 bulletDir = (hitObject.point - gunTip.position).normalized;
+                bullet.transform.forward = bulletDir;
+
+                shootingTime = Time.time + shootingInterval;
+            }
         }
+    }
+
+    private bool canCreatePortal(RaycastHit hitObject)
+    {
+        // Make the centre of the portal the position of the raycast
+
+        // Create a temporary portal mold with sphere colliders at the corners of the mold
+        
+        // Check if all sphere colliders colide with the same object
+
+        return true;
     }
 }
