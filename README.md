@@ -35,6 +35,7 @@ directory with changes someone else could have made
 - [Access Child GameObject](https://answers.unity.com/questions/464616/access-child-of-a-gameobject.html)
 - [Get MeshRenderer of GameObject](https://answers.unity.com/questions/959195/get-meshrenderer-component-of-gameobjects-in-an-ar.html)
 - [Change Material Programmatically](https://stackoverflow.com/questions/39930186/create-material-from-code-and-assign-it-to-an-object)
+- [Create Primitive Game Objects Through Coode])(https://docs.unity3d.com/ScriptReference/GameObject.CreatePrimitive.html)
 
 ### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
