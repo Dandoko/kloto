@@ -10,7 +10,6 @@ public class PortalTeleport : MonoBehaviour
     private GameObject thisPortal;
     [SerializeField] GameObject otherPortal;
     private GameObject playerCamera;
-    private GameObject teleController;
 
     private Vector3 objToPortal1;
     private Vector3 objToPortal2;
@@ -18,13 +17,15 @@ public class PortalTeleport : MonoBehaviour
     private Vector3 rotObjToPortal2;
     private Quaternion portalRotDif;
     private Matrix4x4 rotDifMatrix;
-    private int oldSidePortal;
+
+    private List<PortalTraveller> trackedTravellers;
 
     // Start is called before the first frame update
     void Start()
     {
         thisPortal = transform.parent.gameObject;
-        teleController = GameObject.Find("Teleport Controller");
+        //teleController = GameObject.Find("Teleport Controller").GetComponent<TeleportController>();
+        trackedTravellers = new List<PortalTraveller>();
     }
 
     // Update is called once per frame
@@ -33,20 +34,46 @@ public class PortalTeleport : MonoBehaviour
 
     }
 
+    private void LateUpdate()
+    {
+        for (int i = 0; i < trackedTravellers.Count; i++)
+        {
+            
+            PortalTraveller traveller = trackedTravellers[i];
+            
+            Vector3 curRelPortalPos = traveller.transform.position - transform.position;
 
+            int prevPortalSide = System.Math.Sign(Vector3.Dot(traveller.prevRelPortalPos, transform.forward));
+            int curPortalSide = System.Math.Sign(Vector3.Dot(curRelPortalPos, transform.forward));
+
+            if (curPortalSide != prevPortalSide)
+            {
+                traveller.Teleport(thisPortal, otherPortal);
+                trackedTravellers.Remove(traveller);
+            }
+        }
+    }
 
     private void OnTriggerEnter(Collider collided)
     {
 
         GameObject hitObject = collided.gameObject;
-
-
-        if (!teleController.GetComponent<TeleportController>().teleporters.Contains(hitObject))
+        var traveller = hitObject.GetComponent<PortalTraveller>();
+        if (traveller)
         {
-            teleController.GetComponent<TeleportController>().teleporters.Add(hitObject);
             
+            if (!trackedTravellers.Contains(traveller))
+            {
+                traveller.prevRelPortalPos = traveller.transform.position - transform.position;
+                
+                trackedTravellers.Add(traveller);
+            }
+        }
 
-            if (hitObject.tag == "Player")
+
+            
+            
+            /*if (hitObject.tag == "Player")
             {
                 playerCamera = hitObject.GetComponentInChildren<Camera>().gameObject;
 
@@ -67,8 +94,7 @@ public class PortalTeleport : MonoBehaviour
                 hitObject.transform.position = objToPortal2 + otherPortal.transform.position;
 
 
-            }
-        }
+            }*/
 
     }
 
@@ -76,9 +102,9 @@ public class PortalTeleport : MonoBehaviour
     {
         GameObject hitObject = collided.gameObject;
 
-        if (teleController.GetComponent<TeleportController>().teleporters.Contains(hitObject))
+        //if (teleController.trackedTravellers.Contains(hitObject))
         {
-            //teleController.GetComponent<TeleportController>().teleporters.Remove(hitObject);
+            //teleController.GetComponent<TeleportController>().trackedTravellers.Remove(hitObject);
         }
     }
 }
