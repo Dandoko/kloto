@@ -9,14 +9,6 @@ public class PortalTeleport : MonoBehaviour
     //Change thisPortal field to be parent
     private GameObject thisPortal;
     [SerializeField] GameObject otherPortal;
-    private GameObject playerCamera;
-
-    private Vector3 objToPortal1;
-    private Vector3 objToPortal2;
-    private Vector3 rotObjToPortal1;
-    private Vector3 rotObjToPortal2;
-    private Quaternion portalRotDif;
-    private Matrix4x4 rotDifMatrix;
 
     private List<PortalTraveller> trackedTravellers;
 
@@ -24,14 +16,24 @@ public class PortalTeleport : MonoBehaviour
     void Start()
     {
         thisPortal = transform.parent.gameObject;
-        //teleController = GameObject.Find("Teleport Controller").GetComponent<TeleportController>();
         trackedTravellers = new List<PortalTraveller>();
+
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        /*
+        float halfHeight = Camera.main.nearClipPlane * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
+        float halfWidth = halfHeight * Camera.main.aspect;
+        float distToNearClipCorner = new Vector3(halfWidth, halfHeight, Camera.main.nearClipPlane).magnitude;
+        bool camFacingSameDirAsPortal = Vector3.Dot(transform.forward, transform.position - Camera.main.transform.position) > 0;
 
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, distToNearClipCorner);
+        transform.localPosition = Vector3.forward * distToNearClipCorner * ((camFacingSameDirAsPortal) ? 0.5f : -0.5f) + Vector3.up * 2.5f;
+        */
     }
 
     private void LateUpdate()
@@ -49,7 +51,11 @@ public class PortalTeleport : MonoBehaviour
             if (curPortalSide != prevPortalSide)
             {
                 traveller.Teleport(thisPortal, otherPortal);
-                trackedTravellers.Remove(traveller);
+                trackedTravellers.RemoveAt(i);
+                i--;
+            }else
+            {
+                traveller.prevRelPortalPos = curRelPortalPos;
             }
         }
     }
@@ -71,40 +77,19 @@ public class PortalTeleport : MonoBehaviour
         }
 
 
-            
-            
-            /*if (hitObject.tag == "Player")
-            {
-                playerCamera = hitObject.GetComponentInChildren<Camera>().gameObject;
-
-
-                rotObjToPortal1 = thisPortal.transform.eulerAngles - playerCamera.transform.eulerAngles;
-                rotObjToPortal2 = rotObjToPortal1;
-                playerCamera.transform.eulerAngles = otherPortal.transform.eulerAngles - rotObjToPortal2;
-
-
-                //Gets the difference in rotations between the two portals
-                portalRotDif = otherPortal.transform.rotation * Quaternion.Inverse(thisPortal.transform.rotation);
-                //Calculates a transformation matrix that would rotate any vector by the difference in rotation of the two portals
-                rotDifMatrix = Matrix4x4.Rotate(portalRotDif);
-
-
-                objToPortal1 = hitObject.transform.position - thisPortal.transform.position;
-                objToPortal2 = rotDifMatrix.MultiplyPoint(objToPortal1);
-                hitObject.transform.position = objToPortal2 + otherPortal.transform.position;
-
-
-            }*/
 
     }
 
     private void OnTriggerExit(Collider collided)
     {
         GameObject hitObject = collided.gameObject;
+        var traveller = hitObject.GetComponent <PortalTraveller>();
 
-        //if (teleController.trackedTravellers.Contains(hitObject))
-        {
-            //teleController.GetComponent<TeleportController>().trackedTravellers.Remove(hitObject);
+        if (traveller) {
+            if (trackedTravellers.Contains(traveller))
+            {
+                trackedTravellers.Remove(traveller);
+            }
         }
     }
 }
