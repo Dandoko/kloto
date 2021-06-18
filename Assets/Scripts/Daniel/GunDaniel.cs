@@ -19,7 +19,7 @@ public class GunDaniel : MonoBehaviour
     private float shootingInterval = 0.7f;
     private Color canShootColor;
     private Color cannotShootColor;
-    private GameObject portalScreen;
+    private GameObject portalScreenPrefab;
     private float portalColliderRadius = 0.4f;
 
     // Start is called before the first frame update
@@ -31,7 +31,7 @@ public class GunDaniel : MonoBehaviour
         canShootColor = new Color(1, 0, 0, 1);
         cannotShootColor = new Color(1, 0.3f, 0.6f, 0.5f);
 
-        portalScreen = portalPrefab.transform.GetChild(0).gameObject;
+        portalScreenPrefab = portalPrefab.transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
@@ -95,15 +95,34 @@ public class GunDaniel : MonoBehaviour
         Vector3 portalCentre = hitObject.point;
 
         // Create a temporary portal mold with sphere colliders at the corners of the mold
-        Vector3 portalSize = portalScreen.GetComponent<MeshRenderer>().bounds.size;
+        Vector3 portalSize = portalScreenPrefab.GetComponent<MeshRenderer>().bounds.size;
         Vector3 topLeftPos = new Vector3(portalCentre.x, portalCentre.y + portalSize.z / 2, portalCentre.z + portalSize.y / 2);
+
+        //=====================================================================
+        // Start - Portal Creation
+        //=====================================================================
+        GameObject portal = Instantiate(portalPrefab);
+        GameObject portalScreen = portal.transform.GetChild(0).gameObject;
+        portalScreen.GetComponent<MeshRenderer>().material = bulletBlueMat;
+        portal.transform.position = portalCentre;
+
+        portal.transform.up = hitObject.normal;
+
+        //Vector3 upwards = Vector3.Cross(hitObject.normal, Vector3.up);
+        //portal.transform.rotation = Quaternion.LookRotation(hitObject.normal, upwards);
+        ////portal.transform.up = Quaternion.LookRotation(hitObject.normal, upwards) * Vector3.forward;
+        //=====================================================================
+        // End - Portal Creation
+        //=====================================================================
 
         //=====================================================================
         // Start - Debugging
         //=====================================================================
-        GameObject testSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        testSphere.transform.position = topLeftPos;
-        testSphere.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        Debug.DrawRay(portalCentre, hitObject.normal * 3, Color.red, 100);
+
+        //GameObject testSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        //testSphere.transform.position = topLeftPos;
+        //testSphere.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         //=====================================================================
         // End - Debugging
         //=====================================================================
