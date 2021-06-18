@@ -38,6 +38,7 @@ directory with changes someone else could have made
 - [Create Primitive Game Objects Through Code](https://docs.unity3d.com/ScriptReference/GameObject.CreatePrimitive.html)
 - [Size of GameObject](https://answers.unity.com/questions/24012/find-size-of-gameobject.html)
 - [Change Radius of Primitive Sphere](https://answers.unity.com/questions/577187/increase-the-radius-of-unitys-primitive-sphere.html)
+- [Debug.DrawRay](https://docs.unity3d.com/ScriptReference/Debug.DrawRay.html)
 
 ### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
@@ -51,6 +52,7 @@ directory with changes someone else could have made
 
 #### Raycasts
 - [Physics.Raycast](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html)
+- [Raycast Normal](https://docs.unity3d.com/ScriptReference/RaycastHit-normal.html)
 
 ## Bugs
 - `OnCollisionEnter()` not working
@@ -59,3 +61,6 @@ directory with changes someone else could have made
 - `Destroy(this)` not working
 	- [Solution Source](https://answers.unity.com/questions/478876/destroythis-not-working-properly.html)
 	- Use `Destroy(this.gameObject)` or `Destroy(gameObject)`
+- Can't see Debug.DrawRay()
+	- [Solution Source](https://answers.unity.com/questions/1441912/debugdrawray-isnt-working-at-all.html)
+	- Need to toggle Gizmos in the Game view
