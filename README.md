@@ -39,6 +39,7 @@ directory with changes someone else could have made
 - [Size of GameObject](https://answers.unity.com/questions/24012/find-size-of-gameobject.html)
 - [Change Radius of Primitive Sphere](https://answers.unity.com/questions/577187/increase-the-radius-of-unitys-primitive-sphere.html)
 - [Debug.DrawRay](https://docs.unity3d.com/ScriptReference/Debug.DrawRay.html)
+- [Change Axis of GameObject](https://answers.unity.com/questions/62675/redefine-axis-of-an-object.html)
 
 ### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
