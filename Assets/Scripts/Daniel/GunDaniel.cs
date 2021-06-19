@@ -66,7 +66,8 @@ public class GunDaniel : MonoBehaviour
         RaycastHit hitObject;
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitObject, gunRange))
         {
-            if (canCreatePortal(hitObject))
+            //if (canCreatePortal(hitObject))
+            if (true)
             {
                 muzzleFlash.Play();
 
