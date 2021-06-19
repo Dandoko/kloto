@@ -19,7 +19,6 @@ public class GunDaniel : MonoBehaviour
     private float shootingInterval = 0.7f;
     private Color canShootColor;
     private Color cannotShootColor;
-    private GameObject portalScreenPrefab;
     private float portalColliderRadius = 0.4f;
 
     // Start is called before the first frame update
@@ -30,8 +29,6 @@ public class GunDaniel : MonoBehaviour
 
         canShootColor = new Color(1, 0, 0, 1);
         cannotShootColor = new Color(1, 0.3f, 0.6f, 0.5f);
-
-        portalScreenPrefab = portalPrefab.transform.GetChild(0).gameObject;
     }
 
     // Update is called once per frame
@@ -66,8 +63,7 @@ public class GunDaniel : MonoBehaviour
         RaycastHit hitObject;
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitObject, gunRange))
         {
-            //if (canCreatePortal(hitObject))
-            if (true)
+            if (canCreatePortal(hitObject))
             {
                 muzzleFlash.Play();
 
@@ -86,12 +82,38 @@ public class GunDaniel : MonoBehaviour
                 bullet.transform.forward = bulletDir;
 
                 shootingTime = Time.time + shootingInterval;
+
+                // Find direction and rotation of portal
+                Quaternion cameraRotation = playerCamera.transform.rotation;
+                Vector3 portalRight = cameraRotation * Vector3.right;
+
+                if (Mathf.Abs(portalRight.x) >= Mathf.Abs(portalRight.z))
+                {
+                    portalRight = (portalRight.x >= 0) ? Vector3.right : -Vector3.right;
+                }
+                else
+                {
+                    portalRight = (portalRight.z >= 0) ? Vector3.forward : -Vector3.forward;
+                }
+
+                var portalForward = -hitObject.normal;
+                var portalUp = -Vector3.Cross(portalRight, portalForward);
+                var portalRotation = Quaternion.LookRotation(portalForward, portalUp);
+
+                // Placing the portal
+                GameObject portal = Instantiate(portalPrefab);
+                portal.GetComponent<MeshRenderer>().material = bulletBlueMat;
+                portal.transform.position = hitObject.point;
+                portal.transform.rotation = portalRotation;
+                portal.transform.position -= portal.transform.forward * 0.001f;
             }
         }
     }
 
     private bool canCreatePortal(RaycastHit hitObject)
     {
+        /*
+
         // Make the centre of the portal the position of the raycast
         Vector3 portalCentre = hitObject.point;
 
@@ -134,6 +156,7 @@ public class GunDaniel : MonoBehaviour
         Debug.Log("================");
 
         // Check if all sphere colliders colide with the same object
+        */
 
         return true;
     }

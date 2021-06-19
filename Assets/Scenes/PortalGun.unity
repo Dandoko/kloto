@@ -241,7 +241,7 @@ MonoBehaviour:
   bulletRedMat: {fileID: 2100000, guid: 2f404c59a01990e408c540cc93099a3f, type: 2}
   muzzleFlash: {fileID: 594417406}
   crosshair: {fileID: 733939316}
-  portalPrefab: {fileID: 3913903176346847179, guid: e65507d80b7d5fa468795bb576fe2f4b, type: 3}
+  portalPrefab: {fileID: 2242694452804940768, guid: 9eea54f70eb3c4b4b9f1ce3bf76ff7db, type: 3}
 --- !u!1 &566672705
 GameObject:
   m_ObjectHideFlags: 0
