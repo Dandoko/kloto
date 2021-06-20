@@ -48,16 +48,16 @@ public class GunDaniel : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1"))
             {
-                shootGun("Fire1");
+                shootGun("Fire1", bulletBlueMat);
             }
             else if (Input.GetButtonDown("Fire2"))
             {
-                shootGun("Fire2");
+                shootGun("Fire2", bulletRedMat);
             }
         }
     }
 
-    private void shootGun(string fireMouseClick)
+    private void shootGun(string fireMouseClick, Material bulletMat)
     {
         // Checking if the raycast hit an object
         RaycastHit hitObject;
@@ -67,16 +67,10 @@ public class GunDaniel : MonoBehaviour
             {
                 muzzleFlash.Play();
 
+                //BulletDaniel bullet = new BulletDaniel(bulletPrefab, bulletMat, gunTip, hitObject);
                 // Creating the bullet
                 GameObject bullet = Instantiate(bulletPrefab);
-                if ("Fire1" == fireMouseClick)
-                {
-                    bullet.GetComponent<MeshRenderer>().material = bulletBlueMat;
-                }
-                else
-                {
-                    bullet.GetComponent<MeshRenderer>().material = bulletRedMat;
-                }
+                bullet.GetComponent<MeshRenderer>().material = bulletMat;
                 bullet.transform.position = gunTip.position;
                 Vector3 bulletDir = (hitObject.point - gunTip.position).normalized;
                 bullet.transform.forward = bulletDir;
