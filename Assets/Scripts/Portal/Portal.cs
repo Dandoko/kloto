@@ -68,11 +68,14 @@ public class Portal : MonoBehaviour
         clipPlane = transform;
         int sign = System.Math.Sign(Vector3.Dot(clipPlane.forward, transform.position - portalCamera.transform.position));
 
+        //clipPlane = transform;
+        //int sign = System.Math.Sign(Vector3.Dot(clipPlane.forward, transform.position - portalCamera.transform.position));
+
         Vector3 camSpacePos = portalCamera.worldToCameraMatrix.MultiplyPoint(clipPlane.position);
         Vector3 camSpaceNormal = portalCamera.worldToCameraMatrix.MultiplyVector(clipPlane.forward) * sign;
 
         //Creates a near clip plane based on the portal screen's position
-        nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, -Vector3.Dot( camSpacePos, camSpaceNormal) + 0.1f);
+        nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, -Vector3.Dot(camSpacePos, camSpaceNormal) + 0.1f);
 
         portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
 
@@ -86,68 +89,6 @@ public class Portal : MonoBehaviour
         portalScreen.enabled = true;
     }
 
-    private void LateUpdate()
-    {
-        //    Vector3 offsetFromPortal = player.position - transform.TransformPoint(transform.position);
-        //    float dotProduct = Vector3.Dot(transform.up, offsetFromPortal);
-
-        //    if (dotProduct < 0f)
-        //    {
-        //        Debug.Log("player before: " + player.TransformPoint(player.position));
-        //        Debug.Log("linkedPortal: " + linkedPortal.transform.TransformPoint(linkedPortal.transform.position));
-        //        Debug.Log("portal: " + transform.TransformPoint(transform.position));
-        //        var playerPositionMatrix = linkedPortal.transform.worldToLocalMatrix * transform.localToWorldMatrix * player.localToWorldMatrix;
-        //        player.SetPositionAndRotation(playerPositionMatrix.GetColumn(3), playerPositionMatrix.rotation);
-        //        Debug.Log("player after: " + player.TransformPoint(player.position));
-
-        //        isTeleporting = false;
-        //    }
-        //}
-
-        /*for (int i = 0; i < teleporters.Count; i++)
-        {
-            Transform teleporter = teleporters[i];
-            Vector3 offsetFromPortal = teleporter.position - transform.TransformPoint(transform.position);
-            float dotProduct = Vector3.Dot(transform.forward, offsetFromPortal);
-
-            if (dotProduct < 0f)
-            {
-                Debug.Log(this);
-
-                //Debug.Log("i: " + i);
-                Debug.Log("player before: " + teleporter.TransformPoint(teleporter.position));
-                Debug.Log("player before: " + player.TransformPoint(player.position));
-                Debug.Log("linkedPortal: " + linkedPortal.transform.TransformPoint(linkedPortal.transform.position));
-                Debug.Log("portal: " + transform.TransformPoint(transform.position));
-                var playerPositionMatrix = linkedPortal.transform.worldToLocalMatrix * transform.localToWorldMatrix * teleporter.localToWorldMatrix;
-                teleporter.SetPositionAndRotation(playerPositionMatrix.GetColumn(3), playerPositionMatrix.rotation);
-                //teleporter.SetPositionAndRotation(linkedPortal.transform.position, playerPositionMatrix.rotation);
-
-                //float rotationDiff = -Quaternion.Angle(transform.rotation, linkedPortal.transform.rotation);
-                //player.Rotate(Vector3.up, rotationDiff);
-                //Vector3 positionOffset = Quaternion.Euler(0f, rotationDiff, 0f) * offsetFromPortal;
-                //player.position = linkedPortal.transform.position + offsetFromPortal;
-
-
-                //Debug.Log("playerPositionMatrix: " + playerPositionMatrix.GetColumn(3));
-                Debug.Log("player after: " + teleporter.TransformPoint(teleporter.position));
-                Debug.Log("player after: " + player.TransformPoint(player.position));
-
-
-                //Debug.Log("linkedPortal.teleporters: " + linkedPortal.teleporters.Count);
-                //Debug.Log("teleporters: " + teleporters.Count);
-
-                linkedPortal.teleporters.Add(teleporter);
-                teleporters.RemoveAt(i);
-                i--;
-
-                //Debug.Log("linkedPortal.teleporters: " + linkedPortal.teleporters.Count);
-                //Debug.Log("teleporters: " + teleporters.Count);
-
-                Debug.Log("===================================");
-        }
-        */
-    }
 
     // Returns true if the player camera can see the linked portal
     // @see https://wiki.unity3d.com/index.php/IsVisibleFrom
