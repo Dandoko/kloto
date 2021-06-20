@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletDaniel : MonoBehaviour
+public class BulletDaniel : MonoBehaviour, Item
 {
     private GameObject bullet;
     private const int dyingTime = 2;
@@ -39,5 +39,10 @@ public class BulletDaniel : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         Destroy(gameObject);
+    }
+
+    public void updateItem()
+    {
+        
     }
 }
