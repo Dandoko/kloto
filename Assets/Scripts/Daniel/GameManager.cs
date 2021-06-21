@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     {
         foreach (var item in items)
         {
-
+            item.updateItem();
         }
     }
 }

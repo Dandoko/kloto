@@ -9,12 +9,12 @@ public class BulletDaniel : MonoBehaviour, Item
     private float speed = 30f;
 
     // Start is called before the first frame update
-    private void Start()
-    {
-        // Temporary patch to destroy bullets after 5 seconds if they pass through walls without colliding
-        // because there isn't continuous collision detection
-        Destroy(gameObject, dyingTime);
-    }
+    //private void Start()
+    //{
+    //    // Temporary patch to destroy bullets after 5 seconds if they pass through walls without colliding
+    //    // because there isn't continuous collision detection
+    //    Destroy(gameObject, dyingTime);
+    //}
 
     //public BulletDaniel(GameObject bulletPrefab, Material bulletMat, Transform gunTip, RaycastHit hitObject)
     //{
