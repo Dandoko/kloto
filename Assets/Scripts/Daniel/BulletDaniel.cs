@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletDaniel : MonoBehaviour, Item
+public class BulletDaniel : MonoBehaviour
 {
     private GameObject bullet;
     private const int dyingTime = 2;
