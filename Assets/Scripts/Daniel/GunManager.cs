@@ -38,76 +38,75 @@ public class GunManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       // Checking if the raycast hit an object
         RaycastHit hitObject;
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitObject, gunRange))
         {
             crosshair.color = canShootColor;
+
+            // Checking if the shooting delay is over
+            if (shootingTime <= Time.time)
+            {
+                // Checking if a portal can be created on the surface the raycast hit
+                if (canCreatePortal(hitObject))
+                {
+                    if (Input.GetButtonDown("Fire1"))
+                    {
+                        shootGun("Fire1", hitObject, bulletBlueMat);
+                    }
+                    else if (Input.GetButtonDown("Fire2"))
+                    {
+                        shootGun("Fire2", hitObject, bulletRedMat);
+                    }
+                }
+            }
         }
         else
         {
             crosshair.color = cannotShootColor;
         }
 
-        if (shootingTime <= Time.time)
-        {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                shootGun("Fire1", bulletBlueMat);
-            }
-            else if (Input.GetButtonDown("Fire2"))
-            {
-                shootGun("Fire2", bulletRedMat);
-            }
-        }
-
-        foreach (var bullet in bullets)
+        // Shallow copying the bullets list to fix the error: "Collection was modified, enumeration operation may not execute"
+        List<BulletManager> bulletCopy = bullets.GetRange(0, bullets.Count);
+        foreach (var bullet in bulletCopy)
         {
             bullet.updateBullet();
         }
     }
 
-    private void shootGun(string fireMouseClick, Material bulletMat)
+    private void shootGun(string fireMouseClick, RaycastHit hitObject, Material bulletMat)
     {
-        // Checking if the raycast hit an object
-        RaycastHit hitObject;
-        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitObject, gunRange))
+        muzzleFlash.Play();
+        shootingTime = Time.time + shootingInterval;
+
+        // Creating the bullet
+        GameObject newBulletObject = Instantiate(bulletPrefab);
+        BulletManager bullet = new BulletManager(this, newBulletObject, bulletMat, gunTip, hitObject);
+        bullets.Add(bullet);
+
+        // Find direction and rotation of portal
+        Quaternion cameraRotation = playerCamera.transform.rotation;
+        Vector3 portalRight = cameraRotation * Vector3.right;
+
+        if (Mathf.Abs(portalRight.x) >= Mathf.Abs(portalRight.z))
         {
-            if (canCreatePortal(hitObject))
-            {
-                muzzleFlash.Play();
-
-                // Creating the bullet
-                GameObject newBulletObject = Instantiate(bulletPrefab);
-                BulletManager bullet = new BulletManager(this, newBulletObject, bulletMat, gunTip, hitObject);
-                bullets.Add(bullet);
-
-                shootingTime = Time.time + shootingInterval;
-
-                // Find direction and rotation of portal
-                Quaternion cameraRotation = playerCamera.transform.rotation;
-                Vector3 portalRight = cameraRotation * Vector3.right;
-
-                if (Mathf.Abs(portalRight.x) >= Mathf.Abs(portalRight.z))
-                {
-                    portalRight = (portalRight.x >= 0) ? Vector3.right : -Vector3.right;
-                }
-                else
-                {
-                    portalRight = (portalRight.z >= 0) ? Vector3.forward : -Vector3.forward;
-                }
-
-                var portalForward = -hitObject.normal;
-                var portalUp = -Vector3.Cross(portalRight, portalForward);
-                var portalRotation = Quaternion.LookRotation(portalForward, portalUp);
-
-                // Placing the portal
-                GameObject portal = Instantiate(portalPrefab);
-                portal.GetComponent<MeshRenderer>().material = bulletBlueMat;
-                portal.transform.position = hitObject.point;
-                portal.transform.rotation = portalRotation;
-                portal.transform.position -= portal.transform.forward * 0.001f;
-            }
+            portalRight = (portalRight.x >= 0) ? Vector3.right : -Vector3.right;
         }
+        else
+        {
+            portalRight = (portalRight.z >= 0) ? Vector3.forward : -Vector3.forward;
+        }
+
+        var portalForward = -hitObject.normal;
+        var portalUp = -Vector3.Cross(portalRight, portalForward);
+        var portalRotation = Quaternion.LookRotation(portalForward, portalUp);
+
+        // Placing the portal
+        GameObject portal = Instantiate(portalPrefab);
+        portal.GetComponent<MeshRenderer>().material = bulletBlueMat;
+        portal.transform.position = hitObject.point;
+        portal.transform.rotation = portalRotation;
+        portal.transform.position -= portal.transform.forward * 0.001f;
     }
 
     private bool canCreatePortal(RaycastHit hitObject)

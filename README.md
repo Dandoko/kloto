@@ -33,6 +33,7 @@ directory with changes someone else could have made
 ### C#
 - [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=net-5.0)
 - [Foreach](https://stackoverflow.com/questions/18863187/how-can-i-loop-through-a-listt-and-grab-each-item)
+- [Shallow Copy a Lits](https://stackoverflow.com/questions/222598/how-do-i-clone-a-generic-list-in-c)
 
 ### General Unity
 - [Local to World Matrix](https://docs.unity3d.com/ScriptReference/Transform-localToWorldMatrix.html)
@@ -73,3 +74,6 @@ directory with changes someone else could have made
 - You are trying to create a MonoBehaviour using the 'new' keyword. This is not allowed.
 	- [Solution Source](https://answers.unity.com/questions/653904/you-are-trying-to-create-a-monobehaviour-using-the-2.html)
 	- You cannot instantiate anything inherting from the `MonoBehaviour` class
+- Collection was modified, enumeration operation may not execute
+	- Use a copy of the list-to-iterate in the foreach loop
+	- If a copy isn’t used, the runtime doesn’t know which list to write to and which one to read from
