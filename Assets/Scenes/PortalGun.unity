@@ -241,7 +241,7 @@ MonoBehaviour:
   bulletRedMat: {fileID: 2100000, guid: 2f404c59a01990e408c540cc93099a3f, type: 2}
   muzzleFlash: {fileID: 594417406}
   crosshair: {fileID: 733939316}
-  portalPrefab: {fileID: 2242694452804940768, guid: 9eea54f70eb3c4b4b9f1ce3bf76ff7db, type: 3}
+  portalManager: {fileID: 1184047880}
 --- !u!1 &566672705
 GameObject:
   m_ObjectHideFlags: 0
@@ -5696,6 +5696,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1184047879}
+  - component: {fileID: 1184047880}
   m_Layer: 0
   m_Name: Environment
   m_TagString: Untagged
@@ -5718,6 +5719,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1184047880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184047878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10b0422016d605a4b9ee45920f05bc16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portalPrefab: {fileID: 2242694452804940768, guid: 9eea54f70eb3c4b4b9f1ce3bf76ff7db, type: 3}
 --- !u!1 &1239989930
 GameObject:
   m_ObjectHideFlags: 0

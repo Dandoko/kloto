@@ -7,10 +7,20 @@ public class BulletManager
     private GameObject bulletGameObject;
     private float speed = 30f;
     private GunManager gunManager;
+    private PortalManager portalManager;
+    private RaycastHit hitObject;
+    private Material bulletMat;
+    private Transform playerCamera;
 
-    public BulletManager(GunManager gunManager, GameObject bullet, Material bulletMat, Transform gunTip, RaycastHit hitObject)
+    public BulletManager(
+        GunManager gunManager, PortalManager portalManager, GameObject bullet, Material bulletMat,
+        Transform gunTip, RaycastHit hitObject, Transform playerCamera)
     {
         this.gunManager = gunManager;
+        this.portalManager = portalManager;
+        this.hitObject = hitObject;
+        this.bulletMat = bulletMat;
+        this.playerCamera = playerCamera;
 
         // Creating the bullet
         bulletGameObject = bullet;
@@ -30,6 +40,7 @@ public class BulletManager
         else
         {
             gunManager.removeBullet(this);
+            portalManager.createPortal(hitObject, playerCamera, bulletMat);
         }
     }
 }

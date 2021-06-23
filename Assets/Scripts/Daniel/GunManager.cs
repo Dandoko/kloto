@@ -10,16 +10,16 @@ public class GunManager : MonoBehaviour
     [SerializeField] private Material bulletRedMat;
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private Image crosshair;
-    [SerializeField] private GameObject portalPrefab;
+    [SerializeField] private PortalManager portalManager;
     
     private Camera playerCamera;
     private Transform gunTip;
-    private float gunRange = 100f;
-    private float shootingTime = 0f;
-    private float shootingInterval = 0.7f;
+    private const float gunRange = 100f;
+    private float shootingTime;
+    private const float shootingInterval = 0.7f;
     private Color canShootColor;
     private Color cannotShootColor;
-    //private float portalColliderRadius = 0.4f;
+    //private const float portalColliderRadius = 0.4f;
 
     private List<BulletManager> bullets;
 
@@ -28,6 +28,8 @@ public class GunManager : MonoBehaviour
     {
         playerCamera = Camera.main;
         gunTip = transform.GetChild(0);
+
+        shootingTime = 0f;
 
         canShootColor = new Color(1, 0, 0, 1);
         cannotShootColor = new Color(1, 0.3f, 0.6f, 0.5f);
@@ -81,32 +83,11 @@ public class GunManager : MonoBehaviour
 
         // Creating the bullet
         GameObject newBulletObject = Instantiate(bulletPrefab);
-        BulletManager bullet = new BulletManager(this, newBulletObject, bulletMat, gunTip, hitObject);
+        BulletManager bullet = new BulletManager(this, portalManager, newBulletObject, bulletMat, gunTip, hitObject, playerCamera.transform);
         bullets.Add(bullet);
 
-        // Find direction and rotation of portal
-        Quaternion cameraRotation = playerCamera.transform.rotation;
-        Vector3 portalRight = cameraRotation * Vector3.right;
+        // Creating the portal
 
-        if (Mathf.Abs(portalRight.x) >= Mathf.Abs(portalRight.z))
-        {
-            portalRight = (portalRight.x >= 0) ? Vector3.right : -Vector3.right;
-        }
-        else
-        {
-            portalRight = (portalRight.z >= 0) ? Vector3.forward : -Vector3.forward;
-        }
-
-        var portalForward = -hitObject.normal;
-        var portalUp = -Vector3.Cross(portalRight, portalForward);
-        var portalRotation = Quaternion.LookRotation(portalForward, portalUp);
-
-        // Placing the portal
-        GameObject portal = Instantiate(portalPrefab);
-        portal.GetComponent<MeshRenderer>().material = bulletBlueMat;
-        portal.transform.position = hitObject.point;
-        portal.transform.rotation = portalRotation;
-        portal.transform.position -= portal.transform.forward * 0.001f;
     }
 
     private bool canCreatePortal(RaycastHit hitObject)
