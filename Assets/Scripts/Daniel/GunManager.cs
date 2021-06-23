@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GunDaniel : MonoBehaviour
+public class GunManager : MonoBehaviour
 {
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Material bulletBlueMat;
@@ -19,7 +19,9 @@ public class GunDaniel : MonoBehaviour
     private float shootingInterval = 0.7f;
     private Color canShootColor;
     private Color cannotShootColor;
-    private float portalColliderRadius = 0.4f;
+    //private float portalColliderRadius = 0.4f;
+
+    private List<BulletManager> bullets;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +31,8 @@ public class GunDaniel : MonoBehaviour
 
         canShootColor = new Color(1, 0, 0, 1);
         cannotShootColor = new Color(1, 0.3f, 0.6f, 0.5f);
+
+        bullets = new List<BulletManager>();
     }
 
     // Update is called once per frame
@@ -55,6 +59,11 @@ public class GunDaniel : MonoBehaviour
                 shootGun("Fire2", bulletRedMat);
             }
         }
+
+        foreach (var bullet in bullets)
+        {
+            bullet.updateBullet();
+        }
     }
 
     private void shootGun(string fireMouseClick, Material bulletMat)
@@ -67,13 +76,10 @@ public class GunDaniel : MonoBehaviour
             {
                 muzzleFlash.Play();
 
-                //BulletDaniel bullet = new BulletDaniel(bulletPrefab, bulletMat, gunTip, hitObject);
                 // Creating the bullet
-                GameObject bullet = Instantiate(bulletPrefab);
-                bullet.GetComponent<MeshRenderer>().material = bulletMat;
-                bullet.transform.position = gunTip.position;
-                Vector3 bulletDir = (hitObject.point - gunTip.position).normalized;
-                bullet.transform.forward = bulletDir;
+                GameObject newBulletObject = Instantiate(bulletPrefab);
+                BulletManager bullet = new BulletManager(this, newBulletObject, bulletMat, gunTip, hitObject);
+                bullets.Add(bullet);
 
                 shootingTime = Time.time + shootingInterval;
 
@@ -153,5 +159,10 @@ public class GunDaniel : MonoBehaviour
         */
 
         return true;
+    }
+
+    public void removeBullet()
+    {
+
     }
 }

@@ -44,6 +44,7 @@ directory with changes someone else could have made
 - [Change Radius of Primitive Sphere](https://answers.unity.com/questions/577187/increase-the-radius-of-unitys-primitive-sphere.html)
 - [Debug.DrawRay](https://docs.unity3d.com/ScriptReference/Debug.DrawRay.html)
 - [Change Axis of GameObject](https://answers.unity.com/questions/62675/redefine-axis-of-an-object.html)
+- [Add Script to GameObject](https://answers.unity.com/questions/1136397/how-to-add-a-script-to-a-gameobject-during-runtime.html)
 
 ### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
@@ -69,3 +70,6 @@ directory with changes someone else could have made
 - Can't see Debug.DrawRay()
 	- [Solution Source](https://answers.unity.com/questions/1441912/debugdrawray-isnt-working-at-all.html)
 	- Need to toggle Gizmos in the Game view
+- You are trying to create a MonoBehaviour using the 'new' keyword. This is not allowed.
+	- [Solution Source](https://answers.unity.com/questions/653904/you-are-trying-to-create-a-monobehaviour-using-the-2.html)
+	- You cannot instantiate anything inherting from the `MonoBehaviour` class
