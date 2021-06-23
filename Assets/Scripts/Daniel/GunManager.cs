@@ -161,8 +161,8 @@ public class GunManager : MonoBehaviour
         return true;
     }
 
-    public void removeBullet()
+    public void removeBullet(BulletManager bullet)
     {
-
+        bullets.Remove(bullet);
     }
 }

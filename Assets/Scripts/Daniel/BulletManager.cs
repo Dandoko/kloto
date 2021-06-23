@@ -29,7 +29,7 @@ public class BulletManager
         }
         else
         {
-           
+            gunManager.removeBullet(this);
         }
     }
 }
