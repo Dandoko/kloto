@@ -15,7 +15,7 @@ public class BulletManager
     // Bullet
     //=========================================================================
     private GameObject bulletGameObject;
-    private const float speed = 40f;
+    private const float speed = 50f;
     private RaycastHit bulletDest;
     private Material bulletMat;
     private LayerMask bulletMask = LayerMask.NameToLayer("Bullet");
@@ -79,6 +79,9 @@ public class BulletManager
         {
             float movementMagnitude = Mathf.Sqrt(movementSqrMagnitude);
             RaycastHit hitObject;
+
+            Vector3 dir = movementThisFrame - previousPosition;
+            Debug.DrawRay(previousPosition, dir, Color.red, 10);
 
             // Check for objects that were missed 
             if (Physics.Raycast(previousPosition, movementThisFrame, out hitObject, movementMagnitude, bulletMask))

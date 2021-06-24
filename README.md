@@ -44,7 +44,6 @@ directory with changes someone else could have made
 - [Create Primitive Game Objects Through Code](https://docs.unity3d.com/ScriptReference/GameObject.CreatePrimitive.html)
 - [Size of GameObject](https://answers.unity.com/questions/24012/find-size-of-gameobject.html)
 - [Change Radius of Primitive Sphere](https://answers.unity.com/questions/577187/increase-the-radius-of-unitys-primitive-sphere.html)
-- [Debug.DrawRay](https://docs.unity3d.com/ScriptReference/Debug.DrawRay.html)
 - [Change Axis of GameObject](https://answers.unity.com/questions/62675/redefine-axis-of-an-object.html)
 - [Add Script to GameObject](https://answers.unity.com/questions/1136397/how-to-add-a-script-to-a-gameobject-during-runtime.html)
 - [Get LayerMask by Name](https://docs.unity3d.com/ScriptReference/LayerMask.NameToLayer.html)
@@ -62,6 +61,7 @@ directory with changes someone else could have made
 #### Raycasts
 - [Physics.Raycast](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html)
 - [Raycast Normal](https://docs.unity3d.com/ScriptReference/RaycastHit-normal.html)
+- [Debug.DrawRay](https://docs.unity3d.com/ScriptReference/Debug.DrawRay.html)
 
 ## Bugs
 - `OnCollisionEnter()` not working

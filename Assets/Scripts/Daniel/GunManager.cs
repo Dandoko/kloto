@@ -85,9 +85,6 @@ public class GunManager : MonoBehaviour
         GameObject newBulletObject = Instantiate(bulletPrefab);
         BulletManager bullet = new BulletManager(this, portalManager, newBulletObject, bulletMat, gunTip, hitObject, playerCamera.transform);
         bullets.Add(bullet);
-
-        // Creating the portal
-
     }
 
     private bool canCreatePortal(RaycastHit hitObject)
