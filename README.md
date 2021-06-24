@@ -25,6 +25,7 @@ directory with changes someone else could have made
 - [Unity Shooting Bullets](https://youtu.be/6eIVxyxoimc)
 - [Unity Muzzle Flash](https://youtu.be/rf7gHVixmmc)
 - [Unity Interval Between Shooting](https://forum.unity.com/threads/script-for-bullet-with-a-second-delay.720470/)
+- [Continuous Collision Detection](http://wiki.unity3d.com/index.php?title=DontGoThroughThings&_ga=2.49978917.2097179850.1624410069-592288669.1621822495&_gl=1*c1ab9y*_ga*NTkyMjg4NjY5LjE2MjE4MjI0OTU.*_ga_1S78EFL1W5*MTYyNDQ5MDA4Mi4yMi4xLjE2MjQ0OTAyNTguNjA)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
@@ -33,6 +34,7 @@ directory with changes someone else could have made
 ### C#
 - [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=net-5.0)
 - [Foreach](https://stackoverflow.com/questions/18863187/how-can-i-loop-through-a-listt-and-grab-each-item)
+- [Shallow Copy a List](https://stackoverflow.com/questions/222598/how-do-i-clone-a-generic-list-in-c)
 
 ### General Unity
 - [Local to World Matrix](https://docs.unity3d.com/ScriptReference/Transform-localToWorldMatrix.html)
@@ -42,8 +44,9 @@ directory with changes someone else could have made
 - [Create Primitive Game Objects Through Code](https://docs.unity3d.com/ScriptReference/GameObject.CreatePrimitive.html)
 - [Size of GameObject](https://answers.unity.com/questions/24012/find-size-of-gameobject.html)
 - [Change Radius of Primitive Sphere](https://answers.unity.com/questions/577187/increase-the-radius-of-unitys-primitive-sphere.html)
-- [Debug.DrawRay](https://docs.unity3d.com/ScriptReference/Debug.DrawRay.html)
 - [Change Axis of GameObject](https://answers.unity.com/questions/62675/redefine-axis-of-an-object.html)
+- [Add Script to GameObject](https://answers.unity.com/questions/1136397/how-to-add-a-script-to-a-gameobject-during-runtime.html)
+- [Get LayerMask by Name](https://docs.unity3d.com/ScriptReference/LayerMask.NameToLayer.html)
 
 ### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
@@ -58,6 +61,7 @@ directory with changes someone else could have made
 #### Raycasts
 - [Physics.Raycast](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html)
 - [Raycast Normal](https://docs.unity3d.com/ScriptReference/RaycastHit-normal.html)
+- [Debug.DrawRay](https://docs.unity3d.com/ScriptReference/Debug.DrawRay.html)
 
 ## Bugs
 - `OnCollisionEnter()` not working
@@ -69,3 +73,9 @@ directory with changes someone else could have made
 - Can't see Debug.DrawRay()
 	- [Solution Source](https://answers.unity.com/questions/1441912/debugdrawray-isnt-working-at-all.html)
 	- Need to toggle Gizmos in the Game view
+- You are trying to create a MonoBehaviour using the 'new' keyword. This is not allowed.
+	- [Solution Source](https://answers.unity.com/questions/653904/you-are-trying-to-create-a-monobehaviour-using-the-2.html)
+	- You cannot instantiate anything inherting from the `MonoBehaviour` class
+- Collection was modified, enumeration operation may not execute
+	- Use a copy of the list-to-iterate in the foreach loop
+	- If a copy isn’t used, the runtime doesn’t know which list to write to and which one to read from
