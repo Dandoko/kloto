@@ -25,6 +25,7 @@ directory with changes someone else could have made
 - [Unity Shooting Bullets](https://youtu.be/6eIVxyxoimc)
 - [Unity Muzzle Flash](https://youtu.be/rf7gHVixmmc)
 - [Unity Interval Between Shooting](https://forum.unity.com/threads/script-for-bullet-with-a-second-delay.720470/)
+- [Continuous Collision Detection](http://wiki.unity3d.com/index.php?title=DontGoThroughThings&_ga=2.49978917.2097179850.1624410069-592288669.1621822495&_gl=1*c1ab9y*_ga*NTkyMjg4NjY5LjE2MjE4MjI0OTU.*_ga_1S78EFL1W5*MTYyNDQ5MDA4Mi4yMi4xLjE2MjQ0OTAyNTguNjA)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
@@ -43,9 +44,9 @@ directory with changes someone else could have made
 - [Create Primitive Game Objects Through Code](https://docs.unity3d.com/ScriptReference/GameObject.CreatePrimitive.html)
 - [Size of GameObject](https://answers.unity.com/questions/24012/find-size-of-gameobject.html)
 - [Change Radius of Primitive Sphere](https://answers.unity.com/questions/577187/increase-the-radius-of-unitys-primitive-sphere.html)
-- [Debug.DrawRay](https://docs.unity3d.com/ScriptReference/Debug.DrawRay.html)
 - [Change Axis of GameObject](https://answers.unity.com/questions/62675/redefine-axis-of-an-object.html)
 - [Add Script to GameObject](https://answers.unity.com/questions/1136397/how-to-add-a-script-to-a-gameobject-during-runtime.html)
+- [Get LayerMask by Name](https://docs.unity3d.com/ScriptReference/LayerMask.NameToLayer.html)
 
 ### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
@@ -60,6 +61,7 @@ directory with changes someone else could have made
 #### Raycasts
 - [Physics.Raycast](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html)
 - [Raycast Normal](https://docs.unity3d.com/ScriptReference/RaycastHit-normal.html)
+- [Debug.DrawRay](https://docs.unity3d.com/ScriptReference/Debug.DrawRay.html)
 
 ## Bugs
 - `OnCollisionEnter()` not working

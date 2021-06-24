@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private const int dyingTime = 2;
+    private const int dyingTime = 3;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Temporary patch to destroy bullets after 5 seconds if they pass through
-        // walls without because there isn't continuous collision detection
+        // Destroys the bullet using a timer
         Destroy(gameObject, dyingTime);
     }
 
