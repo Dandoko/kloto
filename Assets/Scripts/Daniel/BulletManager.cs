@@ -15,9 +15,10 @@ public class BulletManager
     // Bullet
     //=========================================================================
     private GameObject bulletGameObject;
-    private const float speed = 50f;
+    private const float speed = 40f;
     private RaycastHit bulletDest;
     private Material bulletMat;
+    private int bulletType;
     private LayerMask bulletMask = LayerMask.NameToLayer("Bullet");
 
     //=========================================================================
@@ -32,13 +33,14 @@ public class BulletManager
 
     public BulletManager(
         GunManager gunManager, PortalManager portalManager, GameObject bullet, Material bulletMat,
-        Transform gunTip, RaycastHit bulletDest, Transform playerCamera)
+        Transform gunTip, RaycastHit bulletDest, Transform playerCamera, int bulletType)
     {
         this.gunManager = gunManager;
         this.portalManager = portalManager;
         this.bulletDest = bulletDest;
         this.bulletMat = bulletMat;
         this.playerCamera = playerCamera;
+        this.bulletType = bulletType;
 
         // Creating the bullet
         bulletGameObject = bullet;
@@ -65,7 +67,7 @@ public class BulletManager
         else
         {
             gunManager.removeBullet(this);
-            portalManager.createPortal(bulletDest, playerCamera, bulletMat);
+            portalManager.createPortal(bulletDest, playerCamera, bulletMat, bulletType);
         }
     }
 
