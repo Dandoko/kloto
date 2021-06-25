@@ -59,7 +59,7 @@ directory with changes someone else could have made
 - [RenderTexture.Release](https://docs.unity3d.com/ScriptReference/RenderTexture.Release.html)
 - [Checks if Renderer is Visible](https://wiki.unity3d.com/index.php/IsVisibleFrom)
 
-#### Raycasts
+### Raycasts
 - [Physics.Raycast](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html)
 - [Raycast Normal](https://docs.unity3d.com/ScriptReference/RaycastHit-normal.html)
 - [Debug.DrawRay](https://docs.unity3d.com/ScriptReference/Debug.DrawRay.html)
