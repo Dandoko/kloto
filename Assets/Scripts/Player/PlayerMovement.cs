@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
         float movementZ = Input.GetAxis("Vertical");
 
         //Set left-right and forward-back movement relative to player view
-        Vector3 movement = transform.right * movementX + transform.forward * movementZ + transform.up*yVel;
+        Vector3 movement = transform.right * movementX + transform.forward * movementZ + Vector3.up*yVel;
 
         controller.Move(movement * speed * Time.deltaTime);
     }
