@@ -35,6 +35,7 @@ directory with changes someone else could have made
 - [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=net-5.0)
 - [Foreach](https://stackoverflow.com/questions/18863187/how-can-i-loop-through-a-listt-and-grab-each-item)
 - [Shallow Copy a List](https://stackoverflow.com/questions/222598/how-do-i-clone-a-generic-list-in-c)
+- [Pass By Reference](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/ref)
 
 ### General Unity
 - [Local to World Matrix](https://docs.unity3d.com/ScriptReference/Transform-localToWorldMatrix.html)

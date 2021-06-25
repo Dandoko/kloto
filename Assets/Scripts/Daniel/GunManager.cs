@@ -54,11 +54,11 @@ public class GunManager : MonoBehaviour
                 {
                     if (Input.GetButtonDown("Fire1"))
                     {
-                        shootGun("Fire1", hitObject, bulletBlueMat);
+                        shootGun("Fire1", hitObject, bulletBlueMat, 1);
                     }
                     else if (Input.GetButtonDown("Fire2"))
                     {
-                        shootGun("Fire2", hitObject, bulletRedMat);
+                        shootGun("Fire2", hitObject, bulletRedMat, 2);
                     }
                 }
             }
@@ -76,14 +76,14 @@ public class GunManager : MonoBehaviour
         }
     }
 
-    private void shootGun(string fireMouseClick, RaycastHit hitObject, Material bulletMat)
+    private void shootGun(string fireMouseClick, RaycastHit hitObject, Material bulletMat, int bulletType)
     {
         muzzleFlash.Play();
         shootingTime = Time.time + shootingInterval;
 
         // Creating the bullet
         GameObject newBulletObject = Instantiate(bulletPrefab);
-        BulletManager bullet = new BulletManager(this, portalManager, newBulletObject, bulletMat, gunTip, hitObject, playerCamera.transform);
+        BulletManager bullet = new BulletManager(this, portalManager, newBulletObject, bulletMat, gunTip, hitObject, playerCamera.transform, bulletType);
         bullets.Add(bullet);
     }
 

@@ -6,7 +6,10 @@ public class PortalManager : MonoBehaviour
 {
     [SerializeField] private GameObject portalPrefab;
 
-    public void createPortal(RaycastHit hitObject, Transform playerCamera, Material bulletMat)
+    private GameObject portal1;
+    private GameObject portal2;
+
+    public void createPortal(RaycastHit hitObject, Transform playerCamera, Material bulletMat, int bulletType)
     {
         // Find direction and rotation of portal
         Quaternion cameraRotation = playerCamera.rotation;
@@ -21,12 +24,29 @@ public class PortalManager : MonoBehaviour
             portalRight = (portalRight.z >= 0) ? Vector3.forward : -Vector3.forward;
         }
 
-        var portalForward = -hitObject.normal;
-        var portalUp = -Vector3.Cross(portalRight, portalForward);
-        var portalRotation = Quaternion.LookRotation(portalForward, portalUp);
+        Vector3 portalForward = -hitObject.normal;
+        Vector3 portalUp = -Vector3.Cross(portalRight, portalForward);
+        Quaternion portalRotation = Quaternion.LookRotation(portalForward, portalUp);
+
+        if (bulletType == 1)
+        {
+            createPortalHelper(ref portal1, bulletMat, hitObject, portalRotation);
+        }
+        else
+        {
+            createPortalHelper(ref portal2, bulletMat, hitObject, portalRotation);
+        }
+    }
+
+    private void createPortalHelper(ref GameObject portal, Material bulletMat, RaycastHit hitObject, Quaternion portalRotation)
+    {
+        if (null != portal)
+        {
+            Destroy(portal);
+        }
 
         // Placing the portal
-        GameObject portal = Instantiate(portalPrefab);
+        portal = Instantiate(portalPrefab);
         portal.GetComponent<MeshRenderer>().material = bulletMat;
         portal.transform.position = hitObject.point;
         portal.transform.rotation = portalRotation;
