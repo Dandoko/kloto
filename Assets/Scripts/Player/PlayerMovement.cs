@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpHeight = 3f;
     private float gravity = -9.81f;
     private float yVel;
-
+    private float angleAdjustIncrement = 1f;
 
     private bool charIsGrounded;
    
@@ -19,6 +19,40 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         
+    }
+
+    private void LateUpdate()
+    {
+
+
+
+        if (Mathf.Repeat(transform.eulerAngles.z, 360) != 0f)
+        {
+
+            if ((transform.eulerAngles.z % 360) > 180)
+            {
+                if ((transform.eulerAngles.z % 360) < (360f - angleAdjustIncrement))
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + angleAdjustIncrement);
+                }
+                else if (Mathf.Repeat(transform.eulerAngles.z, 360) > (360f - angleAdjustIncrement))
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
+                }
+            }
+            else if (Mathf.Repeat(transform.eulerAngles.z, 360) <= 180)
+            {
+                if (Mathf.Repeat(transform.eulerAngles.z, 360) > angleAdjustIncrement)
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - angleAdjustIncrement);
+                }
+                else if (Mathf.Repeat(transform.eulerAngles.z, 360) < angleAdjustIncrement)
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
+                }
+            }
+
+        }
     }
 
     // Update is called once per frame
@@ -44,6 +78,37 @@ public class PlayerMovement : MonoBehaviour
             //Applying gravity
             yVel += gravity * Time.deltaTime;
         }
+
+
+        if ((transform.eulerAngles.x % 360) != 0f)
+        {
+            
+           
+            if ((transform.eulerAngles.x % 360) > 180)
+            {
+                if ((transform.eulerAngles.x % 360) < (360f - angleAdjustIncrement))
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x + angleAdjustIncrement, transform.eulerAngles.y, transform.eulerAngles.z);
+                }
+                else if ((transform.eulerAngles.x % 360) > (360f - angleAdjustIncrement))
+                {
+                    transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, transform.eulerAngles.z);
+                }
+            }
+            else if ((transform.eulerAngles.x % 360) <= 180)
+            {
+                if ((transform.eulerAngles.x % 360) > angleAdjustIncrement)
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x - angleAdjustIncrement, transform.eulerAngles.y, transform.eulerAngles.z);
+                }
+                else if ((transform.eulerAngles.x % 360) < angleAdjustIncrement)
+                {
+                    transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, transform.eulerAngles.z);
+                }
+            }
+
+        }
+ 
 
 
 
