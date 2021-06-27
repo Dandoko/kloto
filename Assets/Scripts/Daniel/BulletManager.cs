@@ -85,6 +85,7 @@ public class BulletManager
             Vector3 dir = movementThisFrame - previousPosition;
             Debug.DrawRay(previousPosition, dir, Color.red, 10);
 
+
             // Check for objects that were missed 
             if (Physics.Raycast(previousPosition, movementThisFrame, out hitObject, movementMagnitude, bulletMask))
             {
