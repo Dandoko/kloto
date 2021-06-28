@@ -17,7 +17,6 @@ public class Portal : MonoBehaviour
     private Transform clipPlane;
     private Vector4 nearClipPlane;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -76,6 +75,7 @@ public class Portal : MonoBehaviour
 
         //Creates a near clip plane based on the portal screen's position
         nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, -Vector3.Dot(camSpacePos, camSpaceNormal) + 0.1f);
+
 
         portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
 
