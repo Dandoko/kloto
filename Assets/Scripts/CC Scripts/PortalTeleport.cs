@@ -9,6 +9,7 @@ public class PortalTeleport : MonoBehaviour
     //Change thisPortal field to be parent
     private GameObject thisPortal;
     [SerializeField] GameObject otherPortal;
+    [SerializeField] GameObject playerCam;
 
     private List<PortalTraveller> trackedTravellers;
 
@@ -25,9 +26,11 @@ public class PortalTeleport : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+
         float halfHeight = Camera.main.nearClipPlane * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
         float halfWidth = halfHeight * Camera.main.aspect;
+
         float distToNearClipCorner = new Vector3(halfWidth, halfHeight, Camera.main.nearClipPlane).magnitude;
         bool camFacingSameDirAsPortal = Vector3.Dot(transform.parent.transform.forward, transform.parent.transform.position - Camera.main.transform.position) > 0;
 
