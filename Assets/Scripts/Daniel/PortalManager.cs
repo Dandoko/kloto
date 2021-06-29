@@ -52,4 +52,25 @@ public class PortalManager : MonoBehaviour
         portal.transform.rotation = portalRotation;
         portal.transform.position -= portal.transform.forward * 0.001f;
     }
+
+    public bool isPortal(GameObject comparingObj)
+    {
+        if (null != portal1)
+        {
+            if (comparingObj == portal1)
+            {
+                return true;
+            }
+        }
+
+        if (null != portal2)
+        {
+            if (comparingObj == portal2)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
