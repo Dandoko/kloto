@@ -40,6 +40,8 @@ public class GunManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool canShoot = false;
+
        // Checking if the raycast hit an object
         RaycastHit hitObject;
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitObject, gunRange))
@@ -52,6 +54,8 @@ public class GunManager : MonoBehaviour
                 // Checking if a portal can be created on the surface the raycast hit
                 if (canCreatePortal(hitObject))
                 {
+                    canShoot = true;
+
                     if (Input.GetButtonDown("Fire1"))
                     {
                         shootGun("Fire1", hitObject, bulletBlueMat, 1);
@@ -62,6 +66,11 @@ public class GunManager : MonoBehaviour
                     }
                 }
             }
+        }
+
+        if (canShoot)
+        {
+            crosshair.color = canShootColor;
         }
         else
         {
@@ -135,11 +144,26 @@ public class GunManager : MonoBehaviour
         // Check if all sphere colliders colide with the same object
         */
 
+        if (isAimingAtPortal(hitObject))
+        {
+            return false;
+        }
+
         return true;
     }
 
     public void removeBullet(BulletManager bullet)
     {
         bullets.Remove(bullet);
+    }
+
+    private bool isAimingAtPortal(RaycastHit hitObject)
+    {
+        if (portalManager.isPortal(hitObject.collider.gameObject))
+        {
+            return true;
+        }
+
+        return false;
     }
 }
