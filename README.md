@@ -80,3 +80,6 @@ directory with changes someone else could have made
 - Collection was modified, enumeration operation may not execute
 	- Use a copy of the list-to-iterate in the foreach loop
 	- If a copy isn’t used, the runtime doesn’t know which list to write to and which one to read from
+- Raycasts passing through colliders
+	- [Solution Source](https://forum.unity.com/threads/raycast-not-finding-objects-collider.323109/)
+	- Attempted repositioning the raycast origin and extending the raycast length, but it didn't solve the issue
