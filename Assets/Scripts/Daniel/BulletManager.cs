@@ -15,7 +15,7 @@ public class BulletManager
     // Bullet
     //=========================================================================
     private GameObject bulletGameObject;
-    private const float speed = 40f;
+    private const float speed = 50f;
     private RaycastHit bulletDest;
     private Material bulletMat;
     private int bulletType;
@@ -82,7 +82,7 @@ public class BulletManager
             float movementMagnitude = Mathf.Sqrt(movementSqrMagnitude);
             RaycastHit hitObject;
 
-            Vector3 dir = movementThisFrame - previousPosition;
+            Vector3 dir = movementThisFrame.normalized;
             Debug.DrawRay(previousPosition, dir, Color.red, 10);
 
 
