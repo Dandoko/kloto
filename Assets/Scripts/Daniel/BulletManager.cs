@@ -15,7 +15,7 @@ public class BulletManager
     // Bullet
     //=========================================================================
     private GameObject bulletGameObject;
-    private const float speed = 40f;
+    private const float speed = 50f;
     private RaycastHit bulletDest;
     private Material bulletMat;
     private int bulletType;
@@ -29,6 +29,7 @@ public class BulletManager
     private float partialExtent;
     private float sqrMinimumExtent;
     private Vector3 previousPosition;
+    private Rigidbody bulletRigidbody;
     private Collider bulletCollider;
 
     public BulletManager(
@@ -50,8 +51,9 @@ public class BulletManager
         bulletGameObject.transform.forward = bulletDir;
         bulletGameObject.AddComponent<Bullet>();
 
+        bulletRigidbody = bulletGameObject.GetComponent<Rigidbody>();
         bulletCollider = bulletGameObject.GetComponent<Collider>();
-        previousPosition = bulletGameObject.transform.position;
+        previousPosition = bulletRigidbody.position;
         minimumExtent = Mathf.Min(Mathf.Min(bulletCollider.bounds.extents.x, bulletCollider.bounds.extents.y), bulletCollider.bounds.extents.z);
         partialExtent = minimumExtent * (1.0f - skinWidth);
         sqrMinimumExtent = minimumExtent * minimumExtent;
@@ -73,7 +75,7 @@ public class BulletManager
 
     private void continuousCollisionDetection()
     {
-        Vector3 movementThisFrame = bulletGameObject.transform.position - previousPosition;
+        Vector3 movementThisFrame = bulletRigidbody.position - previousPosition;
         float movementSqrMagnitude = movementThisFrame.sqrMagnitude;
 
         // Checking if the bullet moved more than the minimum extent
@@ -82,21 +84,19 @@ public class BulletManager
             float movementMagnitude = Mathf.Sqrt(movementSqrMagnitude);
             RaycastHit hitObject;
 
-            Vector3 dir = movementThisFrame - previousPosition;
-            Debug.DrawRay(previousPosition, dir, Color.red, 10);
-
+            //Debug.DrawRay(previousPosition, movementThisFrame, Color.red, 20);
 
             // Check for objects that were missed 
-            if (Physics.Raycast(previousPosition, movementThisFrame, out hitObject, movementMagnitude, bulletMask))
+            if (Physics.Raycast(previousPosition - movementThisFrame * 0.5f, movementThisFrame, out hitObject, movementMagnitude * 5, bulletMask))
             {
                 // If the raycast hit something, and the collided object is not an isTrigger object
                 if (!hitObject.collider.isTrigger)
                 {
                     // Move the bullet to where the collision occurred
-                    bulletGameObject.transform.position = hitObject.point - (movementThisFrame / movementMagnitude) * partialExtent;
+                    bulletRigidbody.position = hitObject.point - (movementThisFrame / movementMagnitude) * partialExtent;
                 }
             }
         }
-        previousPosition = bulletGameObject.transform.position;
+        previousPosition = bulletRigidbody.position;
     }
 }
