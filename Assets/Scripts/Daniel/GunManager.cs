@@ -38,7 +38,7 @@ public class GunManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         bool canShoot = false;
 
