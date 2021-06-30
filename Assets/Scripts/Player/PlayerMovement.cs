@@ -100,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
 
     void adjustZAngle()
     {
-        if (Mathf.Repeat(transform.eulerAngles.z, 360) != 0f)
+        if ((transform.eulerAngles.z % 360) != 0f)
         {
 
             if ((transform.eulerAngles.z % 360) > 180)
@@ -109,18 +109,18 @@ public class PlayerMovement : MonoBehaviour
                 {
                     transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + angleAdjustIncrement);
                 }
-                else if (Mathf.Repeat(transform.eulerAngles.z, 360) > (360f - angleAdjustIncrement))
+                else if ((transform.eulerAngles.z % 360) > (360f - angleAdjustIncrement))
                 {
                     transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
                 }
             }
-            else if (Mathf.Repeat(transform.eulerAngles.z, 360) <= 180)
+            else if ((transform.eulerAngles.z % 360) <= 180)
             {
-                if (Mathf.Repeat(transform.eulerAngles.z, 360) > angleAdjustIncrement)
+                if ((transform.eulerAngles.z % 360) > angleAdjustIncrement)
                 {
                     transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - angleAdjustIncrement);
                 }
-                else if (Mathf.Repeat(transform.eulerAngles.z, 360) < angleAdjustIncrement)
+                else if ((transform.eulerAngles.z % 360) < angleAdjustIncrement)
                 {
                     transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
                 }
