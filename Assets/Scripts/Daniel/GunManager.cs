@@ -100,6 +100,7 @@ public class GunManager : MonoBehaviour
     {
         /*
 
+
         // Make the centre of the portal the position of the raycast
         Vector3 portalCentre = hitObject.point;
 
