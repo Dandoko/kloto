@@ -45,12 +45,24 @@ public class PortalManager : MonoBehaviour
             Destroy(portal);
         }
 
-        // Placing the portal
         portal = Instantiate(portalPrefab);
         portal.GetComponent<MeshRenderer>().material = bulletMat;
-        portal.transform.position = hitObject.point;
-        portal.transform.rotation = portalRotation;
-        portal.transform.position -= portal.transform.forward * 0.001f;
+
+        Transform tempPortalCentre = portal.transform;
+        tempPortalCentre.position = hitObject.point;
+        tempPortalCentre.rotation = portalRotation;
+        tempPortalCentre.position -= tempPortalCentre.forward * 0.001f;
+
+        // Check for overhangs and fix the issues
+
+        // Check for intersections from the centre of the portal and fix the issues
+
+        // Sanity check to see if the fixes worked
+        if (true)
+        {
+            portal.transform.position = tempPortalCentre.position;
+            portal.transform.rotation = tempPortalCentre.rotation;
+        }
     }
 
     public bool isPortal(GameObject comparingObj)
@@ -73,4 +85,5 @@ public class PortalManager : MonoBehaviour
 
         return false;
     }
+
 }

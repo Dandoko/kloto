@@ -98,53 +98,6 @@ public class GunManager : MonoBehaviour
 
     private bool canCreatePortal(RaycastHit hitObject)
     {
-        /*
-
-
-        // Make the centre of the portal the position of the raycast
-        Vector3 portalCentre = hitObject.point;
-
-        // Create a temporary portal mold with sphere colliders at the corners of the mold
-        Vector3 portalSize = portalScreenPrefab.GetComponent<MeshRenderer>().bounds.size;
-        Vector3 topLeftPos = new Vector3(portalCentre.x, portalCentre.y + portalSize.z / 2, portalCentre.z + portalSize.y / 2);
-
-        //=====================================================================
-        // Start - Portal Creation
-        //=====================================================================
-        GameObject portal = Instantiate(portalPrefab);
-        GameObject portalScreen = portal.transform.GetChild(0).gameObject;
-        portalScreen.GetComponent<MeshRenderer>().material = bulletBlueMat;
-        portal.transform.position = portalCentre;
-
-        portal.transform.up = hitObject.normal;
-
-        //Vector3 upwards = Vector3.Cross(hitObject.normal, Vector3.up);
-        //portal.transform.rotation = Quaternion.LookRotation(hitObject.normal, upwards);
-        ////portal.transform.up = Quaternion.LookRotation(hitObject.normal, upwards) * Vector3.forward;
-        //=====================================================================
-        // End - Portal Creation
-        //=====================================================================
-
-        //=====================================================================
-        // Start - Debugging
-        //=====================================================================
-        Debug.DrawRay(portalCentre, hitObject.normal * 3, Color.red, 100);
-
-        //GameObject testSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        //testSphere.transform.position = topLeftPos;
-        //testSphere.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-        //=====================================================================
-        // End - Debugging
-        //=====================================================================
-
-        Debug.Log("portalCentre: " + portalCentre);
-        Debug.Log("portalSize: " + portalSize);
-        Debug.Log("portalSize.y: " + portalSize.y);
-        Debug.Log("================");
-
-        // Check if all sphere colliders colide with the same object
-        */
-
         if (isAimingAtPortal(hitObject))
         {
             return false;
