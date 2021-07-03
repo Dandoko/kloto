@@ -19,7 +19,6 @@ public class GunManager : MonoBehaviour
     private const float shootingInterval = 0.7f;
     private Color canShootColor;
     private Color cannotShootColor;
-    //private const float portalColliderRadius = 0.4f;
 
     private List<BulletManager> bullets;
 
