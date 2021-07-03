@@ -5,6 +5,7 @@ using UnityEngine;
 public class PortalManager : MonoBehaviour
 {
     [SerializeField] private GameObject portalPrefab;
+    [SerializeField] private LayerMask playerMask;
 
     private GameObject portal1;
     private GameObject portal2;
@@ -54,6 +55,7 @@ public class PortalManager : MonoBehaviour
         tempPortalCentre.position -= tempPortalCentre.forward * 0.001f;
 
         // Check for overhangs and fix the issues
+        fixOverhangs(ref tempPortalCentre);
 
         // Check for intersections from the centre of the portal and fix the issues
 
@@ -86,4 +88,41 @@ public class PortalManager : MonoBehaviour
         return false;
     }
 
+    private void fixOverhangs(ref Transform tempPortalCentre)
+    {
+        List<Vector3> portalPoints = new List<Vector3>
+        {
+            new Vector3(-0.7f,  0.0f, 0.05f),
+            new Vector3( 0.7f,  0.0f, 0.05f),
+            new Vector3( 0.0f, -1.1f, 0.05f),
+            new Vector3( 0.0f,  1.1f, 0.05f)
+        };
+
+        List<Vector3> testDirs = new List<Vector3>
+        {
+             Vector3.right,
+            -Vector3.right,
+             Vector3.up,
+            -Vector3.up
+        };
+
+        for (int i = 0; i < 4; ++i) {
+            RaycastHit hit;
+            Vector3 raycastPos = tempPortalCentre.TransformPoint(portalPoints[i]);
+            Vector3 raycastDir = tempPortalCentre.TransformDirection(testDirs[i]);
+
+            if (Physics.CheckSphere(raycastPos, 0.05f, playerMask)) {
+                //Debug.Log("bruh");
+            }
+
+            Debug.DrawRay(raycastPos, raycastDir * 1.3f, Color.red, 20);
+
+            if (Physics.Raycast(raycastPos, raycastDir, out hit, 1.1f, playerMask)) {
+                Debug.Log("lol");
+                var offset = hit.point - raycastPos;
+                tempPortalCentre.Translate(offset, Space.World);
+            }
+        }
+        Debug.Log("========");
+    }
 }
