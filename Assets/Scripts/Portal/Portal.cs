@@ -67,17 +67,20 @@ public class Portal : MonoBehaviour
         clipPlane = transform;
         int sign = System.Math.Sign(Vector3.Dot(clipPlane.forward, transform.position - portalCamera.transform.position));
 
-        //clipPlane = transform;
-        //int sign = System.Math.Sign(Vector3.Dot(clipPlane.forward, transform.position - portalCamera.transform.position));
-
         Vector3 camSpacePos = portalCamera.worldToCameraMatrix.MultiplyPoint(clipPlane.position);
         Vector3 camSpaceNormal = portalCamera.worldToCameraMatrix.MultiplyVector(clipPlane.forward) * sign;
+        float camSpaceDst = -Vector3.Dot(camSpacePos, camSpaceNormal) + 0.05f;
 
         //Creates a near clip plane based on the portal screen's position
-        nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, -Vector3.Dot(camSpacePos, camSpaceNormal));
+        if (camSpaceDst > 0.2f)
+        {
+            nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst);
+            portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
+        } else {
+            portalCamera.projectionMatrix = playerCamera.projectionMatrix;
+        }
 
-
-        portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
+        
 
 
 
