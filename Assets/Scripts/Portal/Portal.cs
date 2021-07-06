@@ -71,8 +71,10 @@ public class Portal : MonoBehaviour
         Vector3 camSpaceNormal = portalCamera.worldToCameraMatrix.MultiplyVector(clipPlane.forward) * sign;
         float camSpaceDst = -Vector3.Dot(camSpacePos, camSpaceNormal) + 0.05f;
 
+        Debug.Log(camSpaceDst);
+
         //Creates a near clip plane based on the portal screen's position
-        if (camSpaceDst > 0.2f)
+        if (Mathf.Abs(camSpaceDst) > 0.2f)
         {
             nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst);
             portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
