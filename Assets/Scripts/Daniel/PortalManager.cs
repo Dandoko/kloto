@@ -93,7 +93,7 @@ public class PortalManager : MonoBehaviour
     {
         // Hard coded points at the centre of the rectangular portal hitbox
         // 0.5f seems to work with the game object's scale to align at the outside 
-        List<Vector3> portalPoints = new List<Vector3>
+        List<Vector3> portalEdgePoints = new List<Vector3>
         {
             new Vector3(-0.5f,  0.0f, 0.05f),
             new Vector3( 0.5f,  0.0f, 0.05f),
@@ -114,14 +114,16 @@ public class PortalManager : MonoBehaviour
 
         for (int i = 0; i < 4; ++i) {
             RaycastHit hit;
-            Vector3 raycastPos = tempPortalCentre.TransformPoint(portalPoints[i]);
+            Vector3 raycastPos = tempPortalCentre.TransformPoint(portalEdgePoints[i]);
             Vector3 raycastDir = tempPortalCentre.TransformDirection(testDirs[i]);
 
+            // Start - Debugging
             GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             tempSphere.transform.position = raycastPos;
             tempSphere.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
             tempSphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
             tempSphere.GetComponent<Collider>().enabled = false;
+            // End - Debugging
 
             Collider[] edgeColliders = Physics.OverlapSphere(raycastPos, 0.1f, layerMasksToIgnore);
             if (edgeColliders.Length == 0)
