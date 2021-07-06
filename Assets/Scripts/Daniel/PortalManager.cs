@@ -90,6 +90,7 @@ public class PortalManager : MonoBehaviour
 
     private void fixOverhangs(ref Transform tempPortalCentre)
     {
+        // Hard coded points at the centre of the rectangular portal hitbox
         List<Vector3> portalPoints = new List<Vector3>
         {
             new Vector3(-0.7f,  0.0f, 0.05f),
@@ -112,17 +113,20 @@ public class PortalManager : MonoBehaviour
             Vector3 raycastDir = tempPortalCentre.TransformDirection(testDirs[i]);
 
             if (Physics.CheckSphere(raycastPos, 0.05f, playerMask)) {
-                //Debug.Log("bruh");
+                
             }
 
-            Debug.DrawRay(raycastPos, raycastDir * 1.3f, Color.red, 20);
+            GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            tempSphere.transform.position = raycastPos;
+            tempSphere.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            tempSphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+
+            //Debug.DrawRay(raycastPos, raycastDir * 1.3f, Color.red, 20);
 
             if (Physics.Raycast(raycastPos, raycastDir, out hit, 1.1f, playerMask)) {
-                Debug.Log("lol");
                 var offset = hit.point - raycastPos;
                 tempPortalCentre.Translate(offset, Space.World);
             }
         }
-        Debug.Log("========");
     }
 }
