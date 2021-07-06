@@ -48,6 +48,9 @@ directory with changes someone else could have made
 - [Change Axis of GameObject](https://answers.unity.com/questions/62675/redefine-axis-of-an-object.html)
 - [Add Script to GameObject](https://answers.unity.com/questions/1136397/how-to-add-a-script-to-a-gameobject-during-runtime.html)
 - [Get LayerMask by Name](https://docs.unity3d.com/ScriptReference/LayerMask.NameToLayer.html)
+- [Change Colour of GameObject](https://docs.unity3d.com/ScriptReference/Material.SetColor.html)
+- [Combining Layer Masks](https://answers.unity.com/questions/8715/how-do-i-use-layermasks.html)
+- [Excluding Layer Masks](https://answers.unity.com/questions/1343414/ignore-one-layermask-question.html)
 
 ### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
@@ -64,6 +67,7 @@ directory with changes someone else could have made
 - [Raycast Normal](https://docs.unity3d.com/ScriptReference/RaycastHit-normal.html)
 - [Debug.DrawRay](https://docs.unity3d.com/ScriptReference/Debug.DrawRay.html)
 - [Physics.CheckSphere](https://docs.unity3d.com/ScriptReference/Physics.CheckSphere.html)
+- [Physics.OverlapSphere](https://docs.unity3d.com/ScriptReference/Physics.OverlapSphere.html)
 
 ## Bugs
 - `OnCollisionEnter()` not working
@@ -84,3 +88,6 @@ directory with changes someone else could have made
 - Raycasts passing through colliders
 	- [Solution Source](https://forum.unity.com/threads/raycast-not-finding-objects-collider.323109/)
 	- Attempted repositioning the raycast origin and extending the raycast length, but it didn't solve the issue
+- Physics.OverlapSphere Layer Mask not working
+	- [Solution Source](https://answers.unity.com/questions/681890/how-to-use-physicsoverlapsphere-with-layer-mask.html)
+	- Use `1 << 8` or `1 << layerMask.value`

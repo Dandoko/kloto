@@ -5,6 +5,7 @@ using UnityEngine;
 public class PortalManager : MonoBehaviour
 {
     [SerializeField] private GameObject portalPrefab;
+    [SerializeField] private LayerMask portalMask;
     [SerializeField] private LayerMask playerMask;
 
     private GameObject portal1;
@@ -91,12 +92,13 @@ public class PortalManager : MonoBehaviour
     private void fixOverhangs(ref Transform tempPortalCentre)
     {
         // Hard coded points at the centre of the rectangular portal hitbox
+        // 0.5f seems to work with the game object's scale to align at the outside 
         List<Vector3> portalPoints = new List<Vector3>
         {
-            new Vector3(-0.7f,  0.0f, 0.05f),
-            new Vector3( 0.7f,  0.0f, 0.05f),
-            new Vector3( 0.0f, -1.1f, 0.05f),
-            new Vector3( 0.0f,  1.1f, 0.05f)
+            new Vector3(-0.5f,  0.0f, 0.05f),
+            new Vector3( 0.5f,  0.0f, 0.05f),
+            new Vector3( 0.0f, -0.5f, 0.05f),
+            new Vector3( 0.0f,  0.5f, 0.05f)
         };
 
         List<Vector3> testDirs = new List<Vector3>
@@ -107,26 +109,35 @@ public class PortalManager : MonoBehaviour
             -Vector3.up
         };
 
+        int interferingLayerMasks = portalMask.value | playerMask.value;
+        int layerMasksToIgnore =~ interferingLayerMasks;
+
         for (int i = 0; i < 4; ++i) {
             RaycastHit hit;
             Vector3 raycastPos = tempPortalCentre.TransformPoint(portalPoints[i]);
             Vector3 raycastDir = tempPortalCentre.TransformDirection(testDirs[i]);
 
-            if (Physics.CheckSphere(raycastPos, 0.05f, playerMask)) {
-                
-            }
-
             GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             tempSphere.transform.position = raycastPos;
             tempSphere.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
             tempSphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            tempSphere.GetComponent<Collider>().enabled = false;
 
-            //Debug.DrawRay(raycastPos, raycastDir * 1.3f, Color.red, 20);
+            Collider[] edgeColliders = Physics.OverlapSphere(raycastPos, 0.1f, layerMasksToIgnore);
+            if (edgeColliders.Length == 0)
+            {
+                // Overhang occurs
+                Debug.Log(i);
 
-            if (Physics.Raycast(raycastPos, raycastDir, out hit, 1.1f, playerMask)) {
-                var offset = hit.point - raycastPos;
-                tempPortalCentre.Translate(offset, Space.World);
+                //Debug.DrawRay(raycastPos, raycastDir * 1.3f, Color.red, 20);
+
+                if (Physics.Raycast(raycastPos, raycastDir, out hit, 1.1f))
+                {
+                    var offset = hit.point - raycastPos;
+                    tempPortalCentre.Translate(offset, Space.World);
+                }
             }
         }
+        Debug.Log("========");
     }
 }
