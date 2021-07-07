@@ -117,6 +117,21 @@ public class PortalManager : MonoBehaviour
             Vector3 raycastPos = tempPortalCentre.TransformPoint(portalEdgePoints[i]);
             Vector3 raycastDir = tempPortalCentre.TransformDirection(testDirs[i]);
 
+            Collider[] edgeColliders = Physics.OverlapSphere(raycastPos, 0.1f, layerMasksToIgnore);
+            if (edgeColliders.Length == 0)
+            {
+                // Overhang occurs
+
+                Debug.DrawRay(raycastPos, raycastDir * 1.3f, Color.red, 20);
+
+                if (Physics.Raycast(raycastPos, raycastDir, out hit, 1.1f, portalMask))
+                {
+                    var offset = hit.point - raycastPos;
+                    tempPortalCentre.Translate(offset, Space.World);
+                    Debug.Log(i + " | " + offset + " | " + hit.collider.name);
+                }
+            }
+
             // Start - Debugging
             GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             tempSphere.transform.position = raycastPos;
@@ -124,21 +139,6 @@ public class PortalManager : MonoBehaviour
             tempSphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
             tempSphere.GetComponent<Collider>().enabled = false;
             // End - Debugging
-
-            Collider[] edgeColliders = Physics.OverlapSphere(raycastPos, 0.1f, layerMasksToIgnore);
-            if (edgeColliders.Length == 0)
-            {
-                // Overhang occurs
-                Debug.Log(i);
-
-                //Debug.DrawRay(raycastPos, raycastDir * 1.3f, Color.red, 20);
-
-                if (Physics.Raycast(raycastPos, raycastDir, out hit, 1.1f))
-                {
-                    var offset = hit.point - raycastPos;
-                    tempPortalCentre.Translate(offset, Space.World);
-                }
-            }
         }
         Debug.Log("========");
     }
