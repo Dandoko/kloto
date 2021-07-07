@@ -93,12 +93,13 @@ public class PortalManager : MonoBehaviour
     {
         // Hard coded points at the centre of the rectangular portal hitbox
         // 0.5f seems to work with the game object's scale to align at the outside 
+        // The z point goes "into" the portal which is used later by the raycast 
         List<Vector3> portalEdgePoints = new List<Vector3>
         {
-            new Vector3(-0.5f,  0.0f, 0.05f),
-            new Vector3( 0.5f,  0.0f, 0.05f),
-            new Vector3( 0.0f, -0.5f, 0.05f),
-            new Vector3( 0.0f,  0.5f, 0.05f)
+            new Vector3(-0.5f,  0.0f, 0.5f),
+            new Vector3( 0.5f,  0.0f, 0.5f),
+            new Vector3( 0.0f, -0.5f, 0.5f),
+            new Vector3( 0.0f,  0.5f, 0.5f)
         };
 
         List<Vector3> testDirs = new List<Vector3>
@@ -109,37 +110,36 @@ public class PortalManager : MonoBehaviour
             -Vector3.up
         };
 
-        int interferingLayerMasks = portalMask.value | playerMask.value;
-        int layerMasksToIgnore =~ interferingLayerMasks;
+        int layerMasksToIgnore = portalMask.value | playerMask.value;
+        int allMasksWithoutMasksToIgnore = ~layerMasksToIgnore;
 
         for (int i = 0; i < 4; ++i) {
             RaycastHit hit;
             Vector3 raycastPos = tempPortalCentre.TransformPoint(portalEdgePoints[i]);
             Vector3 raycastDir = tempPortalCentre.TransformDirection(testDirs[i]);
 
-            Collider[] edgeColliders = Physics.OverlapSphere(raycastPos, 0.1f, layerMasksToIgnore);
+            Collider[] edgeColliders = Physics.OverlapSphere(raycastPos, 0.1f, allMasksWithoutMasksToIgnore);
+            // Overhang occurs because the edge collider didn't collide with anything
             if (edgeColliders.Length == 0)
             {
-                // Overhang occurs
+                //Debug.DrawRay(raycastPos, raycastDir * 1.3f, Color.red, 20);
 
-                Debug.DrawRay(raycastPos, raycastDir * 1.3f, Color.red, 20);
-
-                if (Physics.Raycast(raycastPos, raycastDir, out hit, 1.1f, portalMask))
+                if (Physics.Raycast(raycastPos, raycastDir, out hit, 1.1f, allMasksWithoutMasksToIgnore))
                 {
                     var offset = hit.point - raycastPos;
                     tempPortalCentre.Translate(offset, Space.World);
-                    Debug.Log(i + " | " + offset + " | " + hit.collider.name);
+                    //Debug.Log(i + " | " + offset + " | " + hit.collider.name);
                 }
             }
 
             // Start - Debugging
-            GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            tempSphere.transform.position = raycastPos;
-            tempSphere.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-            tempSphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-            tempSphere.GetComponent<Collider>().enabled = false;
+            //GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            //tempSphere.transform.position = raycastPos;
+            //tempSphere.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            //tempSphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            //tempSphere.GetComponent<Collider>().enabled = false;
             // End - Debugging
         }
-        Debug.Log("========");
+        //Debug.Log("========");
     }
 }

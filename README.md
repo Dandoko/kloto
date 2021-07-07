@@ -91,3 +91,7 @@ directory with changes someone else could have made
 - Physics.OverlapSphere Layer Mask not working
 	- [Solution Source](https://answers.unity.com/questions/681890/how-to-use-physicsoverlapsphere-with-layer-mask.html)
 	- Use `1 << 8` or `1 << layerMask.value`
+- Physics.Raycast layer mask is not working
+	- The [Unity documentation](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html) is misleading
+		- “A Layer mask that is used to selectively ignore Colliders when casting a ray.”
+	- The layermask parameter for Physics.Raycast should be the layers you want the raycast to hit
