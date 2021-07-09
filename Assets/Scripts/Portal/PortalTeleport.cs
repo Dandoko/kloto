@@ -16,8 +16,8 @@ public class PortalTeleport : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        thisPortal = transform.parent.gameObject;
-        trackedTravellers = new List<PortalTraveller>();
+        //thisPortal = transform.parent.gameObject;
+        //trackedTravellers = new List<PortalTraveller>();
 
 
 
@@ -27,7 +27,7 @@ public class PortalTeleport : MonoBehaviour
     void Update()
     {
 
-
+        /*
         float halfHeight = Camera.main.nearClipPlane * Mathf.Tan(Camera.main.fieldOfView * 0.5f * Mathf.Deg2Rad);
         float halfWidth = halfHeight * Camera.main.aspect;
 
@@ -36,7 +36,7 @@ public class PortalTeleport : MonoBehaviour
 
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, distToNearClipCorner);
         transform.localPosition = Vector3.forward * distToNearClipCorner * ((camFacingSameDirAsPortal) ? 0.5f : -0.5f) + Vector3.up * 2.5f;
-        
+     */   
     }
 
     private void LateUpdate()
