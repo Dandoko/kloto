@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Portal : MonoBehaviour
 {
+
     [SerializeField] private Portal linkedPortal;
     [SerializeField] private Transform player;
-    
+
+    private GameObject thisPortal;
     private Camera playerCamera;
     private Camera portalCamera;
     private RenderTexture cameraTexture;
     private MeshRenderer portalScreen;
+    private List<PortalTraveller> trackedTravellers;
 
-    
 
     private Transform clipPlane;
     private Vector4 nearClipPlane;
@@ -23,14 +25,14 @@ public class Portal : MonoBehaviour
 
         playerCamera = Camera.main;
         portalCamera = GetComponentInChildren<Camera>();
-
-        
+        thisPortal = transform.gameObject;
+        trackedTravellers = new List<PortalTraveller>();
 
         // Must disable the portal camera to render the other portal camera onto the portal screen manually
         portalCamera.enabled = false;
 
-        portalScreen = transform.GetChild(0).gameObject.GetComponent<MeshRenderer>();
-
+        portalScreen = transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<MeshRenderer>();
+        portalScreen.material.SetInt("displayMask", 1);
     }
 
     void Update()
@@ -45,7 +47,7 @@ public class Portal : MonoBehaviour
         portalScreen.enabled = false;
 
         // If the render texture has not been created yet, or if the dimensions of the render texture have changed
-        if (null == cameraTexture || cameraTexture.width != Screen.width || cameraTexture.height != Screen.height)
+        if (cameraTexture == null || cameraTexture.width != Screen.width || cameraTexture.height != Screen.height)
         {
             if (cameraTexture != null)
             {
@@ -69,9 +71,7 @@ public class Portal : MonoBehaviour
 
         Vector3 camSpacePos = portalCamera.worldToCameraMatrix.MultiplyPoint(clipPlane.position);
         Vector3 camSpaceNormal = portalCamera.worldToCameraMatrix.MultiplyVector(clipPlane.forward) * sign;
-        float camSpaceDst = -Vector3.Dot(camSpacePos, camSpaceNormal) + 0.05f;
-
-        Debug.Log(camSpaceDst);
+        float camSpaceDst = -Vector3.Dot(camSpacePos, camSpaceNormal) + 0.15f;
 
         //Creates a near clip plane based on the portal screen's position
         if (Mathf.Abs(camSpaceDst) > 0.2f)
@@ -82,7 +82,10 @@ public class Portal : MonoBehaviour
             portalCamera.projectionMatrix = playerCamera.projectionMatrix;
         }
 
-        
+
+        //Sets the screen's to the appropriate width so that screen flickering is minimized
+        setScreenWidth();
+
 
 
 
@@ -94,6 +97,44 @@ public class Portal : MonoBehaviour
         portalScreen.enabled = true;
     }
 
+    private void LateUpdate()
+    {
+        for (int i = 0; i < trackedTravellers.Count; i++)
+        {
+
+            PortalTraveller traveller = trackedTravellers[i];
+
+            Vector3 curRelPortalPos = traveller.transform.position - transform.position;
+
+            int prevPortalSide = System.Math.Sign(Vector3.Dot(traveller.prevRelPortalPos, transform.forward));
+            int curPortalSide = System.Math.Sign(Vector3.Dot(curRelPortalPos, transform.forward));
+
+            if (curPortalSide != prevPortalSide)
+            {
+                traveller.Teleport(thisPortal, linkedPortal.gameObject);
+                trackedTravellers.RemoveAt(i);
+                i--;
+            }
+            else
+            {
+                traveller.prevRelPortalPos = curRelPortalPos;
+            }
+        }
+    }
+
+    private void setScreenWidth()
+    {
+        Transform screenTrans = portalScreen.transform;
+
+        float halfHeight = playerCamera.nearClipPlane * Mathf.Tan(playerCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);
+        float halfWidth = halfHeight * playerCamera.aspect;
+        float distToNearClipCorner = new Vector3(halfWidth, halfHeight, playerCamera.nearClipPlane).magnitude;
+        bool camFacingSameDirAsPortal = Vector3.Dot(transform.forward, transform.position - playerCamera.transform.position) > 0;
+
+        screenTrans.localScale = new Vector3(screenTrans.localScale.x, screenTrans.localScale.y, distToNearClipCorner);
+        screenTrans.localPosition = Vector3.forward * distToNearClipCorner * ((camFacingSameDirAsPortal) ? 0.5f : -0.5f) - Vector3.forward * 0.25f;
+    }
+
 
     // Returns true if the player camera can see the linked portal
     // @see https://wiki.unity3d.com/index.php/IsVisibleFrom
@@ -103,5 +144,39 @@ public class Portal : MonoBehaviour
         return GeometryUtility.TestPlanesAABB(planes, linkedPortal.portalScreen.bounds);
     }
 
+
+
+    //
+    private void OnTriggerEnter(Collider collided)
+    {
+
+        GameObject hitObject = collided.gameObject;
+        var traveller = hitObject.GetComponent<PortalTraveller>();
+        if (traveller)
+        {
+
+            if (!trackedTravellers.Contains(traveller))
+            {
+                traveller.prevRelPortalPos = traveller.transform.position - transform.position;
+
+                trackedTravellers.Add(traveller);
+            }
+        }
+    }
+
+
+    private void OnTriggerExit(Collider collided)
+    {
+        GameObject hitObject = collided.gameObject;
+        var traveller = hitObject.GetComponent<PortalTraveller>();
+
+        if (traveller)
+        {
+            if (trackedTravellers.Contains(traveller))
+            {
+                trackedTravellers.Remove(traveller);
+            }
+        }
+    }
 
 }
