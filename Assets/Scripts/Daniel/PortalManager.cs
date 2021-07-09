@@ -55,13 +55,10 @@ public class PortalManager : MonoBehaviour
         tempPortalCentre.rotation = portalRotation;
         tempPortalCentre.position -= tempPortalCentre.forward * 0.001f;
 
-        // Check for overhangs and fix the issues
         fixOverhangs(ref tempPortalCentre);
+        fixIntersections(ref tempPortalCentre);
 
-        // Check for intersections from the centre of the portal and fix the issues
-
-        // Sanity check to see if the fixes worked
-        if (true)
+        if (isFixSuccessful())
         {
             portal.transform.position = tempPortalCentre.position;
             portal.transform.rotation = tempPortalCentre.rotation;
@@ -89,10 +86,10 @@ public class PortalManager : MonoBehaviour
         return false;
     }
 
+    // Check for overhangs and fix the issues
     private void fixOverhangs(ref Transform tempPortalCentre)
     {
         // Hard coded points at the centre of the rectangular portal hitbox
-        // 0.5f seems to work with the game object's scale to align at the outside 
         // The z point goes "into" the portal which is used later by the raycast 
         List<Vector3> portalEdgePoints = new List<Vector3>
         {
@@ -141,5 +138,49 @@ public class PortalManager : MonoBehaviour
             // End - Debugging
         }
         //Debug.Log("========");
+    }
+
+    // Checks for intersections between multiple adjacent surfaces and fixes the issues
+    private void fixIntersections(ref Transform tempPortalCentre)
+    {
+        List<Vector3> testDirs = new List<Vector3>
+        {
+             Vector3.right,
+            -Vector3.right,
+             Vector3.up,
+            -Vector3.up
+        };
+
+        // Distances from the centre of the portal
+        List<float> testDists = new List<float> { 0.7f, 0.7f, 1.1f, 1.1f };
+
+        int layerMasksToIgnore = portalMask.value | playerMask.value;
+        int allMasksWithoutMasksToIgnore = ~layerMasksToIgnore;
+
+        for (int i = 0; i < 4; i++)
+        {
+            RaycastHit hit;
+            Vector3 raycastPos = tempPortalCentre.TransformPoint(0.0f, 0.0f, -0.5f);
+            Vector3 raycastDir = tempPortalCentre.TransformDirection(testDirs[i]);
+
+            //Debug.DrawRay(raycastPos, raycastDir * testDists[i], Color.black, 20);
+
+            if (Physics.Raycast(raycastPos, raycastDir, out hit, testDists[i], allMasksWithoutMasksToIgnore))
+            {
+                var offset = (hit.point - raycastPos);
+                var newOffset = -raycastDir * (testDists[i] - offset.magnitude);
+                tempPortalCentre.Translate(newOffset, Space.World);
+            }
+        }
+    }
+
+    // Checking for overhangs and intersections once more for edge cases 
+    // For example, a surface with not enough space for the entire portal
+    private bool isFixSuccessful()
+    {
+
+
+
+        return true;
     }
 }
