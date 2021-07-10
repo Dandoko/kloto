@@ -44,7 +44,7 @@ public class Portal : MonoBehaviour
         }
 
         // Hide the portal render screens while the render texture is being created
-        portalScreen.enabled = false;
+        portalScreen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
 
         // If the render texture has not been created yet, or if the dimensions of the render texture have changed
         if (cameraTexture == null || cameraTexture.width != Screen.width || cameraTexture.height != Screen.height)
@@ -64,6 +64,9 @@ public class Portal : MonoBehaviour
         portalCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
 
 
+        //Sets the screen's to the appropriate width so that screen flickering is minimized
+        setScreenWidth();
+
 
         //Calculates and sets the clip plane
         clipPlane = transform;
@@ -78,13 +81,13 @@ public class Portal : MonoBehaviour
         {
             nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst);
             portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
+            Debug.Log("CLIPPING");
         } else {
+            
             portalCamera.projectionMatrix = playerCamera.projectionMatrix;
         }
 
 
-        //Sets the screen's to the appropriate width so that screen flickering is minimized
-        setScreenWidth();
 
 
 
@@ -93,12 +96,14 @@ public class Portal : MonoBehaviour
         portalCamera.Render();
 
 
-
-        portalScreen.enabled = true;
+        portalScreen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
+
+
 
     private void LateUpdate()
     {
+        //Handles and teleports all travellers if they move through the screen
         for (int i = 0; i < trackedTravellers.Count; i++)
         {
 
@@ -121,7 +126,9 @@ public class Portal : MonoBehaviour
             }
         }
     }
+    
 
+    //Sets the width of the portal screen to avoid clipping with the player camera's near clip plane
     private void setScreenWidth()
     {
         Transform screenTrans = portalScreen.transform;
@@ -149,16 +156,13 @@ public class Portal : MonoBehaviour
     //
     private void OnTriggerEnter(Collider collided)
     {
-
         GameObject hitObject = collided.gameObject;
         var traveller = hitObject.GetComponent<PortalTraveller>();
         if (traveller)
         {
-
             if (!trackedTravellers.Contains(traveller))
             {
                 traveller.prevRelPortalPos = traveller.transform.position - transform.position;
-
                 trackedTravellers.Add(traveller);
             }
         }
