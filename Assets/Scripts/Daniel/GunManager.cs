@@ -41,25 +41,26 @@ public class GunManager : MonoBehaviour
     {
         bool canShoot = false;
 
-       // Checking if the raycast hit an object
+
+        // Checking if the raycast hit an object that is not a portal
         RaycastHit hitObject;
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitObject, gunRange))
         {
-            crosshair.color = canShootColor;
-
             // Checking if the shooting delay is over
             if (shootingTime <= Time.time)
             {
-                // Checking if a portal can be created on the surface the raycast hit
-                if (canCreatePortal(hitObject))
-                {
-                    canShoot = true;
+                canShoot = true;
 
-                    if (Input.GetButtonDown("Fire1"))
+                if (Input.GetButtonDown("Fire1"))
+                {
+                    if (canCreatePortal(hitObject, bulletBlueMat))
                     {
                         shootGun("Fire1", hitObject, bulletBlueMat, 1);
                     }
-                    else if (Input.GetButtonDown("Fire2"))
+                }
+                else if (Input.GetButtonDown("Fire2"))
+                {
+                    if (canCreatePortal(hitObject, bulletRedMat))
                     {
                         shootGun("Fire2", hitObject, bulletRedMat, 2);
                     }
@@ -95,12 +96,17 @@ public class GunManager : MonoBehaviour
         bullets.Add(bullet);
     }
 
-    private bool canCreatePortal(RaycastHit hitObject)
+    // Checking if a portal can be created on the surface the raycast hit
+    private bool canCreatePortal(RaycastHit hitObject, Material bulletMask)
     {
-        if (isAimingAtPortal(hitObject))
+        // Check if the surface is a portal
+        if (1 << hitObject.collider.gameObject.layer == portalManager.getPortalLayerMask())
         {
             return false;
         }
+
+        // Check if the portal can physically be created on the surface
+
 
         return true;
     }
@@ -108,15 +114,5 @@ public class GunManager : MonoBehaviour
     public void removeBullet(BulletManager bullet)
     {
         bullets.Remove(bullet);
-    }
-
-    private bool isAimingAtPortal(RaycastHit hitObject)
-    {
-        if (portalManager.isPortal(hitObject.collider.gameObject))
-        {
-            return true;
-        }
-
-        return false;
     }
 }

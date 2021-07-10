@@ -11,9 +11,6 @@ public class PortalManager : MonoBehaviour
     private GameObject portal1;
     private GameObject portal2;
 
-    private const float vertDistFromCentre = 1.1f;
-    private const float horzDistFromCentre = 0.7f;
-
     public void createPortal(RaycastHit hitObject, Transform playerCamera, Material bulletMat, int bulletType)
     {
         // Find direction and rotation of portal
@@ -50,19 +47,14 @@ public class PortalManager : MonoBehaviour
             Destroy(portal);
         }
 
-        portal = Instantiate(portalPrefab);
-
-        Transform tempPortalCentre = portal.transform;
+        Transform tempPortalCentre = portalPrefab.transform;
         tempPortalCentre.position = hitObject.point;
         tempPortalCentre.rotation = portalRotation;
         tempPortalCentre.position -= tempPortalCentre.forward * 0.001f;
 
-        int layerMasksToIgnore = portalMask.value | playerMask.value;
-        int allMasksWithoutMasksToIgnore = ~layerMasksToIgnore;
-
-        if (fixOverhangs(ref tempPortalCentre, allMasksWithoutMasksToIgnore) &&
-            fixIntersections(ref tempPortalCentre, allMasksWithoutMasksToIgnore))
+        if (fixOverhangs(ref tempPortalCentre) && fixIntersections(ref tempPortalCentre, bulletMat))
         {
+            portal = Instantiate(portalPrefab);
             portal.GetComponent<MeshRenderer>().material = bulletMat;
             portal.transform.position = tempPortalCentre.position;
             portal.transform.rotation = tempPortalCentre.rotation;
@@ -73,30 +65,14 @@ public class PortalManager : MonoBehaviour
         }
     }
 
-    public bool isPortal(GameObject comparingObj)
+    public int getPortalLayerMask()
     {
-        if (null != portal1)
-        {
-            if (comparingObj == portal1)
-            {
-                return true;
-            }
-        }
-
-        if (null != portal2)
-        {
-            if (comparingObj == portal2)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return portalMask;
     }
 
     // Check for overhangs and fix the issues
     // Returns true if all overhangs have been fixed
-    private bool fixOverhangs(ref Transform tempPortalCentre, int allMasksWithoutMasksToIgnore)
+    private bool fixOverhangs(ref Transform tempPortalCentre)
     {
         // Hard coded points at the centre of the rectangular portal hitbox
         // The z point goes "into" the portal which is used later by the raycast 
@@ -115,6 +91,9 @@ public class PortalManager : MonoBehaviour
              Vector3.up,
             -Vector3.up
         };
+
+        int layerMasksToIgnore = portalMask.value | playerMask.value;
+        int allMasksWithoutMasksToIgnore =~ layerMasksToIgnore;
 
         for (int i = 0; i < portalEdgePoints.Count; ++i) {
             RaycastHit hit;
@@ -159,6 +138,7 @@ public class PortalManager : MonoBehaviour
 
             if (vertexColliders.Length == 0)
             {
+                Debug.Log("bruih");
                 return false;
             }
         }
@@ -168,7 +148,7 @@ public class PortalManager : MonoBehaviour
 
     // Checks for intersections between multiple adjacent surfaces and fixes the issues
     // Returns true if all intersections have been fixed
-    private bool fixIntersections(ref Transform tempPortalCentre, int allMasksWithoutMasksToIgnore)
+    private bool fixIntersections(ref Transform tempPortalCentre, Material bulletMat)
     {
         List<Vector3> testDirs = new List<Vector3>
         {
@@ -178,8 +158,11 @@ public class PortalManager : MonoBehaviour
             -Vector3.up
         };
 
+        int layerMasksToIgnore = playerMask.value;
+        int allMasksWithoutMasksToIgnore =~ layerMasksToIgnore;
+
         // Distances from the centre of the portal
-        List<float> testDists = new List<float> { horzDistFromCentre, horzDistFromCentre, vertDistFromCentre, vertDistFromCentre };
+        List<float> testDists = new List<float> { 0.7f, 0.7f, 1.1f, 1.1f };
 
         for (int i = 0; i < testDirs.Count; i++)
         {
@@ -194,6 +177,23 @@ public class PortalManager : MonoBehaviour
                 var offset = (hit.point - raycastPos);
                 var newOffset = -raycastDir * (testDists[i] - offset.magnitude);
                 tempPortalCentre.Translate(newOffset, Space.World);
+            }
+        }
+
+        // Slightly shorter than the testDists and z is shorter than the width of the portal
+        var rectColliderExtentDist = new Vector3(0.65f, 1.05f, 0.0001f);
+
+        Collider[] intersections = Physics.OverlapBox(tempPortalCentre.position, rectColliderExtentDist, tempPortalCentre.rotation, allMasksWithoutMasksToIgnore);
+
+        if (intersections.Length > 1)
+        {
+            return false;
+        }
+        else if (intersections.Length == 1)
+        {
+            if (intersections[0].gameObject.GetComponent<MeshRenderer>().material != bulletMat)
+            {
+                return false;
             }
         }
 
