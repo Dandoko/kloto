@@ -15,7 +15,7 @@ public class BulletManager
     // Bullet
     //=========================================================================
     private GameObject bulletGameObject;
-    private const float speed = 50f;
+    private const float speed = 70f;
     private RaycastHit bulletDest;
     private Material bulletMat;
     private int bulletType;
@@ -31,6 +31,7 @@ public class BulletManager
     private Vector3 previousPosition;
     private Rigidbody bulletRigidbody;
     private Collider bulletCollider;
+    private int allLayersExceptBullet;
 
     public BulletManager(
         GunManager gunManager, PortalManager portalManager, GameObject bullet, Material bulletMat,
@@ -57,6 +58,8 @@ public class BulletManager
         minimumExtent = Mathf.Min(Mathf.Min(bulletCollider.bounds.extents.x, bulletCollider.bounds.extents.y), bulletCollider.bounds.extents.z);
         partialExtent = minimumExtent * (1.0f - skinWidth);
         sqrMinimumExtent = minimumExtent * minimumExtent;
+        int bulletLayerMask = 1 << bulletMask.value;
+        allLayersExceptBullet =~ bulletLayerMask;
     }
 
     public void updateBullet()
@@ -87,7 +90,7 @@ public class BulletManager
             //Debug.DrawRay(previousPosition, movementThisFrame, Color.red, 20);
 
             // Check for objects that were missed 
-            if (Physics.Raycast(previousPosition - movementThisFrame * 0.5f, movementThisFrame, out hitObject, movementMagnitude * 5, bulletMask))
+            if (Physics.Raycast(previousPosition, movementThisFrame, out hitObject, movementMagnitude, allLayersExceptBullet))
             {
                 // If the raycast hit something, and the collided object is not an isTrigger object
                 if (!hitObject.collider.isTrigger)
