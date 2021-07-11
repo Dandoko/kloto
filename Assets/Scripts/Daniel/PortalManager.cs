@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PortalManager : MonoBehaviour
 {
+    // Portal configuration (x, y, z)
+    // Rotation (0, 90, 0)
+    // Scale (1.4, 2,2, 0.005)
+
     [SerializeField] private GameObject portalPrefab;
     [SerializeField] private LayerMask portalMask;
     [SerializeField] private LayerMask playerMask;
