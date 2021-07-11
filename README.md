@@ -98,3 +98,14 @@ directory with changes someone else could have made
 	- The [Unity documentation](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html) is misleading
 		- “A Layer mask that is used to selectively ignore Colliders when casting a ray.”
 	- The layermask parameter for Physics.Raycast should be the layers you want the raycast to hit
+
+## Debugging
+
+### Visualizing spheres for sphere colliders
+```
+GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+tempSphere.transform.position = <position>;
+tempSphere.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
+tempSphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+tempSphere.GetComponent<Collider>().enabled = false;
+```

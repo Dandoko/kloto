@@ -9,14 +9,12 @@ public class BulletManager
     //=========================================================================
     private GunManager gunManager;
     private PortalManager portalManager;
-    private Transform playerCamera;
 
     //=========================================================================
     // Bullet
     //=========================================================================
     private GameObject bulletGameObject;
     private const float speed = 70f;
-    private RaycastHit bulletDest;
     private Material bulletMat;
     private int bulletType;
     private LayerMask bulletMask = LayerMask.NameToLayer("Bullet");
@@ -33,15 +31,13 @@ public class BulletManager
     private Collider bulletCollider;
     private int allLayersExceptBullet;
 
-    public BulletManager(
-        GunManager gunManager, PortalManager portalManager, GameObject bullet, Material bulletMat,
-        Transform gunTip, RaycastHit bulletDest, Transform playerCamera, int bulletType)
+    public BulletManager (
+        GunManager gunManager, PortalManager portalManager, GameObject bullet,
+        Material bulletMat, Transform gunTip, RaycastHit bulletDest, int bulletType)
     {
         this.gunManager = gunManager;
         this.portalManager = portalManager;
-        this.bulletDest = bulletDest;
         this.bulletMat = bulletMat;
-        this.playerCamera = playerCamera;
         this.bulletType = bulletType;
 
         // Creating the bullet
@@ -71,7 +67,7 @@ public class BulletManager
         }
         else
         {
-            gunManager.removeBullet(this);
+            gunManager.removeBullet();
             portalManager.instatiatePortal(bulletType, bulletMat);
         }
     }
@@ -87,8 +83,6 @@ public class BulletManager
             float movementMagnitude = Mathf.Sqrt(movementSqrMagnitude);
             RaycastHit hitObject;
 
-            //Debug.DrawRay(previousPosition, movementThisFrame, Color.red, 20);
-
             // Check for objects that were missed 
             if (Physics.Raycast(previousPosition, movementThisFrame, out hitObject, movementMagnitude, allLayersExceptBullet))
             {
@@ -100,6 +94,7 @@ public class BulletManager
                 }
             }
         }
+
         previousPosition = bulletRigidbody.position;
     }
 }
