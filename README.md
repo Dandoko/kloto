@@ -52,7 +52,7 @@ directory with changes someone else could have made
 - [Change Colour of GameObject](https://docs.unity3d.com/ScriptReference/Material.SetColor.html)
 - [Combining Layer Masks](https://answers.unity.com/questions/8715/how-do-i-use-layermasks.html)
 - [Excluding Layer Masks](https://answers.unity.com/questions/1343414/ignore-one-layermask-question.html)
-- [Different Between TransformVector and TransformPoint](https://answers.unity.com/questions/1021968/difference-between-transformtransformvector-and-tr.html)
+- [Difference Between TransformVector and TransformPoint](https://answers.unity.com/questions/1021968/difference-between-transformtransformvector-and-tr.html)
 
 ### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
