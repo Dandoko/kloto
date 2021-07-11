@@ -31,7 +31,7 @@ public class Portal : MonoBehaviour
         // Must disable the portal camera to render the other portal camera onto the portal screen manually
         portalCamera.enabled = false;
 
-        portalScreen = transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<MeshRenderer>();
+        portalScreen = transform.GetChild(0).GetComponent<MeshRenderer>();
         portalScreen.material.SetInt("displayMask", 1);
     }
 
@@ -81,7 +81,6 @@ public class Portal : MonoBehaviour
         {
             nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst);
             portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
-            Debug.Log("CLIPPING");
         } else {
             
             portalCamera.projectionMatrix = playerCamera.projectionMatrix;
@@ -139,7 +138,7 @@ public class Portal : MonoBehaviour
         bool camFacingSameDirAsPortal = Vector3.Dot(transform.forward, transform.position - playerCamera.transform.position) > 0;
 
         screenTrans.localScale = new Vector3(screenTrans.localScale.x, screenTrans.localScale.y, distToNearClipCorner);
-        screenTrans.localPosition = Vector3.forward * distToNearClipCorner * ((camFacingSameDirAsPortal) ? 0.5f : -0.5f) - Vector3.forward * 0.25f;
+        screenTrans.localPosition = Vector3.forward * distToNearClipCorner * ((camFacingSameDirAsPortal) ? 0.5f : -0.5f) + Vector3.up * 2.5f;
     }
 
 

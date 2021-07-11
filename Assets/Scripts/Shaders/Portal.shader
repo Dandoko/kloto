@@ -50,5 +50,5 @@ Shader "Unlit/Portal"
             ENDCG
         }
     }
-
+    Fallback "Standard"
 }
