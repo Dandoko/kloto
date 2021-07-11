@@ -19,8 +19,7 @@ public class GunManager : MonoBehaviour
     private const float shootingInterval = 0.7f;
     private Color canShootColor;
     private Color cannotShootColor;
-
-    private List<BulletManager> bullets;
+    private BulletManager bulletManager;
 
     // Start is called before the first frame update
     void Start()
@@ -32,12 +31,10 @@ public class GunManager : MonoBehaviour
 
         canShootColor = new Color(1, 0, 0, 1);
         cannotShootColor = new Color(1, 0.3f, 0.6f, 0.5f);
-
-        bullets = new List<BulletManager>();
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         bool canShoot = false;
 
@@ -74,11 +71,9 @@ public class GunManager : MonoBehaviour
             crosshair.color = cannotShootColor;
         }
 
-        // Shallow copying the bullets list to fix the error: "Collection was modified, enumeration operation may not execute"
-        List<BulletManager> bulletCopy = bullets.GetRange(0, bullets.Count);
-        foreach (var bullet in bulletCopy)
+        if (null != bulletManager)
         {
-            bullet.updateBullet();
+            bulletManager.updateBullet();
         }
     }
 
@@ -89,13 +84,18 @@ public class GunManager : MonoBehaviour
 
         // Creating the bullet
         GameObject newBulletObject = Instantiate(bulletPrefab);
-        BulletManager bullet = new BulletManager(this, portalManager, newBulletObject, bulletMat, gunTip, hitObject, playerCamera.transform, bulletType);
-        bullets.Add(bullet);
+        bulletManager = new BulletManager(this, portalManager, newBulletObject, bulletMat, gunTip, hitObject, playerCamera.transform, bulletType);
     }
 
     // Checking if a portal can be created on the surface the raycast hit
     private bool canCreatePortal(RaycastHit hitObject)
     {
+        // Check if bullet is firing because you can't create a portal when a bullet hasn't been destroyed yet
+        if (null != bulletManager)
+        {
+            return false;
+        }
+
         // Check if the surface is a portal
         if (1 << hitObject.collider.gameObject.layer == portalManager.getPortalLayerMask())
         {
@@ -108,6 +108,6 @@ public class GunManager : MonoBehaviour
 
     public void removeBullet(BulletManager bullet)
     {
-        bullets.Remove(bullet);
+        bulletManager = null;
     }
 }
