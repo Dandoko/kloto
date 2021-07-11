@@ -8,10 +8,11 @@ public class PortalManager : MonoBehaviour
     [SerializeField] private LayerMask portalMask;
     [SerializeField] private LayerMask playerMask;
 
+    private Transform tempPortal;
     private GameObject portal1;
     private GameObject portal2;
 
-    public void createPortal(RaycastHit hitObject, Transform playerCamera, Material bulletMat, int bulletType)
+    public bool checkPortalCreation(RaycastHit hitObject, Transform playerCamera)
     {
         // Find direction and rotation of portal
         Quaternion cameraRotation = playerCamera.rotation;
@@ -30,23 +31,11 @@ public class PortalManager : MonoBehaviour
         Vector3 portalUp = -Vector3.Cross(portalRight, portalForward);
         Quaternion portalRotation = Quaternion.LookRotation(portalForward, portalUp);
 
-        if (bulletType == 1)
-        {
-            createPortalHelper(ref portal1, bulletMat, hitObject, portalRotation);
-        }
-        else
-        {
-            createPortalHelper(ref portal2, bulletMat, hitObject, portalRotation);
-        }
+        return canPortalBeCreated(hitObject, portalRotation);
     }
 
-    private void createPortalHelper(ref GameObject portal, Material bulletMat, RaycastHit hitObject, Quaternion portalRotation)
+    private bool canPortalBeCreated(RaycastHit hitObject, Quaternion portalRotation)
     {
-        if (null != portal)
-        {
-            Destroy(portal);
-        }
-
         Transform tempPortalCentre = portalPrefab.transform;
         tempPortalCentre.position = hitObject.point;
         tempPortalCentre.rotation = portalRotation;
@@ -55,17 +44,41 @@ public class PortalManager : MonoBehaviour
         fixOverhangs(ref tempPortalCentre);
         fixIntersections(ref tempPortalCentre);
 
-        if (checkFixes(tempPortalCentre, bulletMat))
+        if (fixesAreSuccessful(tempPortalCentre))
         {
-            portal = Instantiate(portalPrefab);
-            portal.GetComponent<MeshRenderer>().material = bulletMat;
-            portal.transform.position = tempPortalCentre.position;
-            portal.transform.rotation = tempPortalCentre.rotation;
+            tempPortal = portalPrefab.transform;
+            tempPortal.position = tempPortalCentre.position;
+            tempPortal.rotation = tempPortalCentre.rotation;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public void instatiatePortal(int bulletType, Material bulletMat)
+    {
+        if (bulletType == 1)
+        {
+            instantiatePortalHelper(ref portal1, bulletMat);
         }
         else
         {
+            instantiatePortalHelper(ref portal2, bulletMat);
+        }
+    }
+
+    private void instantiatePortalHelper(ref GameObject portal, Material bulletMat)
+    {
+        if (null != portal)
+        {
             Destroy(portal);
         }
+
+        portal = Instantiate(portalPrefab);
+        portal.GetComponent<MeshRenderer>().material = bulletMat;
+        portal.transform.position = tempPortal.position;
+        portal.transform.rotation = tempPortal.rotation;
     }
 
     public int getPortalLayerMask()
@@ -131,7 +144,7 @@ public class PortalManager : MonoBehaviour
         //Debug.Log(tempPortalCentre.position);
     }
 
-    // Checks for intersections between multiple adjacent surfaces and fixes the issues
+    // Checks for intersections between multiple adjacent surfaces (including portals) and fixes the issues
     // Returns true if all intersections have been fixed
     private void fixIntersections(ref Transform tempPortalCentre)
     {
@@ -166,7 +179,7 @@ public class PortalManager : MonoBehaviour
         }
     }
 
-    private bool checkFixes(Transform tempPortalCentre, Material bulletMat)
+    private bool fixesAreSuccessful(Transform tempPortalCentre)
     {
         //=====================================================================
         // Checking intersection fixes
@@ -178,16 +191,9 @@ public class PortalManager : MonoBehaviour
         var rectColliderExtentDist = new Vector3(0.65f, 1.05f, 0.0001f);
 
         Collider[] intersections = Physics.OverlapBox(tempPortalCentre.position, rectColliderExtentDist, tempPortalCentre.rotation, allMasksWithoutMasksToIgnore);
-        if (intersections.Length > 1)
+        if (intersections.Length > 0)
         {
             return false;
-        }
-        else if (intersections.Length == 1)
-        {
-            if (intersections[0].gameObject.GetComponent<MeshRenderer>().material != bulletMat)
-            {
-                return false;
-            }
         }
 
         //=====================================================================

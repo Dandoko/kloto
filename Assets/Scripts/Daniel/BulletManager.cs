@@ -69,7 +69,7 @@ public class BulletManager
         else
         {
             gunManager.removeBullet(this);
-            portalManager.createPortal(bulletDest, playerCamera, bulletMat, bulletType);
+            portalManager.instatiatePortal(bulletType, bulletMat);
         }
     }
 

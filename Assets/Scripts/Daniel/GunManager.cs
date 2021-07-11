@@ -49,20 +49,17 @@ public class GunManager : MonoBehaviour
             // Checking if the shooting delay is over
             if (shootingTime <= Time.time)
             {
-                canShoot = true;
+                if (canCreatePortal(hitObject))
+                {
+                    canShoot = true;
 
-                if (Input.GetButtonDown("Fire1"))
-                {
-                    if (canCreatePortal(hitObject, bulletBlueMat))
+                    if (Input.GetButtonDown("Fire1"))
                     {
-                        shootGun("Fire1", hitObject, bulletBlueMat, 1);
+                        shootGun(hitObject, bulletBlueMat, 1);
                     }
-                }
-                else if (Input.GetButtonDown("Fire2"))
-                {
-                    if (canCreatePortal(hitObject, bulletRedMat))
+                    else if (Input.GetButtonDown("Fire2"))
                     {
-                        shootGun("Fire2", hitObject, bulletRedMat, 2);
+                        shootGun(hitObject, bulletRedMat, 2);
                     }
                 }
             }
@@ -85,7 +82,7 @@ public class GunManager : MonoBehaviour
         }
     }
 
-    private void shootGun(string fireMouseClick, RaycastHit hitObject, Material bulletMat, int bulletType)
+    private void shootGun(RaycastHit hitObject, Material bulletMat, int bulletType)
     {
         muzzleFlash.Play();
         shootingTime = Time.time + shootingInterval;
@@ -97,7 +94,7 @@ public class GunManager : MonoBehaviour
     }
 
     // Checking if a portal can be created on the surface the raycast hit
-    private bool canCreatePortal(RaycastHit hitObject, Material bulletMask)
+    private bool canCreatePortal(RaycastHit hitObject)
     {
         // Check if the surface is a portal
         if (1 << hitObject.collider.gameObject.layer == portalManager.getPortalLayerMask())
@@ -105,10 +102,8 @@ public class GunManager : MonoBehaviour
             return false;
         }
 
-        // Check if the portal can physically be created on the surface
-
-
-        return true;
+        // Check if a portal can be created
+        return portalManager.checkPortalCreation(hitObject, playerCamera.transform);
     }
 
     public void removeBullet(BulletManager bullet)
