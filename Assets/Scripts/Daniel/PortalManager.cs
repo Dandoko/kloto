@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class PortalManager : MonoBehaviour
 {
+    // Portal configuration (x, y, z)
+    // Rotation (0, 90, 0)
+    // Scale (1.4, 2,2, 0.005)
+
     [SerializeField] private GameObject portalPrefab;
     [SerializeField] private LayerMask portalMask;
     [SerializeField] private LayerMask playerMask;
 
+    private Transform tempPortal;
     private GameObject portal1;
     private GameObject portal2;
 
-    public void createPortal(RaycastHit hitObject, Transform playerCamera, Material bulletMat, int bulletType)
+    public bool checkPortalCreation(RaycastHit hitObject, Transform playerCamera)
     {
         // Find direction and rotation of portal
         Quaternion cameraRotation = playerCamera.rotation;
@@ -30,17 +35,44 @@ public class PortalManager : MonoBehaviour
         Vector3 portalUp = -Vector3.Cross(portalRight, portalForward);
         Quaternion portalRotation = Quaternion.LookRotation(portalForward, portalUp);
 
+        return canPortalBeCreated(hitObject, portalRotation);
+    }
+
+    private bool canPortalBeCreated(RaycastHit hitObject, Quaternion portalRotation)
+    {
+        Transform tempPortalCentre = portalPrefab.transform;
+        tempPortalCentre.position = hitObject.point;
+        tempPortalCentre.rotation = portalRotation;
+        tempPortalCentre.position -= tempPortalCentre.forward * 0.001f;
+
+        fixOverhangs(ref tempPortalCentre);
+        fixIntersections(ref tempPortalCentre);
+
+        if (fixesAreSuccessful(tempPortalCentre))
+        {
+            tempPortal = portalPrefab.transform;
+            tempPortal.position = tempPortalCentre.position;
+            tempPortal.rotation = tempPortalCentre.rotation;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public void instatiatePortal(int bulletType, Material bulletMat)
+    {
         if (bulletType == 1)
         {
-            createPortalHelper(ref portal1, bulletMat, hitObject, portalRotation);
+            instantiatePortalHelper(ref portal1, bulletMat);
         }
         else
         {
-            createPortalHelper(ref portal2, bulletMat, hitObject, portalRotation);
+            instantiatePortalHelper(ref portal2, bulletMat);
         }
     }
 
-    private void createPortalHelper(ref GameObject portal, Material bulletMat, RaycastHit hitObject, Quaternion portalRotation)
+    private void instantiatePortalHelper(ref GameObject portal, Material bulletMat)
     {
         if (null != portal)
         {
@@ -49,44 +81,17 @@ public class PortalManager : MonoBehaviour
 
         portal = Instantiate(portalPrefab);
         portal.GetComponent<MeshRenderer>().material = bulletMat;
-
-        Transform tempPortalCentre = portal.transform;
-        tempPortalCentre.position = hitObject.point;
-        tempPortalCentre.rotation = portalRotation;
-        tempPortalCentre.position -= tempPortalCentre.forward * 0.001f;
-
-        fixOverhangs(ref tempPortalCentre);
-        fixIntersections(ref tempPortalCentre);
-
-        if (isFixSuccessful())
-        {
-            portal.transform.position = tempPortalCentre.position;
-            portal.transform.rotation = tempPortalCentre.rotation;
-        }
+        portal.transform.position = tempPortal.position;
+        portal.transform.rotation = tempPortal.rotation;
     }
 
-    public bool isPortal(GameObject comparingObj)
+    public int getPortalLayerMask()
     {
-        if (null != portal1)
-        {
-            if (comparingObj == portal1)
-            {
-                return true;
-            }
-        }
-
-        if (null != portal2)
-        {
-            if (comparingObj == portal2)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        return portalMask;
     }
 
     // Check for overhangs and fix the issues
+    // Returns true if all overhangs have been fixed
     private void fixOverhangs(ref Transform tempPortalCentre)
     {
         // Hard coded points at the centre of the rectangular portal hitbox
@@ -108,9 +113,11 @@ public class PortalManager : MonoBehaviour
         };
 
         int layerMasksToIgnore = portalMask.value | playerMask.value;
-        int allMasksWithoutMasksToIgnore = ~layerMasksToIgnore;
+        int allMasksWithoutMasksToIgnore =~ layerMasksToIgnore;
 
-        for (int i = 0; i < 4; ++i) {
+        //Debug.Log(tempPortalCentre.position);
+
+        for (int i = 0; i < portalEdgePoints.Count; ++i) {
             RaycastHit hit;
             Vector3 raycastPos = tempPortalCentre.TransformPoint(portalEdgePoints[i]);
             Vector3 raycastDir = tempPortalCentre.TransformDirection(testDirs[i]);
@@ -132,15 +139,17 @@ public class PortalManager : MonoBehaviour
             // Start - Debugging
             //GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             //tempSphere.transform.position = raycastPos;
-            //tempSphere.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            //tempSphere.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
             //tempSphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
             //tempSphere.GetComponent<Collider>().enabled = false;
             // End - Debugging
         }
-        //Debug.Log("========");
+
+        //Debug.Log(tempPortalCentre.position);
     }
 
-    // Checks for intersections between multiple adjacent surfaces and fixes the issues
+    // Checks for intersections between multiple adjacent surfaces (including portals) and fixes the issues
+    // Returns true if all intersections have been fixed
     private void fixIntersections(ref Transform tempPortalCentre)
     {
         List<Vector3> testDirs = new List<Vector3>
@@ -151,13 +160,13 @@ public class PortalManager : MonoBehaviour
             -Vector3.up
         };
 
+        int layerMasksToIgnore = playerMask.value;
+        int allMasksWithoutMasksToIgnore =~ layerMasksToIgnore;
+
         // Distances from the centre of the portal
         List<float> testDists = new List<float> { 0.7f, 0.7f, 1.1f, 1.1f };
 
-        int layerMasksToIgnore = portalMask.value | playerMask.value;
-        int allMasksWithoutMasksToIgnore = ~layerMasksToIgnore;
-
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < testDirs.Count; i++)
         {
             RaycastHit hit;
             Vector3 raycastPos = tempPortalCentre.TransformPoint(0.0f, 0.0f, -0.5f);
@@ -174,12 +183,56 @@ public class PortalManager : MonoBehaviour
         }
     }
 
-    // Checking for overhangs and intersections once more for edge cases 
-    // For example, a surface with not enough space for the entire portal
-    private bool isFixSuccessful()
+    private bool fixesAreSuccessful(Transform tempPortalCentre)
     {
+        //=====================================================================
+        // Checking intersection fixes
+        //=====================================================================
+        int layerMasksToIgnore = playerMask.value;
+        int allMasksWithoutMasksToIgnore = ~layerMasksToIgnore;
 
+        // Slightly shorter than the testDists and z is shorter than the width of the portal
+        var rectColliderExtentDist = new Vector3(0.65f, 1.05f, 0.0001f);
 
+        Collider[] intersections = Physics.OverlapBox(tempPortalCentre.position, rectColliderExtentDist, tempPortalCentre.rotation, allMasksWithoutMasksToIgnore);
+        if (intersections.Length > 0)
+        {
+            return false;
+        }
+
+        //=====================================================================
+        // Checking overhang fixes
+        //=====================================================================
+        layerMasksToIgnore = portalMask.value | playerMask.value;
+        allMasksWithoutMasksToIgnore = ~layerMasksToIgnore;
+
+        List<Vector3> vertexPositions = new List<Vector3>
+        {
+            new Vector3(-0.5f, -0.5f, -0.5f),
+            new Vector3(-0.5f,  0.5f, -0.5f),
+            new Vector3( 0.5f, -0.5f, -0.5f),
+            new Vector3( 0.5f,  0.5f, -0.5f)
+        };
+
+        for (int i = 0; i < vertexPositions.Count; i++)
+        {
+            Vector3 spherePos = tempPortalCentre.TransformPoint(vertexPositions[i]);
+            Collider[] vertexColliders = Physics.OverlapSphere(spherePos, 0.1f, allMasksWithoutMasksToIgnore);
+
+            //GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            //tempSphere.transform.position = spherePos;
+            //tempSphere.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+            //tempSphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            //tempSphere.GetComponent<Collider>().enabled = false;
+
+            if (vertexColliders.Length == 0)
+            {
+                return false;
+            }
+        }
+
+        //Debug.Log(tempPortalCentre.position);
+        //Debug.Log("========");
 
         return true;
     }
