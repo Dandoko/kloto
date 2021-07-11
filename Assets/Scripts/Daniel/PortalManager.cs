@@ -115,8 +115,6 @@ public class PortalManager : MonoBehaviour
         int layerMasksToIgnore = portalMask.value | playerMask.value;
         int allMasksWithoutMasksToIgnore =~ layerMasksToIgnore;
 
-        //Debug.Log(tempPortalCentre.position);
-
         for (int i = 0; i < portalEdgePoints.Count; ++i) {
             RaycastHit hit;
             Vector3 raycastPos = tempPortalCentre.TransformPoint(portalEdgePoints[i]);
@@ -126,26 +124,13 @@ public class PortalManager : MonoBehaviour
             // Overhang occurs because the edge collider didn't collide with anything
             if (edgeColliders.Length == 0)
             {
-                //Debug.DrawRay(raycastPos, raycastDir * 1.3f, Color.red, 20);
-
                 if (Physics.Raycast(raycastPos, raycastDir, out hit, 1.1f, allMasksWithoutMasksToIgnore))
                 {
                     var offset = hit.point - raycastPos;
                     tempPortalCentre.Translate(offset, Space.World);
-                    //Debug.Log(i + " | " + offset + " | " + hit.collider.name);
                 }
             }
-
-            // Start - Debugging
-            //GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            //tempSphere.transform.position = raycastPos;
-            //tempSphere.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
-            //tempSphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-            //tempSphere.GetComponent<Collider>().enabled = false;
-            // End - Debugging
         }
-
-        //Debug.Log(tempPortalCentre.position);
     }
 
     // Checks for intersections between multiple adjacent surfaces (including portals) and fixes the issues
@@ -171,8 +156,6 @@ public class PortalManager : MonoBehaviour
             RaycastHit hit;
             Vector3 raycastPos = tempPortalCentre.TransformPoint(0.0f, 0.0f, -0.5f);
             Vector3 raycastDir = tempPortalCentre.TransformDirection(testDirs[i]);
-
-            //Debug.DrawRay(raycastPos, raycastDir * testDists[i], Color.black, 20);
 
             if (Physics.Raycast(raycastPos, raycastDir, out hit, testDists[i], allMasksWithoutMasksToIgnore))
             {
@@ -219,20 +202,11 @@ public class PortalManager : MonoBehaviour
             Vector3 spherePos = tempPortalCentre.TransformPoint(vertexPositions[i]);
             Collider[] vertexColliders = Physics.OverlapSphere(spherePos, 0.1f, allMasksWithoutMasksToIgnore);
 
-            //GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            //tempSphere.transform.position = spherePos;
-            //tempSphere.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-            //tempSphere.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-            //tempSphere.GetComponent<Collider>().enabled = false;
-
             if (vertexColliders.Length == 0)
             {
                 return false;
             }
         }
-
-        //Debug.Log(tempPortalCentre.position);
-        //Debug.Log("========");
 
         return true;
     }

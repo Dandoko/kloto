@@ -84,7 +84,7 @@ public class GunManager : MonoBehaviour
 
         // Creating the bullet
         GameObject newBulletObject = Instantiate(bulletPrefab);
-        bulletManager = new BulletManager(this, portalManager, newBulletObject, bulletMat, gunTip, hitObject, playerCamera.transform, bulletType);
+        bulletManager = new BulletManager(this, portalManager, newBulletObject, bulletMat, gunTip, hitObject, bulletType);
     }
 
     // Checking if a portal can be created on the surface the raycast hit
@@ -106,7 +106,7 @@ public class GunManager : MonoBehaviour
         return portalManager.checkPortalCreation(hitObject, playerCamera.transform);
     }
 
-    public void removeBullet(BulletManager bullet)
+    public void removeBullet()
     {
         bulletManager = null;
     }

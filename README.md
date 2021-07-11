@@ -101,6 +101,7 @@ directory with changes someone else could have made
 
 ## Debugging
 
+### Visualizing spheres for sphere colliders
 ```
 GameObject tempSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 tempSphere.transform.position = <position>;
