@@ -242,9 +242,6 @@ MonoBehaviour:
   muzzleFlash: {fileID: 594417406}
   crosshair: {fileID: 733939316}
   portalManager: {fileID: 1184047880}
-  portalLayer:
-    serializedVersion: 2
-    m_Bits: 1024
 --- !u!1 &450318823
 GameObject:
   m_ObjectHideFlags: 0
