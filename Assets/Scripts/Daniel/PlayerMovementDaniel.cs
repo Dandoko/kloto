@@ -19,7 +19,6 @@ public class PlayerMovementDaniel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -35,6 +34,11 @@ public class PlayerMovementDaniel : MonoBehaviour
         float movementX = Input.GetAxis("Horizontal");
         float movementZ = Input.GetAxis("Vertical");
 
+        if (Mathf.Abs(movementX) > 0 || Mathf.Abs(movementZ) > 0)
+        {
+            SoundManager.PlaySound();
+        }
+
         Vector3 movement = transform.right * movementX + transform.forward * movementZ;
         controller.Move(movement * speed * Time.deltaTime);
 
@@ -47,4 +51,5 @@ public class PlayerMovementDaniel : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
+
 }

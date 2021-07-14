@@ -26,6 +26,8 @@ directory with changes someone else could have made
 - [Unity Muzzle Flash](https://youtu.be/rf7gHVixmmc)
 - [Unity Interval Between Shooting](https://forum.unity.com/threads/script-for-bullet-with-a-second-delay.720470/)
 - [Continuous Collision Detection](http://wiki.unity3d.com/index.php?title=DontGoThroughThings&_ga=2.49978917.2097179850.1624410069-592288669.1621822495&_gl=1*c1ab9y*_ga*NTkyMjg4NjY5LjE2MjE4MjI0OTU.*_ga_1S78EFL1W5*MTYyNDQ5MDA4Mi4yMi4xLjE2MjQ0OTAyNTguNjA)
+- [Unity Asset Manager](https://youtu.be/7GcEW6uwO8E)
+- [Unity Sound Manager](https://youtu.be/QL29aTa7J5Q)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
@@ -53,10 +55,12 @@ directory with changes someone else could have made
 - [Combining Layer Masks](https://answers.unity.com/questions/8715/how-do-i-use-layermasks.html)
 - [Excluding Layer Masks](https://answers.unity.com/questions/1343414/ignore-one-layermask-question.html)
 - [Difference Between TransformVector and TransformPoint](https://answers.unity.com/questions/1021968/difference-between-transformtransformvector-and-tr.html)
+- [Resources.Load](https://docs.unity3d.com/ScriptReference/Resources.Load.html)
 
 ### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
 - [Get Direction Between Two Points](https://answers.unity.com/questions/697830/how-to-calculate-direction-between-2-objects.html)
+- [Mathf.Abs](https://docs.unity3d.com/ScriptReference/Mathf.Abs.html)
 
 ### Camera and Renderer
 - [Camera.Render](https://docs.unity3d.com/ScriptReference/Camera.Render.html)
