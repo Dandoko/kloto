@@ -102,6 +102,10 @@ directory with changes someone else could have made
 	- The [Unity documentation](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html) is misleading
 		- “A Layer mask that is used to selectively ignore Colliders when casting a ray.”
 	- The layermask parameter for Physics.Raycast should be the layers you want the raycast to hit
+- Null error with Resources.Load
+	- Need to create a `Resources` folder in the game Assets
+	- Save your resource in this `Resources` folder
+
 
 ## Debugging
 
