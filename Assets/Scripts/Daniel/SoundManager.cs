@@ -4,19 +4,70 @@ using UnityEngine;
 
 public static class SoundManager
 {
+    private const float playerRunTimeDelay = 0.45f;
+    private static Dictionary<Sounds, float> soundTimer = new Dictionary<Sounds, float>();
+
     public enum Sounds
     {
         PlayerRun,
         PlayerJump,
-        ShootGun,
-        BulletTravel,
-        CreatePortal
+        PlayerLand,
+        ShootGun
     }
 
-    public static void PlaySound()
+    public static void playSound(Sounds sound)
     {
-        GameObject soundGameOjbect = new GameObject("Sound");
-        AudioSource audioSource = soundGameOjbect.AddComponent<AudioSource>();
-        audioSource.PlayOneShot(AssetManager.instance.playerRun);
+        if (canPlaySound(sound))
+        {
+            GameObject soundGameOjbect = new GameObject("Sound");
+            AudioSource audioSource = soundGameOjbect.AddComponent<AudioSource>();
+            AudioClip audioClip = getAudioClip(sound);
+            audioSource.PlayOneShot(audioClip);
+            Object.Destroy(soundGameOjbect, audioClip.length + 0.2f);
+        }
+    }
+
+    private static AudioClip getAudioClip(Sounds sound)
+    {
+        foreach (AssetManager.SoundAudioClip soundAudioCLip in AssetManager.instance.soundAudioClips)
+        {
+            if (soundAudioCLip.sound == sound)
+            {
+                return soundAudioCLip.audioClip;
+            }
+        }
+
+        Debug.LogError("Sound: " + sound + " not found");
+        return null;
+    }
+
+    private static bool canPlaySound(Sounds sound)
+    {
+
+        if (Sounds.PlayerRun == sound)
+        {
+            if (soundTimer.ContainsKey(sound))
+            {
+                float lastTimePlayed = soundTimer[sound];
+                if (lastTimePlayed + playerRunTimeDelay < Time.time)
+                {
+                    soundTimer[sound] = Time.time;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                soundTimer[sound] = Time.time;
+                return true;
+            }
+        }
+        else
+        {
+            return true;
+        }
     }
 }

@@ -17,6 +17,10 @@ directory with changes someone else could have made
 	even with main
 
 ## Links
+### Assets
+- [Footsteps](https://assetstore.unity.com/packages/audio/sound-fx/foley/footsteps-essentials-189879)
+- [Sci-Fi Gun](https://assetstore.unity.com/packages/audio/sound-fx/weapons/sci-fi-gun-sounds-pack-lite-141125)
+
 ### Tutorial
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)
 - [Learn Low Poly Blender Tutorial](https://youtu.be/1jHUY3qoBu8)
@@ -56,6 +60,9 @@ directory with changes someone else could have made
 - [Excluding Layer Masks](https://answers.unity.com/questions/1343414/ignore-one-layermask-question.html)
 - [Difference Between TransformVector and TransformPoint](https://answers.unity.com/questions/1021968/difference-between-transformtransformvector-and-tr.html)
 - [Resources.Load](https://docs.unity3d.com/ScriptReference/Resources.Load.html)
+- [Object.Destroy](https://docs.unity3d.com/ScriptReference/Object.Destroy.html)
+- [Destroying Objects Without Monobehaviour](https://forum.unity.com/threads/destroy-without-monobehaviour.160249/)
+- [AudioClip.length](https://docs.unity3d.com/ScriptReference/AudioClip-length.html)
 
 ### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)

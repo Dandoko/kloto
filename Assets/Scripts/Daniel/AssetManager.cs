@@ -6,7 +6,7 @@ public class AssetManager : MonoBehaviour
 {
     private static AssetManager _i;
 
-    public AudioClip playerRun;
+    public SoundAudioClip[] soundAudioClips;
 
     public static AssetManager instance
     {
@@ -18,5 +18,12 @@ public class AssetManager : MonoBehaviour
             }
             return _i;
         }
+    }
+
+    [System.Serializable]
+    public class SoundAudioClip
+    {
+        public SoundManager.Sounds sound;
+        public AudioClip audioClip;
     }
 }
