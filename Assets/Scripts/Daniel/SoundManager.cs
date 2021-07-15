@@ -12,9 +12,7 @@ public static class SoundManager
         PlayerRun,
         PlayerJump,
         PlayerLand,
-        ShootGun,
-        BulletTravel,
-        CreatePortal
+        ShootGun
     }
 
     public static void playSound(Sounds sound)
@@ -67,13 +65,9 @@ public static class SoundManager
                 return true;
             }
         }
-        else if (Sounds.PlayerJump == sound || Sounds.PlayerLand == sound)
-        {
-            return true;
-        }
         else
         {
-            return false;
+            return true;
         }
     }
 }

@@ -17,6 +17,10 @@ directory with changes someone else could have made
 	even with main
 
 ## Links
+### Assets
+- [Footsteps](https://assetstore.unity.com/packages/audio/sound-fx/foley/footsteps-essentials-189879)
+- [Sci-Fi Gun](https://assetstore.unity.com/packages/audio/sound-fx/weapons/sci-fi-gun-sounds-pack-lite-141125)
+
 ### Tutorial
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)
 - [Learn Low Poly Blender Tutorial](https://youtu.be/1jHUY3qoBu8)
