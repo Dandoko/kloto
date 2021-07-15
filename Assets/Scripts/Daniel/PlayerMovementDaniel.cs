@@ -14,6 +14,7 @@ public class PlayerMovementDaniel : MonoBehaviour
 
     private float groundCheckRadius = 0.4f;
     private bool isGrounded = false;
+    private bool prevIsGrounded = false;
     private float jumpHeight = 2f;
 
     // Start is called before the first frame update
@@ -46,10 +47,20 @@ public class PlayerMovementDaniel : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
 
-        if ((Mathf.Abs(movementX) > 0 || Mathf.Abs(movementZ) > 0) && isGrounded)
+        if (!isGrounded && prevIsGrounded)
+        {
+            SoundManager.playSound(SoundManager.Sounds.PlayerJump);
+        }
+        else if (isGrounded && !prevIsGrounded)
+        {
+            SoundManager.playSound(SoundManager.Sounds.PlayerLand);
+        }
+        else if ((Mathf.Abs(movementX) > 0 || Mathf.Abs(movementZ) > 0) && isGrounded)
         {
             SoundManager.playSound(SoundManager.Sounds.PlayerRun);
         }
+
+        prevIsGrounded = isGrounded;
     }
 
 }

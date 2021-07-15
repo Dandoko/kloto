@@ -5,12 +5,13 @@ using UnityEngine;
 public static class SoundManager
 {
     private const float playerRunTimeDelay = 0.45f;
-    private static Dictionary<Sounds, float> soundTImer = new Dictionary<Sounds, float>();
+    private static Dictionary<Sounds, float> soundTimer = new Dictionary<Sounds, float>();
 
     public enum Sounds
     {
         PlayerRun,
         PlayerJump,
+        PlayerLand,
         ShootGun,
         BulletTravel,
         CreatePortal
@@ -44,29 +45,35 @@ public static class SoundManager
 
     private static bool canPlaySound(Sounds sound)
     {
-        switch (sound)
+
+        if (Sounds.PlayerRun == sound)
         {
-            case Sounds.PlayerRun:
-                if (soundTImer.ContainsKey(sound))
+            if (soundTimer.ContainsKey(sound))
+            {
+                float lastTimePlayed = soundTimer[sound];
+                if (lastTimePlayed + playerRunTimeDelay < Time.time)
                 {
-                    float lastTimePlayed = soundTImer[sound];
-                    if (lastTimePlayed + playerRunTimeDelay < Time.time)
-                    {
-                        soundTImer[sound] = Time.time;
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    soundTimer[sound] = Time.time;
+                    return true;
                 }
                 else
                 {
-                    soundTImer[sound] = Time.time;
-                    return true;
+                    return false;
                 }
-            default:
+            }
+            else
+            {
+                soundTimer[sound] = Time.time;
                 return true;
+            }
+        }
+        else if (Sounds.PlayerJump == sound || Sounds.PlayerLand == sound)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }
