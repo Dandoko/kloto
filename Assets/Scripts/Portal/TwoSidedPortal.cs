@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Portal : MonoBehaviour
+public class TwoSidedPortal : MonoBehaviour
 {
 
-    [SerializeField] private Portal linkedPortal;
+    [SerializeField] private TwoSidedPortal linkedPortal;
     [SerializeField] private Transform player;
 
     private GameObject thisPortal;
@@ -113,9 +113,11 @@ public class Portal : MonoBehaviour
             int prevPortalSide = System.Math.Sign(Vector3.Dot(traveller.prevRelPortalPos, transform.forward));
             int curPortalSide = System.Math.Sign(Vector3.Dot(curRelPortalPos, transform.forward));
 
+
             if (curPortalSide != prevPortalSide)
             {
-                traveller.Teleport(thisPortal, linkedPortal.gameObject);
+                
+                traveller.Teleport(thisPortal, linkedPortal.gameObject, curPortalSide);
                 trackedTravellers.RemoveAt(i);
                 i--;
             }
@@ -165,6 +167,7 @@ public class Portal : MonoBehaviour
                 trackedTravellers.Add(traveller);
             }
         }
+
     }
 
 
