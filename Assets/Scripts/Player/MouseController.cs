@@ -40,8 +40,5 @@ public class MouseController : MonoBehaviour
         //Rotate the body about the y axis
         playerBody.transform.Rotate(0f, smoothV.x, 0f);
 
-
-
     }
-
 }
