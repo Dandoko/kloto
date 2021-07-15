@@ -82,6 +82,7 @@ directory with changes someone else could have made
 - [Physics.CheckSphere](https://docs.unity3d.com/ScriptReference/Physics.CheckSphere.html)
 - [Physics.OverlapSphere](https://docs.unity3d.com/ScriptReference/Physics.OverlapSphere.html)
 - [Physics.OverlapBox](https://docs.unity3d.com/ScriptReference/Physics.OverlapBox.html)
+- [Physics.IgnoreCollision](https://docs.unity3d.com/ScriptReference/Physics.IgnoreCollision.html)
 
 ## Bugs
 - `OnCollisionEnter()` not working
