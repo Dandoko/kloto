@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class ScreenTouch : MonoBehaviour
 {
+
+
+    int sideOfPlayer;
+
     // Start is called before the first frame updates
     void Start()
     {
@@ -15,16 +19,21 @@ public class ScreenTouch : MonoBehaviour
     {
     }
 
+
+    
+
     private void OnTriggerEnter(Collider collided)
+    {
+        sideOfPlayer = System.Math.Sign(Vector3.Dot(transform.forward, transform.position - collided.transform.position));
+    }
+
+    private void OnTriggerStay(Collider collided)
     {
 
         if (collided.tag == "MainCamera")
         {
-            int sideOfPlayer = System.Math.Sign(Vector3.Dot(transform.forward, transform.position - collided.transform.position));
-            Debug.Log("Inside");
 
-            collided.transform.parent.transform.position -= transform.forward * 0.05f * sideOfPlayer;
-
+            //collided.transform.parent.transform.position += transform.forward * 0.01f * sideOfPlayer;
 
 
         }

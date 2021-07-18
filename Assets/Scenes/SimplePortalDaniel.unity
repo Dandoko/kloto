@@ -500,8 +500,8 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
-  - component: {fileID: 963194230}
   - component: {fileID: 963194231}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Player Camera
   m_TagString: MainCamera
@@ -591,8 +591,8 @@ MonoBehaviour:
   smoothing: 2
   mouseMoveSpeedFactor: 0.5
   mouseMovement: {x: 0, y: 0}
---- !u!65 &963194230
-BoxCollider:
+--- !u!135 &963194230
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -602,7 +602,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.01, y: 0.01, z: 0.01}
+  m_Radius: 0.05
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &963194231
 Rigidbody:
