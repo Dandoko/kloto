@@ -7,6 +7,8 @@ public class OneSidedPortal : MonoBehaviour
 
     [SerializeField] private OneSidedPortal linkedPortal;
     [SerializeField] private Transform player;
+    [SerializeField] private GameObject tempConnectedWall;
+
 
     private GameObject thisPortal;
     private Camera playerCamera;
@@ -59,6 +61,7 @@ public class OneSidedPortal : MonoBehaviour
             linkedPortal.portalScreen.material.mainTexture = cameraTexture;
         }
 
+
         // Calculate the position and rotation of the portal camera using the world space
         var cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * playerCamera.transform.localToWorldMatrix;
         portalCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
@@ -110,6 +113,8 @@ public class OneSidedPortal : MonoBehaviour
 
             PortalTraveller traveller = trackedTravellers[i];
 
+            
+
             Vector3 curRelPortalPos = traveller.transform.position - transform.position;
 
             int prevPortalSide = System.Math.Sign(Vector3.Dot(traveller.prevRelPortalPos, transform.forward));
@@ -118,7 +123,6 @@ public class OneSidedPortal : MonoBehaviour
 
             if (curPortalSide != prevPortalSide)
             {
-
                 traveller.Teleport(thisPortal, linkedPortal.gameObject, curPortalSide);
                 trackedTravellers.RemoveAt(i);
                 i--;
@@ -142,7 +146,7 @@ public class OneSidedPortal : MonoBehaviour
         bool camFacingSameDirAsPortal = Vector3.Dot(transform.forward, transform.position - playerCamera.transform.position) > 0;
 
         screenTrans.localScale = new Vector3(screenTrans.localScale.x, screenTrans.localScale.y, distToNearClipCorner);
-        screenTrans.localPosition = Vector3.forward * distToNearClipCorner * ((camFacingSameDirAsPortal) ? 0.5f : -0.5f);
+/*        screenTrans.localPosition = Vector3.forward * distToNearClipCorner * ((camFacingSameDirAsPortal) ? 0.5f : -0.5f);*/
     }
 
 
@@ -165,6 +169,7 @@ public class OneSidedPortal : MonoBehaviour
         {
             if (!trackedTravellers.Contains(traveller))
             {
+                InsidePortal(traveller);
                 traveller.prevRelPortalPos = traveller.transform.position - transform.position;
                 trackedTravellers.Add(traveller);
             }
@@ -180,11 +185,25 @@ public class OneSidedPortal : MonoBehaviour
 
         if (traveller)
         {
+            if (traveller.tag == "Player")
+            {
+                Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), tempConnectedWall.GetComponent<BoxCollider>(), false);
+            }
             if (trackedTravellers.Contains(traveller))
             {
                 trackedTravellers.Remove(traveller);
             }
         }
+    }
+
+
+    void InsidePortal(PortalTraveller traveller) { 
+    
+        if (traveller.tag == "Player")
+        {
+            Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), tempConnectedWall.GetComponent<BoxCollider>(), true);
+        }
+    
     }
 
 }
