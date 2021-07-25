@@ -42,7 +42,6 @@ public class BulletManager
 
         // Creating the bullet
         bulletGameObject = bullet;
-        //bulletGameObject.GetComponent<MeshRenderer>().material = bulletMat;
         bulletGameObject.transform.position = gunTip.position;
         Vector3 bulletDir = (bulletDest.point - gunTip.position).normalized;
         bulletGameObject.transform.forward = bulletDir;

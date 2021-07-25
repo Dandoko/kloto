@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class GunManager : MonoBehaviour
 {
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject bulletPrefabBlue;
+    [SerializeField] private GameObject bulletPrefabRed;
     [SerializeField] private Material bulletBlueMat;
     [SerializeField] private Material bulletRedMat;
     [SerializeField] private ParticleSystem muzzleFlash;
@@ -52,11 +53,11 @@ public class GunManager : MonoBehaviour
 
                     if (Input.GetButtonDown("Fire1"))
                     {
-                        shootGun(hitObject, bulletBlueMat, 1);
+                        shootGun(hitObject, bulletBlueMat, 1, bulletPrefabBlue);
                     }
                     else if (Input.GetButtonDown("Fire2"))
                     {
-                        shootGun(hitObject, bulletRedMat, 2);
+                        shootGun(hitObject, bulletRedMat, 2, bulletPrefabRed);
                     }
                 }
             }
@@ -77,7 +78,7 @@ public class GunManager : MonoBehaviour
         }
     }
 
-    private void shootGun(RaycastHit hitObject, Material bulletMat, int bulletType)
+    private void shootGun(RaycastHit hitObject, Material bulletMat, int bulletType, GameObject bulletPrefab)
     {
         muzzleFlash.Play();
         shootingTime = Time.time + shootingInterval;
