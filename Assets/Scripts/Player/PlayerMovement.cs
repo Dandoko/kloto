@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpHeight = 3f;
     private float gravity = -9.81f;
     private float yVel;
-    private float angleAdjustIncrement = 1f;
+    private float angleAdjustIncrement = 2f;
 
     private bool charIsGrounded;
    

@@ -68,7 +68,7 @@ public class OneSidedPortal : MonoBehaviour
 
 
         //Sets the screen's to the appropriate width so that screen flickering is minimized
-        setScreenWidth();
+        //setScreenWidth();
 
 
         //Calculates and sets the clip plane
@@ -77,13 +77,14 @@ public class OneSidedPortal : MonoBehaviour
 
         Vector3 camSpacePos = portalCamera.worldToCameraMatrix.MultiplyPoint(clipPlane.position);
         Vector3 camSpaceNormal = portalCamera.worldToCameraMatrix.MultiplyVector(clipPlane.forward) * sign;
-        float camSpaceDst = -Vector3.Dot(camSpacePos, camSpaceNormal) + 0.15f;
+        float camSpaceDst = -Vector3.Dot(camSpacePos, camSpaceNormal);
 
         //Creates a near clip plane based on the portal screen's position
         if (Mathf.Abs(camSpaceDst) > 0.2f)
         {
             nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst);
             portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
+            Debug.Log(transform.name + "CLIPPING");
         }
         else
         {
