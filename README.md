@@ -20,6 +20,7 @@ directory with changes someone else could have made
 ### Assets
 - [Footsteps](https://assetstore.unity.com/packages/audio/sound-fx/foley/footsteps-essentials-189879)
 - [Sci-Fi Gun](https://assetstore.unity.com/packages/audio/sound-fx/weapons/sci-fi-gun-sounds-pack-lite-141125)
+- [Sci-Fi Orb Bitmaps](https://oxmond.com/glowing-orb-visual-effects-vfx/)
 
 ### Tutorial
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)
@@ -32,6 +33,7 @@ directory with changes someone else could have made
 - [Continuous Collision Detection](http://wiki.unity3d.com/index.php?title=DontGoThroughThings&_ga=2.49978917.2097179850.1624410069-592288669.1621822495&_gl=1*c1ab9y*_ga*NTkyMjg4NjY5LjE2MjE4MjI0OTU.*_ga_1S78EFL1W5*MTYyNDQ5MDA4Mi4yMi4xLjE2MjQ0OTAyNTguNjA)
 - [Unity Asset Manager](https://youtu.be/7GcEW6uwO8E)
 - [Unity Sound Manager](https://youtu.be/QL29aTa7J5Q)
+- [Unity Glowing Orb](https://youtu.be/pxNzoLfreOo)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
@@ -44,7 +46,12 @@ directory with changes someone else could have made
 - [Shallow Copy a List](https://stackoverflow.com/questions/222598/how-do-i-clone-a-generic-list-in-c)
 - [Pass By Reference](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/ref)
 
-### General Unity
+### Unity
+
+#### Editor
+- [Update Visual Studio with Package Manager](https://forum.unity.com/threads/update-to-latest-visual-studio-2019-core-editor-package.988289/)
+
+#### General
 - [Local to World Matrix](https://docs.unity3d.com/ScriptReference/Transform-localToWorldMatrix.html)
 - [Access Child GameObject](https://answers.unity.com/questions/464616/access-child-of-a-gameobject.html)
 - [Get MeshRenderer of GameObject](https://answers.unity.com/questions/959195/get-meshrenderer-component-of-gameobjects-in-an-ar.html)
@@ -63,19 +70,21 @@ directory with changes someone else could have made
 - [Object.Destroy](https://docs.unity3d.com/ScriptReference/Object.Destroy.html)
 - [Destroying Objects Without Monobehaviour](https://forum.unity.com/threads/destroy-without-monobehaviour.160249/)
 - [AudioClip.length](https://docs.unity3d.com/ScriptReference/AudioClip-length.html)
+- [Destroy Parent of Child GameObject](https://answers.unity.com/questions/275343/destroy-parent-of-child-gameobject.html)
+- [Scale Particle System](https://forum.unity.com/threads/how-does-the-transforms-scale-work-with-a-particle-system.101964/?_gl=1*147n9lq*_ga*NTkyMjg4NjY5LjE2MjE4MjI0OTU.*_ga_1S78EFL1W5*MTYyNzE3NDI3NC40My4xLjE2MjcxNzQ5NzYuNjA.&_ga=2.239049219.2050753888.1627087806-592288669.1621822495)
 
-### Math
+#### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
 - [Get Direction Between Two Points](https://answers.unity.com/questions/697830/how-to-calculate-direction-between-2-objects.html)
 - [Mathf.Abs](https://docs.unity3d.com/ScriptReference/Mathf.Abs.html)
 
-### Camera and Renderer
+#### Camera and Renderer
 - [Camera.Render](https://docs.unity3d.com/ScriptReference/Camera.Render.html)
 - [RenderTexture](https://docs.unity3d.com/ScriptReference/RenderTexture-ctor.html)
 - [RenderTexture.Release](https://docs.unity3d.com/ScriptReference/RenderTexture.Release.html)
 - [Checks if Renderer is Visible](https://wiki.unity3d.com/index.php/IsVisibleFrom)
 
-### Collision Detection
+#### Collision Detection
 - [Physics.Raycast](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html)
 - [Raycast Normal](https://docs.unity3d.com/ScriptReference/RaycastHit-normal.html)
 - [Debug.DrawRay](https://docs.unity3d.com/ScriptReference/Debug.DrawRay.html)
@@ -83,6 +92,11 @@ directory with changes someone else could have made
 - [Physics.OverlapSphere](https://docs.unity3d.com/ScriptReference/Physics.OverlapSphere.html)
 - [Physics.OverlapBox](https://docs.unity3d.com/ScriptReference/Physics.OverlapBox.html)
 - [Physics.IgnoreCollision](https://docs.unity3d.com/ScriptReference/Physics.IgnoreCollision.html)
+
+### Blender
+
+#### UV Editor
+- [Show unselected vertices in UV Image Editor](https://blender.stackexchange.com/questions/2781/show-unselected-vertices-in-uv-image-editor)
 
 ## Bugs
 - `OnCollisionEnter()` not working
@@ -113,7 +127,6 @@ directory with changes someone else could have made
 - Null error with Resources.Load
 	- Need to create a `Resources` folder in the game Assets
 	- Save your resource in this `Resources` folder
-
 
 ## Debugging
 
