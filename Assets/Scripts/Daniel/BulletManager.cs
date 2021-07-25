@@ -14,7 +14,7 @@ public class BulletManager
     // Bullet
     //=========================================================================
     private GameObject bulletGameObject;
-    private const float speed = 70f;
+    private const float speed = 60f;
     private Material bulletMat;
     private int bulletType;
     private LayerMask bulletMask = LayerMask.NameToLayer("Bullet");
@@ -42,14 +42,13 @@ public class BulletManager
 
         // Creating the bullet
         bulletGameObject = bullet;
-        bulletGameObject.GetComponent<MeshRenderer>().material = bulletMat;
         bulletGameObject.transform.position = gunTip.position;
         Vector3 bulletDir = (bulletDest.point - gunTip.position).normalized;
         bulletGameObject.transform.forward = bulletDir;
-        bulletGameObject.AddComponent<Bullet>();
+        bulletGameObject.transform.GetChild(0).gameObject.AddComponent<Bullet>();
 
-        bulletRigidbody = bulletGameObject.GetComponent<Rigidbody>();
-        bulletCollider = bulletGameObject.GetComponent<Collider>();
+        bulletRigidbody = bulletGameObject.transform.GetChild(0).GetComponent<Rigidbody>();
+        bulletCollider = bulletGameObject.transform.GetChild(0).GetComponent<Collider>();
         previousPosition = bulletRigidbody.position;
         minimumExtent = Mathf.Min(Mathf.Min(bulletCollider.bounds.extents.x, bulletCollider.bounds.extents.y), bulletCollider.bounds.extents.z);
         partialExtent = minimumExtent * (1.0f - skinWidth);
