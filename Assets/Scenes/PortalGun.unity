@@ -181,15 +181,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 90347873}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22, y: 0, z: -25}
+  m_LocalRotation: {x: -0, y: -0.32592478, z: -0, w: 0.9453957}
+  m_LocalPosition: {x: 24.3, y: 0, z: -28.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1375808530}
   - {fileID: 2121796456}
   m_Father: {fileID: 1184047879}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -38.043, z: 0}
 --- !u!4 &228044213
 Transform:
   m_ObjectHideFlags: 0
@@ -6038,6 +6038,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Player Camera
   m_TagString: MainCamera
@@ -6076,7 +6077,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.02
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -6118,12 +6119,29 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 16e0ccfde8cfb004caacad9435d0f32f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerBody: {fileID: 1971053682}
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf48913a240fd774aaa6e85e2856d5ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerBody: {fileID: 1971053682}
+  sensitivity: 2
+  smoothing: 2
+  mouseMoveSpeedFactor: 0.15
+  mouseMovement: {x: 0, y: 0}
 --- !u!1 &1184047878
 GameObject:
   m_ObjectHideFlags: 0
@@ -6319,6 +6337,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1366452660}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1372753307 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 633625137965863562, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+  m_PrefabInstance: {fileID: 2011171926}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c465e0c57aa5499337c5be428d2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1375808529
 GameObject:
   m_ObjectHideFlags: 0
@@ -6414,6 +6443,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1375808529}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1387626829 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 633625137965863562, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+  m_PrefabInstance: {fileID: 2121796455}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462c465e0c57aa5499337c5be428d2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1445117054
 GameObject:
   m_ObjectHideFlags: 0
@@ -7243,6 +7283,7 @@ GameObject:
   - component: {fileID: 1971053682}
   - component: {fileID: 1971053681}
   - component: {fileID: 1971053683}
+  - component: {fileID: 1971053684}
   m_Layer: 6
   m_Name: First Person Player
   m_TagString: Player
@@ -7275,7 +7316,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1971053680}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.22, y: 1.19, z: -26.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7284,7 +7325,7 @@ Transform:
   - {fileID: 963194228}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1971053683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7302,6 +7343,20 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &1971053684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971053680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a4db8af5396c8f48a55de80ce14f219, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  travelPos: {x: 0, y: 0, z: 0}
+  prevRelPortalPos: {x: 0, y: 0, z: 0}
 --- !u!1 &1988518028
 GameObject:
   m_ObjectHideFlags: 0
@@ -7464,11 +7519,11 @@ PrefabInstance:
     - target: {fileID: 633625137965863562, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1971053682}
     - target: {fileID: 633625137965863562, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: linkedPortal
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1387626829}
     - target: {fileID: 2885799262469982322, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -7654,7 +7709,7 @@ PrefabInstance:
     - target: {fileID: 633625137965863562, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1971053682}
     - target: {fileID: 633625137965863562, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -7662,7 +7717,7 @@ PrefabInstance:
     - target: {fileID: 633625137965863562, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: linkedPortal
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1372753307}
     - target: {fileID: 2885799262469982322, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: m_Enabled
       value: 0
