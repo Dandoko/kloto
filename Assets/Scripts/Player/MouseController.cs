@@ -6,10 +6,10 @@ public class MouseController : MonoBehaviour
 {
     [SerializeField] private Transform playerBody;
 
-    public float sensitivity = 2.0f;
-    public float smoothing = 2.0f;
-    public float mouseMoveSpeedFactor = 0.15f;
-    public Vector2 mouseMovement;
+    private float sensitivity = 2.0f;
+    private float smoothing = 2.0f;
+    private float mouseSpeedFactor = 25.0f;
+    private Vector2 mouseMovement;
     private Vector2 smoothV;
 
     // Start is called before the first frame update
@@ -23,13 +23,13 @@ public class MouseController : MonoBehaviour
     void Update()
     {
 
-        mouseMovement = new Vector2(Input.GetAxisRaw("Mouse X") * mouseMoveSpeedFactor, Input.GetAxisRaw("Mouse Y") * mouseMoveSpeedFactor);
+        mouseMovement = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
 
-        mouseMovement = sensitivity * smoothing * mouseMovement;
+        mouseMovement = sensitivity * smoothing * mouseMovement * mouseSpeedFactor;
         smoothV.x = Mathf.Lerp(smoothV.x, mouseMovement.x, 1f / smoothing);
         smoothV.y = Mathf.Lerp(smoothV.y, mouseMovement.y, 1f / smoothing);
 
-        Vector3 modifiedEulers = transform.localEulerAngles + Vector3.left * smoothV.y;
+        Vector3 modifiedEulers = transform.localEulerAngles + Vector3.left * smoothV.y * Time.deltaTime;
 
         //Transform euler angles from [0,360) to [-180,180) before clamp
         modifiedEulers.x = Mathf.Repeat(modifiedEulers.x + 180f, 360f) - 180f;
@@ -38,7 +38,7 @@ public class MouseController : MonoBehaviour
         //Rotate the camera about the x axis
         transform.localEulerAngles = modifiedEulers;
         //Rotate the body about the y axis
-        playerBody.transform.Rotate(0f, smoothV.x, 0f);
+        playerBody.transform.Rotate(0f, smoothV.x * Time.deltaTime, 0f);
 
     }
 }

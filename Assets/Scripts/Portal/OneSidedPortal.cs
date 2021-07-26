@@ -84,7 +84,6 @@ public class OneSidedPortal : MonoBehaviour
         {
             nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst);
             portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
-            Debug.Log(transform.name + "CLIPPING");
         }
         else
         {
