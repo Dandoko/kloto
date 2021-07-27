@@ -5,10 +5,8 @@ using UnityEngine;
 public class OneSidedPortal : MonoBehaviour
 {
 
-    [SerializeField] private OneSidedPortal linkedPortal;
-    [SerializeField] private Transform player;
-    [SerializeField] private GameObject tempConnectedWall;
-
+    private OneSidedPortal linkedPortal;
+    private GameObject tempConnectedWall;
 
     private GameObject thisPortal;
     private Camera playerCamera;
@@ -35,6 +33,12 @@ public class OneSidedPortal : MonoBehaviour
 
         portalScreen = transform.GetChild(0).GetComponent<MeshRenderer>();
         portalScreen.material.SetInt("displayMask", 1);
+    }
+
+    public void setPortal(OneSidedPortal linkedPortal, GameObject tempConnectedWall)
+    {
+        this.linkedPortal = linkedPortal;
+        this.tempConnectedWall = tempConnectedWall;
     }
 
     void Update()
@@ -67,9 +71,6 @@ public class OneSidedPortal : MonoBehaviour
         portalCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
 
 
-        //Sets the screen's to the appropriate width so that screen flickering is minimized
-        //setScreenWidth();
-
 
         //Calculates and sets the clip plane
         clipPlane = transform;
@@ -84,7 +85,6 @@ public class OneSidedPortal : MonoBehaviour
         {
             nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst);
             portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
-            Debug.Log(transform.name + "CLIPPING");
         }
         else
         {
@@ -136,19 +136,6 @@ public class OneSidedPortal : MonoBehaviour
     }
 
 
-    //Sets the width of the portal screen to avoid clipping with the player camera's near clip plane
-    private void setScreenWidth()
-    {
-        Transform screenTrans = portalScreen.transform;
-
-        float halfHeight = playerCamera.nearClipPlane * Mathf.Tan(playerCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);
-        float halfWidth = halfHeight * playerCamera.aspect;
-        float distToNearClipCorner = new Vector3(halfWidth, halfHeight, playerCamera.nearClipPlane).magnitude;
-        bool camFacingSameDirAsPortal = Vector3.Dot(transform.forward, transform.position - playerCamera.transform.position) > 0;
-
-        screenTrans.localScale = new Vector3(screenTrans.localScale.x, screenTrans.localScale.y, distToNearClipCorner);
-/*        screenTrans.localPosition = Vector3.forward * distToNearClipCorner * ((camFacingSameDirAsPortal) ? 0.5f : -0.5f);*/
-    }
 
 
     // Returns true if the player camera can see the linked portal

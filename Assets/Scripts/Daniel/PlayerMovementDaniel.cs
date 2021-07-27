@@ -5,36 +5,40 @@ using UnityEngine;
 public class PlayerMovementDaniel : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
-    [SerializeField] private Transform groundCheck;
-    [SerializeField] private LayerMask groundMask;
 
     private float speed = 5f;
     private float gravity = -19.62f;
     private Vector3 velocity;
 
-    private float groundCheckRadius = 0.4f;
     private bool isGrounded = false;
     private bool prevIsGrounded = false;
     private float jumpHeight = 2f;
+    private float angleAdjustIncrement = 2f;
 
     // Start is called before the first frame update
     void Start()
     {
     }
 
+    void LateUpdate()
+    {
+        adjustZAngle();
+    }
+
     // Update is called once per frame
     void Update()
     {
+        isGrounded = controller.isGrounded;
+
         // Resetting the y velocity after landing
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
-        if (isGrounded && velocity.y < 0)
+        if (isGrounded)
         {
             velocity.y = -2f;
         }
 
         float movementX = Input.GetAxis("Horizontal");
         float movementZ = Input.GetAxis("Vertical");
-        
+
         Vector3 movement = transform.right * movementX + transform.forward * movementZ;
         controller.Move(movement * speed * Time.deltaTime);
 
@@ -60,7 +64,67 @@ public class PlayerMovementDaniel : MonoBehaviour
             SoundManager.playSound(SoundManager.Sounds.PlayerRun);
         }
 
+        adjustXAngle();
+
         prevIsGrounded = isGrounded;
+    }
+
+    void adjustXAngle()
+    {
+        if ((transform.eulerAngles.x % 360) != 0f)
+        {
+            if ((transform.eulerAngles.x % 360) > 180)
+            {
+                if ((transform.eulerAngles.x % 360) < (360f - angleAdjustIncrement))
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x + angleAdjustIncrement, transform.eulerAngles.y, transform.eulerAngles.z);
+                }
+                else if ((transform.eulerAngles.x % 360) > (360f - angleAdjustIncrement))
+                {
+                    transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, transform.eulerAngles.z);
+                }
+            }
+            else if ((transform.eulerAngles.x % 360) <= 180)
+            {
+                if ((transform.eulerAngles.x % 360) > angleAdjustIncrement)
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x - angleAdjustIncrement, transform.eulerAngles.y, transform.eulerAngles.z);
+                }
+                else if ((transform.eulerAngles.x % 360) < angleAdjustIncrement)
+                {
+                    transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, transform.eulerAngles.z);
+                }
+            }
+        }
+    }
+
+    void adjustZAngle()
+    {
+        if ((transform.eulerAngles.z % 360) != 0f)
+        {
+            if ((transform.eulerAngles.z % 360) > 180)
+            {
+                if ((transform.eulerAngles.z % 360) < (360f - angleAdjustIncrement))
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + angleAdjustIncrement);
+                }
+                else if ((transform.eulerAngles.z % 360) > (360f - angleAdjustIncrement))
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
+                }
+            }
+            else if ((transform.eulerAngles.z % 360) <= 180)
+            {
+                if ((transform.eulerAngles.z % 360) > angleAdjustIncrement)
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - angleAdjustIncrement);
+                }
+                else if ((transform.eulerAngles.z % 360) < angleAdjustIncrement)
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
+                }
+            }
+        }
     }
 
 }

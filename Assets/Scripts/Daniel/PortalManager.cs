@@ -11,6 +11,7 @@ public class PortalManager : MonoBehaviour
     [SerializeField] private GameObject portalPrefab;
     [SerializeField] private LayerMask portalMask;
     [SerializeField] private LayerMask playerMask;
+    [SerializeField] private Material portalMat;
 
     private Transform tempPortal;
     private GameObject portal1;
@@ -40,7 +41,9 @@ public class PortalManager : MonoBehaviour
 
     private bool canPortalBeCreated(RaycastHit hitObject, Quaternion portalRotation)
     {
-        Transform tempPortalCentre = portalPrefab.transform;
+        GameObject portalScreen = portalPrefab.transform.GetChild(0).gameObject;
+
+        Transform tempPortalCentre = portalScreen.transform;
         tempPortalCentre.position = hitObject.point;
         tempPortalCentre.rotation = portalRotation;
         tempPortalCentre.position -= tempPortalCentre.forward * 0.001f;
@@ -50,7 +53,7 @@ public class PortalManager : MonoBehaviour
 
         if (fixesAreSuccessful(tempPortalCentre))
         {
-            tempPortal = portalPrefab.transform;
+            tempPortal = portalScreen.transform;
             tempPortal.position = tempPortalCentre.position;
             tempPortal.rotation = tempPortalCentre.rotation;
 
@@ -64,25 +67,56 @@ public class PortalManager : MonoBehaviour
     {
         if (bulletType == 1)
         {
-            instantiatePortalHelper(ref portal1, bulletMat);
+            instantiatePortalHelper(ref portal1, ref portal2, bulletMat);
         }
         else
         {
-            instantiatePortalHelper(ref portal2, bulletMat);
+            instantiatePortalHelper(ref portal2, ref portal1, bulletMat);
         }
     }
 
-    private void instantiatePortalHelper(ref GameObject portal, Material bulletMat)
+    private void instantiatePortalHelper(ref GameObject portal, ref GameObject linkedPortal, Material bulletMat)
     {
         if (null != portal)
         {
+            destroyPortalScript(ref linkedPortal);
+            destroyPortalScript(ref portal);
             Destroy(portal);
         }
 
         portal = Instantiate(portalPrefab);
-        portal.GetComponent<MeshRenderer>().material = bulletMat;
+
+
+        if (bothPortalsExist())
+        {
+            destroyPortalScript(ref linkedPortal);
+            destroyPortalScript(ref portal);
+
+            portal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = portalMat;
+            Destroy(linkedPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material);
+
+            portal.AddComponent<OneSidedPortal>();
+            linkedPortal.AddComponent<OneSidedPortal>();
+
+            portal.GetComponent<OneSidedPortal>().setPortal(linkedPortal.GetComponent<OneSidedPortal>(), null);
+            linkedPortal.GetComponent<OneSidedPortal>().setPortal(portal.GetComponent<OneSidedPortal>(), null);
+        }
+        else
+        {
+            destroyPortalScript(ref linkedPortal);
+            destroyPortalScript(ref portal);
+            portal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = bulletMat;
+        }
+
+
         portal.transform.position = tempPortal.position;
-        portal.transform.rotation = tempPortal.rotation;
+        // Screen
+        portal.transform.GetChild(0).gameObject.transform.position = tempPortal.position;
+        portal.transform.GetChild(0).gameObject.transform.rotation = tempPortal.rotation;
+        // Frame
+        portal.transform.GetChild(2).gameObject.transform.position = tempPortal.position;
+        portal.transform.GetChild(2).gameObject.transform.rotation = tempPortal.rotation;
+
     }
 
     public int getPortalLayerMask()
@@ -209,5 +243,21 @@ public class PortalManager : MonoBehaviour
         }
 
         return true;
+    }
+
+    private bool bothPortalsExist()
+    {
+        return portal1 != null && portal2 != null;
+    }
+
+    private void destroyPortalScript(ref GameObject portal)
+    {
+        if (null != portal)
+        {
+            if (null != portal.transform.GetChild(0).gameObject.GetComponent<OneSidedPortal>())
+            {
+                Destroy(portal.transform.GetChild(0).gameObject.GetComponent<OneSidedPortal>());
+            }
+        }
     }
 }

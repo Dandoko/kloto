@@ -6,10 +6,10 @@ public class MouseController : MonoBehaviour
 {
     [SerializeField] private Transform playerBody;
 
-    public float sensitivity = 2.0f;
-    public float smoothing = 2.0f;
-    public float mouseMoveSpeedFactor = 0.15f;
-    public Vector2 mouseMovement;
+    private float sensitivity = 2.0f;
+    private float smoothing = 2.0f;
+    private float mouseSpeedFactor = 25.0f;
+    private Vector2 mouseMovement;
     private Vector2 smoothV;
 
     // Start is called before the first frame update
@@ -22,10 +22,9 @@ public class MouseController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        mouseMovement = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
 
-        mouseMovement = new Vector2(Input.GetAxisRaw("Mouse X") * mouseMoveSpeedFactor, Input.GetAxisRaw("Mouse Y") * mouseMoveSpeedFactor);
-
-        mouseMovement = sensitivity * smoothing * mouseMovement;
+        mouseMovement = sensitivity * smoothing * mouseMovement * mouseSpeedFactor * Time.deltaTime;
         smoothV.x = Mathf.Lerp(smoothV.x, mouseMovement.x, 1f / smoothing);
         smoothV.y = Mathf.Lerp(smoothV.y, mouseMovement.y, 1f / smoothing);
 
@@ -39,6 +38,5 @@ public class MouseController : MonoBehaviour
         transform.localEulerAngles = modifiedEulers;
         //Rotate the body about the y axis
         playerBody.transform.Rotate(0f, smoothV.x, 0f);
-
     }
 }
