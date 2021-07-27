@@ -80,7 +80,6 @@ public class PortalManager : MonoBehaviour
         if (null != portal)
         {
             destroyPortalScript(ref linkedPortal);
-            destroyPortalScript(ref portal);
             Destroy(portal);
         }
 
@@ -94,6 +93,7 @@ public class PortalManager : MonoBehaviour
 
             portal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = portalMat;
             Destroy(linkedPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material);
+            linkedPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = portalMat;
 
             portal.AddComponent<OneSidedPortal>();
             linkedPortal.AddComponent<OneSidedPortal>();
@@ -105,11 +105,14 @@ public class PortalManager : MonoBehaviour
         {
             destroyPortalScript(ref linkedPortal);
             destroyPortalScript(ref portal);
+
             portal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = bulletMat;
         }
 
 
         portal.transform.position = tempPortal.position;
+        portal.transform.rotation = tempPortal.rotation;
+
         // Screen
         portal.transform.GetChild(0).gameObject.transform.position = tempPortal.position;
         portal.transform.GetChild(0).gameObject.transform.rotation = tempPortal.rotation;
@@ -254,10 +257,11 @@ public class PortalManager : MonoBehaviour
     {
         if (null != portal)
         {
-            if (null != portal.transform.GetChild(0).gameObject.GetComponent<OneSidedPortal>())
+            if (null != portal.GetComponent<OneSidedPortal>())
             {
-                Destroy(portal.transform.GetChild(0).gameObject.GetComponent<OneSidedPortal>());
+                Destroy(portal.GetComponent<OneSidedPortal>());
             }
+
         }
     }
 }
