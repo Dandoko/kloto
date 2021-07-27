@@ -82,10 +82,9 @@ public class PortalManager : MonoBehaviour
         }
 
         portal = Instantiate(portalPrefab);
-        portal.GetComponent<MeshRenderer>().material = bulletMat;
-        //portal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = bulletMat;
-        portal.transform.position = tempPortal.position;
-        portal.transform.rotation = tempPortal.rotation;
+        portal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = bulletMat;
+        portal.transform.GetChild(0).gameObject.transform.position = tempPortal.position;
+        portal.transform.GetChild(0).gameObject.transform.rotation = tempPortal.rotation;
     }
 
     public int getPortalLayerMask()
