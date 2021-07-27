@@ -40,7 +40,9 @@ public class PortalManager : MonoBehaviour
 
     private bool canPortalBeCreated(RaycastHit hitObject, Quaternion portalRotation)
     {
-        Transform tempPortalCentre = portalPrefab.transform;
+        GameObject portalScreen = portalPrefab.transform.GetChild(0).gameObject;
+
+        Transform tempPortalCentre = portalScreen.transform;
         tempPortalCentre.position = hitObject.point;
         tempPortalCentre.rotation = portalRotation;
         tempPortalCentre.position -= tempPortalCentre.forward * 0.001f;
@@ -50,7 +52,7 @@ public class PortalManager : MonoBehaviour
 
         if (fixesAreSuccessful(tempPortalCentre))
         {
-            tempPortal = portalPrefab.transform;
+            tempPortal = portalScreen.transform;
             tempPortal.position = tempPortalCentre.position;
             tempPortal.rotation = tempPortalCentre.rotation;
 
@@ -81,6 +83,7 @@ public class PortalManager : MonoBehaviour
 
         portal = Instantiate(portalPrefab);
         portal.GetComponent<MeshRenderer>().material = bulletMat;
+        //portal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = bulletMat;
         portal.transform.position = tempPortal.position;
         portal.transform.rotation = tempPortal.rotation;
     }

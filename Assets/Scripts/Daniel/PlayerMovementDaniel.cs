@@ -33,7 +33,7 @@ public class PlayerMovementDaniel : MonoBehaviour
         // Resetting the y velocity after landing
         if (isGrounded)
         {
-            velocity.y = 0;
+            velocity.y = -2f;
         }
 
         float movementX = Input.GetAxis("Horizontal");
