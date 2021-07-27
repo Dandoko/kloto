@@ -6231,6 +6231,7 @@ MonoBehaviour:
   playerMask:
     serializedVersion: 2
     m_Bits: 64
+  portalMat: {fileID: 2100000, guid: 3228bee7ed1ead44fa69a1c4aeb5ef55, type: 2}
 --- !u!4 &1189184271 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4264948743737971620, guid: 1771e93611363584e986569f16aa3f86, type: 3}
@@ -7617,10 +7618,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PortalB
       objectReference: {fileID: 0}
-    - target: {fileID: 3621595362733357252, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 45cddef60bc5bf8458510fba3fcc6d0d, type: 2}
     - target: {fileID: 4459743956800959033, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -8099,6 +8096,10 @@ PrefabInstance:
     - target: {fileID: 6142675979230509589, guid: 7dfb36fb5f1f4aa44b3d580784289d14, type: 3}
       propertyPath: m_Name
       value: Portal
+      objectReference: {fileID: 0}
+    - target: {fileID: 6581464561913601879, guid: 7dfb36fb5f1f4aa44b3d580784289d14, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7dfb36fb5f1f4aa44b3d580784289d14, type: 3}
