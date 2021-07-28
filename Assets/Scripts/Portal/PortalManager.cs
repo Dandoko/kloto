@@ -15,8 +15,9 @@ public class PortalManager : MonoBehaviour
 
     private Transform tempPortal;
     private Quaternion tempBackwardsPortalRotation;
-    private GameObject connectedSurface;
-    private GameObject newConnectingSurface;
+    private GameObject connectingSurface;
+    private GameObject connectedSurface1;
+    private GameObject connectedSurface2;
     private GameObject portal1;
     private GameObject portal2;
 
@@ -61,7 +62,7 @@ public class PortalManager : MonoBehaviour
             tempPortal.position = tempPortalCentre.position;
             tempPortal.rotation = tempPortalCentre.rotation;
             tempBackwardsPortalRotation = backwardsPortalRotation;
-            newConnectingSurface = hitObject.collider.gameObject;
+            connectingSurface = hitObject.collider.gameObject;
 
             return true;
         }
@@ -73,15 +74,18 @@ public class PortalManager : MonoBehaviour
     {
         if (bulletType == 1)
         {
-            instantiatePortalHelper(ref portal1, ref portal2, bulletMat, true);
+            instantiatePortalHelper(ref portal1, ref portal2, bulletMat, true, connectingSurface, connectedSurface2);
+            connectedSurface1 = connectingSurface;
         }
         else
         {
-            instantiatePortalHelper(ref portal2, ref portal1, bulletMat, false);
+            instantiatePortalHelper(ref portal2, ref portal1, bulletMat, false, connectingSurface, connectedSurface1);
+            connectedSurface2 = connectingSurface;
         }
     }
 
-    private void instantiatePortalHelper(ref GameObject portal, ref GameObject linkedPortal, Material bulletMat, bool isPortal1)
+    private void instantiatePortalHelper(ref GameObject portal, ref GameObject linkedPortal, Material bulletMat, bool isPortal1,
+                                         GameObject portalSurface, GameObject linkedPortalSurface)
     {
         if (null != portal)
         {
@@ -101,8 +105,8 @@ public class PortalManager : MonoBehaviour
             var portalComponent = portal.AddComponent<OneSidedPortal>();
             var linkedPortalComponent = linkedPortal.AddComponent<OneSidedPortal>();
 
-            portalComponent.setPortal(linkedPortalComponent, newConnectingSurface);
-            linkedPortalComponent.setPortal(portalComponent, connectedSurface);
+            portalComponent.setPortal(linkedPortalComponent, portalSurface);
+            linkedPortalComponent.setPortal(portalComponent, linkedPortalSurface);
         }
         else
         {
@@ -126,8 +130,6 @@ public class PortalManager : MonoBehaviour
             //portal.transform.GetChild(0).gameObject.transform.rotation = tempBackwardsPortalRotation;
             //portal.transform.GetChild(2).gameObject.transform.rotation = tempBackwardsPortalRotation;
         }
-
-        connectedSurface = newConnectingSurface;
     }
 
     public int getPortalLayerMask()
