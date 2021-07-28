@@ -22,10 +22,9 @@ public class MouseController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         mouseMovement = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
 
-        mouseMovement = sensitivity * smoothing * mouseMovement * mouseSpeedFactor;
+        mouseMovement = sensitivity * smoothing * mouseMovement * mouseSpeedFactor * Time.deltaTime;
         smoothV.x = Mathf.Lerp(smoothV.x, mouseMovement.x, 1f / smoothing);
         smoothV.y = Mathf.Lerp(smoothV.y, mouseMovement.y, 1f / smoothing);
 
@@ -38,7 +37,6 @@ public class MouseController : MonoBehaviour
         //Rotate the camera about the x axis
         transform.localEulerAngles = modifiedEulers;
         //Rotate the body about the y axis
-        playerBody.transform.Rotate(0f, smoothV.x * Time.deltaTime, 0f);
-
+        playerBody.transform.Rotate(0f, smoothV.x, 0f);
     }
 }

@@ -72,6 +72,8 @@ directory with changes someone else could have made
 - [AudioClip.length](https://docs.unity3d.com/ScriptReference/AudioClip-length.html)
 - [Destroy Parent of Child GameObject](https://answers.unity.com/questions/275343/destroy-parent-of-child-gameobject.html)
 - [Scale Particle System](https://forum.unity.com/threads/how-does-the-transforms-scale-work-with-a-particle-system.101964/?_gl=1*147n9lq*_ga*NTkyMjg4NjY5LjE2MjE4MjI0OTU.*_ga_1S78EFL1W5*MTYyNzE3NDI3NC40My4xLjE2MjcxNzQ5NzYuNjA.&_ga=2.239049219.2050753888.1627087806-592288669.1621822495)
+- [Get a Script of a GameObject](https://forum.unity.com/threads/how-to-get-a-script-component-of-a-gameobject-solved.401979/)
+- [Remove a Script from a GameObject](https://answers.unity.com/questions/1505999/how-to-remove-material-from-object.html)
 
 #### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
@@ -83,6 +85,7 @@ directory with changes someone else could have made
 - [RenderTexture](https://docs.unity3d.com/ScriptReference/RenderTexture-ctor.html)
 - [RenderTexture.Release](https://docs.unity3d.com/ScriptReference/RenderTexture.Release.html)
 - [Checks if Renderer is Visible](https://wiki.unity3d.com/index.php/IsVisibleFrom)
+- [Camera.depth](https://docs.unity3d.com/ScriptReference/Camera-depth.html)
 
 #### Collision Detection
 - [Physics.Raycast](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html)
@@ -127,6 +130,10 @@ directory with changes someone else could have made
 - Null error with Resources.Load
 	- Need to create a `Resources` folder in the game Assets
 	- Save your resource in this `Resources` folder
+- Wrong camera is rendering on game mode
+	- [Solution Source](https://answers.unity.com/questions/203376/wrong-choice-of-main-camera-among-multiple-cameras.html)
+	- Set the depth of the camera 
+	- Higher depths will be rendered last
 
 ## Debugging
 

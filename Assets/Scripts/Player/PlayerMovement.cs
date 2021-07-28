@@ -6,72 +6,73 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private CharacterController controller;
 
-    private float speed = 8.5f;
-    private float jumpHeight = 3f;
-    private float gravity = -9.81f;
-    private float yVel;
-    private float angleAdjustIncrement = 2f;
+    private float speed = 5f;
+    private float gravity = -19.62f;
+    private Vector3 velocity;
 
-    private bool charIsGrounded;
-   
+    private bool isGrounded = false;
+    private bool prevIsGrounded = false;
+    private float jumpHeight = 2f;
+    private float angleAdjustIncrement = 2f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
-    private void LateUpdate()
+    void LateUpdate()
     {
         adjustZAngle();
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        charIsGrounded = controller.isGrounded;
+        isGrounded = controller.isGrounded;
 
-
-
-        if (charIsGrounded)
+        // Resetting the y velocity after landing
+        if (isGrounded)
         {
-            if (Input.GetButtonDown("Jump"))
-            {
-                yVel = jumpHeight;
-            }
-            else
-            {
-                yVel = -2f;
-            }
+            velocity.y = -2f;
         }
-        else
-        {
-            //Applying gravity
-            yVel += gravity * Time.deltaTime;
-        }
-
-        adjustXAngle();
-
- 
-
-
 
         float movementX = Input.GetAxis("Horizontal");
         float movementZ = Input.GetAxis("Vertical");
 
-        //Set left-right and forward-back movement relative to player view
-        Vector3 movement = transform.right * movementX + transform.forward * movementZ + Vector3.up*yVel;
-
+        Vector3 movement = transform.right * movementX + transform.forward * movementZ;
         controller.Move(movement * speed * Time.deltaTime);
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+
+        // Applying gravity
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
+
+        if (!isGrounded && prevIsGrounded)
+        {
+            SoundManager.playSound(SoundManager.Sounds.PlayerJump);
+        }
+        else if (isGrounded && !prevIsGrounded)
+        {
+            SoundManager.playSound(SoundManager.Sounds.PlayerLand);
+        }
+        else if ((Mathf.Abs(movementX) > 0 || Mathf.Abs(movementZ) > 0) && isGrounded)
+        {
+            SoundManager.playSound(SoundManager.Sounds.PlayerRun);
+        }
+
+        adjustXAngle();
+
+        prevIsGrounded = isGrounded;
     }
 
-
-    void adjustXAngle() {
+    void adjustXAngle()
+    {
         if ((transform.eulerAngles.x % 360) != 0f)
         {
-
-
             if ((transform.eulerAngles.x % 360) > 180)
             {
                 if ((transform.eulerAngles.x % 360) < (360f - angleAdjustIncrement))
@@ -94,7 +95,6 @@ public class PlayerMovement : MonoBehaviour
                     transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, transform.eulerAngles.z);
                 }
             }
-
         }
     }
 
@@ -102,7 +102,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if ((transform.eulerAngles.z % 360) != 0f)
         {
-
             if ((transform.eulerAngles.z % 360) > 180)
             {
                 if ((transform.eulerAngles.z % 360) < (360f - angleAdjustIncrement))
@@ -125,7 +124,6 @@ public class PlayerMovement : MonoBehaviour
                     transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
                 }
             }
-
         }
     }
 
