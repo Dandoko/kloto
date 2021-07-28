@@ -95,17 +95,14 @@ public class PortalManager : MonoBehaviour
             Destroy(linkedPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material);
             linkedPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = portalMat;
 
-            portal.AddComponent<OneSidedPortal>();
-            linkedPortal.AddComponent<OneSidedPortal>();
+            var portalComponent = portal.AddComponent<OneSidedPortal>();
+            var linkedPortalComponent = linkedPortal.AddComponent<OneSidedPortal>();
 
-            portal.GetComponent<OneSidedPortal>().setPortal(linkedPortal.GetComponent<OneSidedPortal>(), null);
-            linkedPortal.GetComponent<OneSidedPortal>().setPortal(portal.GetComponent<OneSidedPortal>(), null);
+            portalComponent.setPortal(linkedPortalComponent, null);
+            linkedPortalComponent.setPortal(portalComponent, null);
         }
         else
         {
-            destroyPortalScript(ref linkedPortal);
-            destroyPortalScript(ref portal);
-
             portal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = bulletMat;
         }
 

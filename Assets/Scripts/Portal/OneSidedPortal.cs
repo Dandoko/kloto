@@ -5,7 +5,7 @@ using UnityEngine;
 public class OneSidedPortal : MonoBehaviour
 {
 
-    private OneSidedPortal linkedPortal;
+    [SerializeField] OneSidedPortal linkedPortal;
     private GameObject tempConnectedWall;
 
     private GameObject thisPortal;
@@ -105,6 +105,10 @@ public class OneSidedPortal : MonoBehaviour
 
             portalScreen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         }
+        else
+        {
+
+        }
     }
 
 
@@ -199,5 +203,4 @@ public class OneSidedPortal : MonoBehaviour
         }
     
     }
-
 }
