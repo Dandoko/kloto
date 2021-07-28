@@ -14,6 +14,7 @@ public class PortalManager : MonoBehaviour
     [SerializeField] private Material portalMat;
 
     private Transform tempPortal;
+    private Quaternion tempBackwardsPortalRotation;
     private GameObject portal1;
     private GameObject portal2;
 
@@ -35,11 +36,12 @@ public class PortalManager : MonoBehaviour
         Vector3 portalForward = -hitObject.normal;
         Vector3 portalUp = -Vector3.Cross(portalRight, portalForward);
         Quaternion portalRotation = Quaternion.LookRotation(portalForward, portalUp);
+        Quaternion backwardsPortalRotation = Quaternion.LookRotation(-portalForward, portalUp);
 
-        return canPortalBeCreated(hitObject, portalRotation);
+        return canPortalBeCreated(hitObject, portalRotation, backwardsPortalRotation);
     }
 
-    private bool canPortalBeCreated(RaycastHit hitObject, Quaternion portalRotation)
+    private bool canPortalBeCreated(RaycastHit hitObject, Quaternion portalRotation, Quaternion backwardsPortalRotation)
     {
         GameObject portalScreen = portalPrefab.transform.GetChild(0).gameObject;
 
@@ -56,6 +58,7 @@ public class PortalManager : MonoBehaviour
             tempPortal = portalScreen.transform;
             tempPortal.position = tempPortalCentre.position;
             tempPortal.rotation = tempPortalCentre.rotation;
+            tempBackwardsPortalRotation = backwardsPortalRotation;
 
             return true;
         }
@@ -67,15 +70,15 @@ public class PortalManager : MonoBehaviour
     {
         if (bulletType == 1)
         {
-            instantiatePortalHelper(ref portal1, ref portal2, bulletMat);
+            instantiatePortalHelper(ref portal1, ref portal2, bulletMat, true);
         }
         else
         {
-            instantiatePortalHelper(ref portal2, ref portal1, bulletMat);
+            instantiatePortalHelper(ref portal2, ref portal1, bulletMat, false);
         }
     }
 
-    private void instantiatePortalHelper(ref GameObject portal, ref GameObject linkedPortal, Material bulletMat)
+    private void instantiatePortalHelper(ref GameObject portal, ref GameObject linkedPortal, Material bulletMat, bool isPortal1)
     {
         if (null != portal)
         {
@@ -117,6 +120,12 @@ public class PortalManager : MonoBehaviour
         portal.transform.GetChild(2).gameObject.transform.position = tempPortal.position;
         portal.transform.GetChild(2).gameObject.transform.rotation = tempPortal.rotation;
 
+        if (isPortal1)
+        {
+            portal.transform.rotation = tempBackwardsPortalRotation;
+            //portal.transform.GetChild(0).gameObject.transform.rotation = tempBackwardsPortalRotation;
+            //portal.transform.GetChild(2).gameObject.transform.rotation = tempBackwardsPortalRotation;
+        }
     }
 
     public int getPortalLayerMask()
