@@ -5,8 +5,8 @@ using UnityEngine;
 public class OneSidedPortal : MonoBehaviour
 {
 
-    [SerializeField] OneSidedPortal linkedPortal;
-    private GameObject tempConnectedWall;
+    private OneSidedPortal linkedPortal;
+    [SerializeField] GameObject connectedSurface;
 
     private GameObject thisPortal;
     private Camera playerCamera;
@@ -35,10 +35,10 @@ public class OneSidedPortal : MonoBehaviour
         portalScreen.material.SetInt("displayMask", 1);
     }
 
-    public void setPortal(OneSidedPortal linkedPortal, GameObject tempConnectedWall)
+    public void setPortal(OneSidedPortal linkedPortal, GameObject connectedSurface)
     {
         this.linkedPortal = linkedPortal;
-        this.tempConnectedWall = tempConnectedWall;
+        this.connectedSurface = connectedSurface;
     }
 
     void Update()
@@ -104,10 +104,6 @@ public class OneSidedPortal : MonoBehaviour
 
 
             portalScreen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
-        }
-        else
-        {
-
         }
     }
 
@@ -185,7 +181,7 @@ public class OneSidedPortal : MonoBehaviour
         {
             if (traveller.tag == "Player")
             {
-                Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), tempConnectedWall.GetComponent<BoxCollider>(), false);
+                Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<BoxCollider>(), false);
             }
             if (trackedTravellers.Contains(traveller))
             {
@@ -199,7 +195,7 @@ public class OneSidedPortal : MonoBehaviour
     
         if (traveller.tag == "Player")
         {
-            Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), tempConnectedWall.GetComponent<BoxCollider>(), true);
+            Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<BoxCollider>(), true);
         }
     
     }

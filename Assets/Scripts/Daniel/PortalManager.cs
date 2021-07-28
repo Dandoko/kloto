@@ -15,6 +15,8 @@ public class PortalManager : MonoBehaviour
 
     private Transform tempPortal;
     private Quaternion tempBackwardsPortalRotation;
+    private GameObject connectedSurface;
+    private GameObject newConnectingSurface;
     private GameObject portal1;
     private GameObject portal2;
 
@@ -59,6 +61,7 @@ public class PortalManager : MonoBehaviour
             tempPortal.position = tempPortalCentre.position;
             tempPortal.rotation = tempPortalCentre.rotation;
             tempBackwardsPortalRotation = backwardsPortalRotation;
+            newConnectingSurface = hitObject.collider.gameObject;
 
             return true;
         }
@@ -91,9 +94,6 @@ public class PortalManager : MonoBehaviour
 
         if (bothPortalsExist())
         {
-            destroyPortalScript(ref linkedPortal);
-            destroyPortalScript(ref portal);
-
             portal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = portalMat;
             Destroy(linkedPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material);
             linkedPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = portalMat;
@@ -101,8 +101,8 @@ public class PortalManager : MonoBehaviour
             var portalComponent = portal.AddComponent<OneSidedPortal>();
             var linkedPortalComponent = linkedPortal.AddComponent<OneSidedPortal>();
 
-            portalComponent.setPortal(linkedPortalComponent, null);
-            linkedPortalComponent.setPortal(portalComponent, null);
+            portalComponent.setPortal(linkedPortalComponent, newConnectingSurface);
+            linkedPortalComponent.setPortal(portalComponent, connectedSurface);
         }
         else
         {
@@ -126,6 +126,8 @@ public class PortalManager : MonoBehaviour
             //portal.transform.GetChild(0).gameObject.transform.rotation = tempBackwardsPortalRotation;
             //portal.transform.GetChild(2).gameObject.transform.rotation = tempBackwardsPortalRotation;
         }
+
+        connectedSurface = newConnectingSurface;
     }
 
     public int getPortalLayerMask()
