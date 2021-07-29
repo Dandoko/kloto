@@ -8,7 +8,7 @@ public class MouseController : MonoBehaviour
 
     private float sensitivity = 2.0f;
     private float smoothing = 2.0f;
-    private float mouseSpeedFactor = 25.0f;
+    private float mouseSpeedFactor = 75.0f;
     private Vector2 mouseMovement;
     private Vector2 smoothV;
 
