@@ -271,7 +271,6 @@ public class PortalManager : MonoBehaviour
             {
                 Destroy(portal.GetComponent<OneSidedPortal>());
             }
-
         }
     }
 }
