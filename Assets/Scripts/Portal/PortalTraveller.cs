@@ -40,8 +40,8 @@ public class PortalTraveller : MonoBehaviour
 
         objToPortal1 = transform.position - thisPortal.transform.position;
         objToPortal2 = rotDifMatrix.MultiplyPoint(objToPortal1);
-        transform.position = objToPortal2 + otherPortal.transform.position + otherPortal.transform.forward * 0.03f * portalSide;
-        //transform.position = objToPortal2 + otherPortal.transform.position;
+        //transform.position = objToPortal2 + otherPortal.transform.position + otherPortal.transform.forward * 0.03f * portalSide;
+        transform.position = objToPortal2 + otherPortal.transform.position;
 
         rotObjToPortal1 = Quaternion.Inverse(thisPortal.transform.rotation) * transform.rotation;
         rotObjToPortal2 = rotObjToPortal1;
