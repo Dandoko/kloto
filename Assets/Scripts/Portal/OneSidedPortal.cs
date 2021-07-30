@@ -75,24 +75,17 @@ public class OneSidedPortal : MonoBehaviour
 
 
             //Calculates and sets the clip plane
-            clipPlane = transform;
-            int sign = System.Math.Sign(Vector3.Dot(clipPlane.forward, transform.position - portalCamera.transform.position));
+            clipPlane = portalScreen.transform;
+            int sign = System.Math.Sign(Vector3.Dot(clipPlane.forward, portalScreen.transform.position - portalCamera.transform.position));
 
             Vector3 camSpacePos = portalCamera.worldToCameraMatrix.MultiplyPoint(clipPlane.position);
             Vector3 camSpaceNormal = portalCamera.worldToCameraMatrix.MultiplyVector(clipPlane.forward) * sign;
             float camSpaceDst = -Vector3.Dot(camSpacePos, camSpaceNormal);
 
             //Creates a near clip plane based on the portal screen's position
-            if (Mathf.Abs(camSpaceDst) > 0.2f)
-            {
-                nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst);
-                portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
-            }
-            else
-            {
+            nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst + 0.1f * sign);
+            portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
 
-                portalCamera.projectionMatrix = playerCamera.projectionMatrix;
-            }
 
 
 
@@ -121,7 +114,7 @@ public class OneSidedPortal : MonoBehaviour
 
 
 
-                Vector3 curRelPortalPos = traveller.transform.position - transform.position;
+                Vector3 curRelPortalPos = traveller.transform.position - portalScreen.transform.position;
 
                 int prevPortalSide = System.Math.Sign(Vector3.Dot(traveller.prevRelPortalPos, transform.forward));
                 int curPortalSide = System.Math.Sign(Vector3.Dot(curRelPortalPos, transform.forward));
@@ -164,7 +157,7 @@ public class OneSidedPortal : MonoBehaviour
             if (!trackedTravellers.Contains(traveller))
             {
                 InsidePortal(traveller);
-                traveller.prevRelPortalPos = traveller.transform.position - transform.position;
+                traveller.prevRelPortalPos = traveller.transform.position - portalScreen.transform.position;
                 trackedTravellers.Add(traveller);
             }
         }
