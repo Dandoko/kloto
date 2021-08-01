@@ -12,7 +12,8 @@ public static class SoundManager
         PlayerRun,
         PlayerJump,
         PlayerLand,
-        ShootGun
+        ShootGun,
+        Portal
     }
 
     public static void playSound(Sounds sound)
