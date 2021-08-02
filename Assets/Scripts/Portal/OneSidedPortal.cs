@@ -13,7 +13,7 @@ public class OneSidedPortal : MonoBehaviour
     private Camera portalCamera;
     private RenderTexture cameraTexture;
     private MeshRenderer portalScreen;
-    private List<PortalTraveller> trackedTravellers;
+    public List<PortalTraveller> trackedTravellers;
 
 
     private Transform clipPlane;
@@ -119,6 +119,7 @@ public class OneSidedPortal : MonoBehaviour
                 if (curPortalSide != prevPortalSide)
                 {
                     traveller.OneSidedTeleport(thisPortal, linkedPortal.gameObject);
+                    linkedPortal.trackedTravellers.Remove(traveller);
                     trackedTravellers.RemoveAt(i);
                     i--;
                 }
