@@ -57,9 +57,9 @@ public class PortalManager : MonoBehaviour
 
         //Debug.DrawRay(hitObject.point, hitObject.normal * 20f, Color.red, 20f);
 
-        Debug.Log(portalRight);
+        //Debug.Log(portalRight);
         //Debug.Log(portalForward);
-        Debug.Log(portalUp);
+        //Debug.Log(portalUp);
         //Debug.Log(portalRotation);
         //Debug.Log("===============");
 
@@ -117,7 +117,6 @@ public class PortalManager : MonoBehaviour
 
         portal = Instantiate(portalPrefab);
 
-
         if (bothPortalsExist())
         {
             portal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = portalMat;
@@ -152,6 +151,8 @@ public class PortalManager : MonoBehaviour
             //portal.transform.GetChild(0).gameObject.transform.rotation = tempBackwardsPortalRotation;
             //portal.transform.GetChild(2).gameObject.transform.rotation = tempBackwardsPortalRotation;
         }
+
+        SoundManager.playSound(SoundManager.Sounds.Portal, portal);
     }
 
     public int getPortalLayerMask()

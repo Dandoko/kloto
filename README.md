@@ -18,9 +18,10 @@ directory with changes someone else could have made
 
 ## Links
 ### Assets
-- [Footsteps](https://assetstore.unity.com/packages/audio/sound-fx/foley/footsteps-essentials-189879)
-- [Sci-Fi Gun](https://assetstore.unity.com/packages/audio/sound-fx/weapons/sci-fi-gun-sounds-pack-lite-141125)
+- [Footsteps Sound Effect](https://assetstore.unity.com/packages/audio/sound-fx/foley/footsteps-essentials-189879)
+- [Sci-Fi Gun Sound Effect](https://assetstore.unity.com/packages/audio/sound-fx/weapons/sci-fi-gun-sounds-pack-lite-141125)
 - [Sci-Fi Orb Bitmaps](https://oxmond.com/glowing-orb-visual-effects-vfx/)
+- [Sci-Fi Portal Sound Effect](https://assetstore.unity.com/packages/audio/sound-fx/sci-fi-evolution-gift-pack-43104)
 
 ### Tutorial
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)
@@ -34,6 +35,7 @@ directory with changes someone else could have made
 - [Unity Asset Manager](https://youtu.be/7GcEW6uwO8E)
 - [Unity Sound Manager](https://youtu.be/QL29aTa7J5Q)
 - [Unity Glowing Orb](https://youtu.be/pxNzoLfreOo)
+- [Unity AudioSource Doppler Effect](https://youtu.be/eQphjWreQ0U)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
@@ -69,12 +71,12 @@ directory with changes someone else could have made
 - [Resources.Load](https://docs.unity3d.com/ScriptReference/Resources.Load.html)
 - [Object.Destroy](https://docs.unity3d.com/ScriptReference/Object.Destroy.html)
 - [Destroying Objects Without Monobehaviour](https://forum.unity.com/threads/destroy-without-monobehaviour.160249/)
-- [AudioClip.length](https://docs.unity3d.com/ScriptReference/AudioClip-length.html)
 - [Destroy Parent of Child GameObject](https://answers.unity.com/questions/275343/destroy-parent-of-child-gameobject.html)
 - [Scale Particle System](https://forum.unity.com/threads/how-does-the-transforms-scale-work-with-a-particle-system.101964/?_gl=1*147n9lq*_ga*NTkyMjg4NjY5LjE2MjE4MjI0OTU.*_ga_1S78EFL1W5*MTYyNzE3NDI3NC40My4xLjE2MjcxNzQ5NzYuNjA.&_ga=2.239049219.2050753888.1627087806-592288669.1621822495)
 - [Get a Script of a GameObject](https://forum.unity.com/threads/how-to-get-a-script-component-of-a-gameobject-solved.401979/)
 - [Remove a Script from a GameObject](https://answers.unity.com/questions/1505999/how-to-remove-material-from-object.html)
 - [Missing GameObject](https://answers.unity.com/questions/34926/missing-transform-vs-none-how-to-code-this-or-quer.html)
+
 #### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
 - [Get Direction Between Two Points](https://answers.unity.com/questions/697830/how-to-calculate-direction-between-2-objects.html)
@@ -95,6 +97,10 @@ directory with changes someone else could have made
 - [Physics.OverlapSphere](https://docs.unity3d.com/ScriptReference/Physics.OverlapSphere.html)
 - [Physics.OverlapBox](https://docs.unity3d.com/ScriptReference/Physics.OverlapBox.html)
 - [Physics.IgnoreCollision](https://docs.unity3d.com/ScriptReference/Physics.IgnoreCollision.html)
+
+#### Audio
+- [AudioSource](https://docs.unity3d.com/ScriptReference/AudioSource.html)
+- [AudioClip.length](https://docs.unity3d.com/ScriptReference/AudioClip-length.html)
 
 ### Blender
 
@@ -134,6 +140,9 @@ directory with changes someone else could have made
 	- [Solution Source](https://answers.unity.com/questions/203376/wrong-choice-of-main-camera-among-multiple-cameras.html)
 	- Set the depth of the camera 
 	- Higher depths will be rendered last
+- AudioSource.PlayOneShot() is not looping
+	- [Solution Source](https://answers.unity.com/questions/1123649/audiosourceplayoneshot-is-not-looping.html)
+	- Use `AudioSource.Play()` instead
 
 ## Debugging
 
