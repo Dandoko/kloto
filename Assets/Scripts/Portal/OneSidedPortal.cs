@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class OneSidedPortal : MonoBehaviour
 {
+    private const float scaleChangeVal = 0.1f;
+    private Vector3 scaleChange = new Vector3(scaleChangeVal, scaleChangeVal, scaleChangeVal);
 
     private OneSidedPortal linkedPortal;
     [SerializeField] GameObject connectedSurface;
@@ -18,6 +20,7 @@ public class OneSidedPortal : MonoBehaviour
 
     private Transform clipPlane;
     private Vector4 nearClipPlane;
+
 
     // Start is called before the first frame update
     void Start()
@@ -43,6 +46,8 @@ public class OneSidedPortal : MonoBehaviour
 
     void Update()
     {
+        changePortalSize();
+
         if (null != linkedPortal)
         {
             // Don't update the linked portal screen if the player camera cannot see the linked portal
@@ -147,35 +152,40 @@ public class OneSidedPortal : MonoBehaviour
     //
     private void OnTriggerEnter(Collider collided)
     {
-        GameObject hitObject = collided.gameObject;
-        var traveller = hitObject.GetComponent<PortalTraveller>();
-        if (traveller)
+        if (null != linkedPortal)
         {
-            if (!trackedTravellers.Contains(traveller))
+            GameObject hitObject = collided.gameObject;
+            var traveller = hitObject.GetComponent<PortalTraveller>();
+            if (traveller)
             {
-                InsidePortal(traveller);
-                traveller.prevRelPortalPos = traveller.transform.position - portalScreen.transform.position + 0.05f*portalScreen.transform.forward;
-                trackedTravellers.Add(traveller);
+                if (!trackedTravellers.Contains(traveller))
+                {
+                    InsidePortal(traveller);
+                    traveller.prevRelPortalPos = traveller.transform.position - portalScreen.transform.position + 0.05f * portalScreen.transform.forward;
+                    trackedTravellers.Add(traveller);
+                }
             }
         }
-
     }
 
 
     private void OnTriggerExit(Collider collided)
     {
-        GameObject hitObject = collided.gameObject;
-        var traveller = hitObject.GetComponent<PortalTraveller>();
-
-        if (traveller)
+        if (null != linkedPortal)
         {
-            if (traveller.tag == "Player")
+            GameObject hitObject = collided.gameObject;
+            var traveller = hitObject.GetComponent<PortalTraveller>();
+
+            if (traveller)
             {
-                Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<BoxCollider>(), false);
-            }
-            if (trackedTravellers.Contains(traveller))
-            {
-                trackedTravellers.Remove(traveller);
+                if (traveller.tag == "Player")
+                {
+                    Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<BoxCollider>(), false);
+                }
+                if (trackedTravellers.Contains(traveller))
+                {
+                    trackedTravellers.Remove(traveller);
+                }
             }
         }
     }
@@ -188,5 +198,20 @@ public class OneSidedPortal : MonoBehaviour
             Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<BoxCollider>(), true);
         }
     
+    }
+
+    private void changePortalSize()
+    {
+        // Checking if portal size is at it's max size using one axis
+        if (transform.localScale.x < 1.0f)
+        {
+            transform.localScale += scaleChange;
+
+            // Capping the scale if it goes larger than its max
+            if (transform.localScale.x > 1.0f)
+            {
+                transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            }
+        }
     }
 }
