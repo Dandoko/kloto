@@ -7,8 +7,6 @@ public class GunManager : MonoBehaviour
 {
     [SerializeField] private GameObject bulletPrefabBlue;
     [SerializeField] private GameObject bulletPrefabRed;
-    [SerializeField] private Material bulletBlueMat;
-    [SerializeField] private Material bulletRedMat;
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private Image crosshair;
     [SerializeField] private PortalManager portalManager;
@@ -53,11 +51,11 @@ public class GunManager : MonoBehaviour
 
                     if (Input.GetButtonDown("Fire1"))
                     {
-                        shootGun(hitObject, bulletBlueMat, 1, bulletPrefabBlue);
+                        shootGun(hitObject, 1, bulletPrefabBlue);
                     }
                     else if (Input.GetButtonDown("Fire2"))
                     {
-                        shootGun(hitObject, bulletRedMat, 2, bulletPrefabRed);
+                        shootGun(hitObject, 2, bulletPrefabRed);
                     }
                 }
             }
@@ -78,14 +76,14 @@ public class GunManager : MonoBehaviour
         }
     }
 
-    private void shootGun(RaycastHit hitObject, Material bulletMat, int bulletType, GameObject bulletPrefab)
+    private void shootGun(RaycastHit hitObject, int bulletType, GameObject bulletPrefab)
     {
         muzzleFlash.Play();
         shootingTime = Time.time + shootingInterval;
 
         // Creating the bullet
         GameObject newBulletObject = Instantiate(bulletPrefab);
-        bulletManager = new BulletManager(this, portalManager, newBulletObject, bulletMat, gunTip, hitObject, bulletType);
+        bulletManager = new BulletManager(this, portalManager, newBulletObject, gunTip, hitObject, bulletType);
 
         SoundManager.playSound(SoundManager.Sounds.ShootGun, null);
     }

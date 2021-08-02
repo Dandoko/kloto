@@ -435,8 +435,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefabBlue: {fileID: 4242352464158142350, guid: 2daf9bb82eabcd044a8d56028985b62d, type: 3}
   bulletPrefabRed: {fileID: 3174533818430304307, guid: f4ed5ff5987a6c243bbc2f05ee5f5189, type: 3}
-  bulletBlueMat: {fileID: 2100000, guid: cc7191043ea69a249bbb44598a76380b, type: 2}
-  bulletRedMat: {fileID: 2100000, guid: 2f404c59a01990e408c540cc93099a3f, type: 2}
   muzzleFlash: {fileID: 594417406}
   crosshair: {fileID: 733939316}
   portalManager: {fileID: 1184047880}
@@ -6389,6 +6387,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   portalMat: {fileID: 2100000, guid: 3228bee7ed1ead44fa69a1c4aeb5ef55, type: 2}
+  portalFrameMat1: {fileID: 2100000, guid: cc7191043ea69a249bbb44598a76380b, type: 2}
+  portalFrameMat2: {fileID: 2100000, guid: 2f404c59a01990e408c540cc93099a3f, type: 2}
 --- !u!4 &1189184271 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4264948743737971620, guid: 1771e93611363584e986569f16aa3f86, type: 3}
