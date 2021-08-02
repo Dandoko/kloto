@@ -53,15 +53,15 @@ public class PlayerMovement : MonoBehaviour
 
         if (!isGrounded && prevIsGrounded)
         {
-            SoundManager.playSound(SoundManager.Sounds.PlayerJump);
+            SoundManager.playSound(SoundManager.Sounds.PlayerJump, null);
         }
         else if (isGrounded && !prevIsGrounded)
         {
-            SoundManager.playSound(SoundManager.Sounds.PlayerLand);
+            SoundManager.playSound(SoundManager.Sounds.PlayerLand, null);
         }
         else if ((Mathf.Abs(movementX) > 0 || Mathf.Abs(movementZ) > 0) && isGrounded)
         {
-            SoundManager.playSound(SoundManager.Sounds.PlayerRun);
+            SoundManager.playSound(SoundManager.Sounds.PlayerRun, null);
         }
 
         adjustXAngle();

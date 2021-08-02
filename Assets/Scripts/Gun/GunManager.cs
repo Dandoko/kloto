@@ -87,7 +87,7 @@ public class GunManager : MonoBehaviour
         GameObject newBulletObject = Instantiate(bulletPrefab);
         bulletManager = new BulletManager(this, portalManager, newBulletObject, bulletMat, gunTip, hitObject, bulletType);
 
-        SoundManager.playSound(SoundManager.Sounds.ShootGun);
+        SoundManager.playSound(SoundManager.Sounds.ShootGun, null);
     }
 
     // Checking if a portal can be created on the surface the raycast hit
