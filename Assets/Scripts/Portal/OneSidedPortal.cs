@@ -88,10 +88,6 @@ public class OneSidedPortal : MonoBehaviour
 
 
 
-
-
-
-
             // Renders the camera manually each update frame
             portalCamera.Render();
 
@@ -114,15 +110,15 @@ public class OneSidedPortal : MonoBehaviour
 
 
 
-                Vector3 curRelPortalPos = traveller.transform.position - portalScreen.transform.position;
+               Vector3 curRelPortalPos = traveller.transform.position - portalScreen.transform.position;
 
-                int prevPortalSide = System.Math.Sign(Vector3.Dot(traveller.prevRelPortalPos, transform.forward));
-                int curPortalSide = System.Math.Sign(Vector3.Dot(curRelPortalPos, transform.forward));
+               int prevPortalSide = System.Math.Sign(Vector3.Dot(traveller.prevRelPortalPos, transform.forward));
+               int curPortalSide = System.Math.Sign(Vector3.Dot(curRelPortalPos, transform.forward));
 
 
                 if (curPortalSide != prevPortalSide)
                 {
-                    traveller.Teleport(thisPortal, linkedPortal.gameObject, curPortalSide);
+                    traveller.OneSidedTeleport(thisPortal, linkedPortal.gameObject);
                     trackedTravellers.RemoveAt(i);
                     i--;
                 }
@@ -157,7 +153,7 @@ public class OneSidedPortal : MonoBehaviour
             if (!trackedTravellers.Contains(traveller))
             {
                 InsidePortal(traveller);
-                traveller.prevRelPortalPos = traveller.transform.position - portalScreen.transform.position;
+                traveller.prevRelPortalPos = traveller.transform.position - portalScreen.transform.position + 0.05f*portalScreen.transform.forward;
                 trackedTravellers.Add(traveller);
             }
         }
