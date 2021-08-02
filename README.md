@@ -22,6 +22,7 @@ directory with changes someone else could have made
 - [Sci-Fi Gun Sound Effect](https://assetstore.unity.com/packages/audio/sound-fx/weapons/sci-fi-gun-sounds-pack-lite-141125)
 - [Sci-Fi Orb Bitmaps](https://oxmond.com/glowing-orb-visual-effects-vfx/)
 - [Sci-Fi Portal Sound Effect](https://assetstore.unity.com/packages/audio/sound-fx/sci-fi-evolution-gift-pack-43104)
+- [Particle Pack](https://assetstore.unity.com/packages/essentials/asset-packs/unity-particle-pack-5-x-73777)
 
 ### Tutorial
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)

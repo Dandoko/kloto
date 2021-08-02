@@ -7,7 +7,7 @@ public class GunManager : MonoBehaviour
 {
     [SerializeField] private GameObject bulletPrefabBlue;
     [SerializeField] private GameObject bulletPrefabRed;
-    [SerializeField] private ParticleSystem muzzleFlash;
+    [SerializeField] private GameObject muzzleFlash;
     [SerializeField] private Image crosshair;
     [SerializeField] private PortalManager portalManager;
     
@@ -78,7 +78,9 @@ public class GunManager : MonoBehaviour
 
     private void shootGun(RaycastHit hitObject, int bulletType, GameObject bulletPrefab)
     {
-        muzzleFlash.Play();
+        GameObject muzzleFlashObject = Instantiate(muzzleFlash, gunTip.position, gunTip.rotation);
+        Destroy(muzzleFlashObject, 2.0f);
+
         shootingTime = Time.time + shootingInterval;
 
         // Creating the bullet

@@ -14,7 +14,7 @@ public class BulletManager
     // Bullet
     //=========================================================================
     private GameObject bulletGameObject;
-    private const float speed = 60f;
+    private const float speed = 40f;
     private int bulletType;
     private LayerMask bulletMask = LayerMask.NameToLayer("Bullet");
 
