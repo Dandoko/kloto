@@ -34,6 +34,7 @@ directory with changes someone else could have made
 - [Unity Asset Manager](https://youtu.be/7GcEW6uwO8E)
 - [Unity Sound Manager](https://youtu.be/QL29aTa7J5Q)
 - [Unity Glowing Orb](https://youtu.be/pxNzoLfreOo)
+- [Unity AudioSource Doppler Effect](https://youtu.be/eQphjWreQ0U)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)

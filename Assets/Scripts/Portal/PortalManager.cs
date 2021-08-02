@@ -116,7 +116,6 @@ public class PortalManager : MonoBehaviour
         }
 
         portal = Instantiate(portalPrefab);
-        SoundManager.playSound(SoundManager.Sounds.Portal);
 
         if (bothPortalsExist())
         {
@@ -152,6 +151,8 @@ public class PortalManager : MonoBehaviour
             //portal.transform.GetChild(0).gameObject.transform.rotation = tempBackwardsPortalRotation;
             //portal.transform.GetChild(2).gameObject.transform.rotation = tempBackwardsPortalRotation;
         }
+
+        SoundManager.playSound(SoundManager.Sounds.Portal, portal);
     }
 
     public int getPortalLayerMask()

@@ -16,26 +16,31 @@ public static class SoundManager
         Portal
     }
 
-    public static void playSound(Sounds sound)
+    public static void playSound(Sounds sound, GameObject soundObject)
     {
         if (canPlaySound(sound))
         {
-            GameObject soundGameOjbect = new GameObject("Sound");
-            AudioSource audioSource = soundGameOjbect.AddComponent<AudioSource>();
             AudioClip audioClip = getAudioClip(sound);
 
             if (Sounds.Portal == sound)
             {
+                AudioSource audioSource = soundObject.AddComponent<AudioSource>();
+                audioSource.spatialBlend = 1.0f;
+                audioSource.rolloffMode = AudioRolloffMode.Linear;
+                audioSource.minDistance = 1.0f;
+                audioSource.maxDistance = 5.0f;
                 audioSource.clip = audioClip;
                 audioSource.loop = true;
+                audioSource.volume = 0.5f;
                 audioSource.Play();
             }
             else
             {
+                GameObject soundGameOjbect = new GameObject("Sound");
+                AudioSource audioSource = soundGameOjbect.AddComponent<AudioSource>();
                 audioSource.PlayOneShot(audioClip);
                 Object.Destroy(soundGameOjbect, audioClip.length + 0.2f);
             }
-
         }
     }
 
