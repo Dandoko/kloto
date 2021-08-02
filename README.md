@@ -22,6 +22,7 @@ directory with changes someone else could have made
 - [Sci-Fi Gun Sound Effect](https://assetstore.unity.com/packages/audio/sound-fx/weapons/sci-fi-gun-sounds-pack-lite-141125)
 - [Sci-Fi Orb Bitmaps](https://oxmond.com/glowing-orb-visual-effects-vfx/)
 - [Sci-Fi Portal Sound Effect](https://assetstore.unity.com/packages/audio/sound-fx/sci-fi-evolution-gift-pack-43104)
+- [Particle Pack](https://assetstore.unity.com/packages/essentials/asset-packs/unity-particle-pack-5-x-73777)
 
 ### Tutorial
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)
@@ -40,7 +41,7 @@ directory with changes someone else could have made
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
 - [Smooth Portals in Unity](https://youtu.be/cuQao3hEKfs)
-- [Portal Gun in Unity](https://youtu.be/PkGjYig8avo)
+- [FPS Portals](https://youtu.be/PkGjYig8avo)
 
 ### C#
 - [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=net-5.0)

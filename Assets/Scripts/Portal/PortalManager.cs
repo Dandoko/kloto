@@ -12,6 +12,8 @@ public class PortalManager : MonoBehaviour
     [SerializeField] private LayerMask portalMask;
     [SerializeField] private LayerMask playerMask;
     [SerializeField] private Material portalMat;
+    [SerializeField] private Material portalFrameMat1;
+    [SerializeField] private Material portalFrameMat2;
 
     private Transform tempPortal;
     private Quaternion tempBackwardsPortalRotation;
@@ -92,16 +94,16 @@ public class PortalManager : MonoBehaviour
         return false;
     }
 
-    public void instatiatePortal(int bulletType, Material bulletMat)
+    public void instatiatePortal(int bulletType)
     {
         if (bulletType == 1)
         {
-            instantiatePortalHelper(ref portal1, ref portal2, bulletMat, true, connectingSurface, connectedSurface2);
+            instantiatePortalHelper(ref portal1, ref portal2, portalFrameMat1, true, connectingSurface, connectedSurface2);
             connectedSurface1 = connectingSurface;
         }
         else
         {
-            instantiatePortalHelper(ref portal2, ref portal1, bulletMat, false, connectingSurface, connectedSurface1);
+            instantiatePortalHelper(ref portal2, ref portal1, portalFrameMat2, false, connectingSurface, connectedSurface1);
             connectedSurface2 = connectingSurface;
         }
     }
