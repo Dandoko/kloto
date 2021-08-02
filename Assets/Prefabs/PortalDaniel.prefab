@@ -273,7 +273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6142675979230509588}
   - component: {fileID: 6581464561913601879}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: PortalDaniel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
