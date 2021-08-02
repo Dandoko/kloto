@@ -23,8 +23,19 @@ public static class SoundManager
             GameObject soundGameOjbect = new GameObject("Sound");
             AudioSource audioSource = soundGameOjbect.AddComponent<AudioSource>();
             AudioClip audioClip = getAudioClip(sound);
-            audioSource.PlayOneShot(audioClip);
-            Object.Destroy(soundGameOjbect, audioClip.length + 0.2f);
+
+            if (Sounds.Portal == sound)
+            {
+                audioSource.clip = audioClip;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+            else
+            {
+                audioSource.PlayOneShot(audioClip);
+                Object.Destroy(soundGameOjbect, audioClip.length + 0.2f);
+            }
+
         }
     }
 
