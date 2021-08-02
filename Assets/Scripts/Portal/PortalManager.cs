@@ -57,9 +57,9 @@ public class PortalManager : MonoBehaviour
 
         //Debug.DrawRay(hitObject.point, hitObject.normal * 20f, Color.red, 20f);
 
-        Debug.Log(portalRight);
+        //Debug.Log(portalRight);
         //Debug.Log(portalForward);
-        Debug.Log(portalUp);
+        //Debug.Log(portalUp);
         //Debug.Log(portalRotation);
         //Debug.Log("===============");
 
