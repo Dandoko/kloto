@@ -7,7 +7,8 @@ public class GunManager : MonoBehaviour
 {
     [SerializeField] private GameObject bulletPrefabBlue;
     [SerializeField] private GameObject bulletPrefabRed;
-    [SerializeField] private GameObject muzzleFlash;
+    [SerializeField] private GameObject muzzleFlashBlue;
+    [SerializeField] private GameObject muzzleFlashRed;
     [SerializeField] private Image crosshair;
     [SerializeField] private PortalManager portalManager;
     
@@ -51,11 +52,11 @@ public class GunManager : MonoBehaviour
 
                     if (Input.GetButtonDown("Fire1"))
                     {
-                        shootGun(hitObject, 1, bulletPrefabBlue);
+                        shootGun(hitObject, 1, bulletPrefabBlue, muzzleFlashBlue);
                     }
                     else if (Input.GetButtonDown("Fire2"))
                     {
-                        shootGun(hitObject, 2, bulletPrefabRed);
+                        shootGun(hitObject, 2, bulletPrefabRed, muzzleFlashRed);
                     }
                 }
             }
@@ -76,7 +77,7 @@ public class GunManager : MonoBehaviour
         }
     }
 
-    private void shootGun(RaycastHit hitObject, int bulletType, GameObject bulletPrefab)
+    private void shootGun(RaycastHit hitObject, int bulletType, GameObject bulletPrefab, GameObject muzzleFlash)
     {
         GameObject muzzleFlashObject = Instantiate(muzzleFlash, gunTip.position, gunTip.rotation);
         Destroy(muzzleFlashObject, 2.0f);
