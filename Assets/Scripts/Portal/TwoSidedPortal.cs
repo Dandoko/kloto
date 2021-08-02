@@ -112,12 +112,12 @@ public class TwoSidedPortal : MonoBehaviour
 
             int prevPortalSide = System.Math.Sign(Vector3.Dot(traveller.prevRelPortalPos, transform.forward));
             int curPortalSide = System.Math.Sign(Vector3.Dot(curRelPortalPos, transform.forward));
-
+            Matrix4x4 transformMatrix = linkedPortal.transform.localToWorldMatrix * transform.worldToLocalMatrix * traveller.transform.localToWorldMatrix;
 
             if (curPortalSide != prevPortalSide)
             {
                 
-                traveller.Teleport(thisPortal, linkedPortal.gameObject, curPortalSide);
+                traveller.TwoSidedTeleport(thisPortal, linkedPortal.gameObject, transformMatrix, curPortalSide);
                 trackedTravellers.RemoveAt(i);
                 i--;
             }
