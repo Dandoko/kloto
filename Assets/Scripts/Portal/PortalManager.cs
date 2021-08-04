@@ -118,6 +118,8 @@ public class PortalManager : MonoBehaviour
         }
 
         portal = Instantiate(portalPrefab);
+        portal.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+        var portalComponent = portal.AddComponent<OneSidedPortal>();
 
         if (bothPortalsExist())
         {
@@ -125,7 +127,12 @@ public class PortalManager : MonoBehaviour
             Destroy(linkedPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material);
             linkedPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = portalMat;
 
-            var portalComponent = portal.AddComponent<OneSidedPortal>();
+            //var portalComponent = portal.AddComponent<OneSidedPortal>();
+            //var linkedPortalComponent = linkedPortal.AddComponent<OneSidedPortal>();
+
+            //portalComponent.setPortal(linkedPortalComponent, portalSurface);
+            //linkedPortalComponent.setPortal(portalComponent, linkedPortalSurface);
+
             var linkedPortalComponent = linkedPortal.AddComponent<OneSidedPortal>();
 
             portalComponent.setPortal(linkedPortalComponent, portalSurface);

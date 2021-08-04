@@ -144,6 +144,9 @@ directory with changes someone else could have made
 - AudioSource.PlayOneShot() is not looping
 	- [Solution Source](https://answers.unity.com/questions/1123649/audiosourceplayoneshot-is-not-looping.html)
 	- Use `AudioSource.Play()` instead
+- The type 'UnityEngine.Vector3' cannot be declared const
+	- [Solution Source](https://answers.unity.com/questions/60262/the-type-unityenginevector3-cannot-be-declared-con.html)
+	- Only the C# built-in types (excluding System.Object) may be declared as const
 
 ## Debugging
 
