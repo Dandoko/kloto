@@ -29,7 +29,6 @@ public class PortalManager : MonoBehaviour
         Quaternion cameraRotation = playerCamera.rotation;
         Vector3 portalRight = cameraRotation * Vector3.right;
 
-
         if (Mathf.Abs(portalRight.x) >= Mathf.Abs(portalRight.z))
         {
             portalRight = (portalRight.x >= 0) ? Vector3.right : -Vector3.right;
@@ -39,10 +38,17 @@ public class PortalManager : MonoBehaviour
             portalRight = (portalRight.z >= 0) ? Vector3.forward : -Vector3.forward;
         }
 
-
-
         Vector3 portalForward = -hitObject.normal;
         Vector3 portalUp = -Vector3.Cross(portalRight, portalForward);
+
+        Quaternion surfaceRotation = hitObject.collider.gameObject.transform.rotation;
+        Vector3 surfaceRight = surfaceRotation * Vector3.right;
+        if (Mathf.Abs(Mathf.Abs(surfaceRight.x) - 1.0f) > 0.0001f)
+        {
+            Debug.Log(surfaceRight);
+            portalUp = -Vector3.Cross(surfaceRight, portalForward);
+        }
+
         //portalUp.z -= hitObject.collider.gameObject.transform.rotation.z;
 
         //if (Mathf.Abs(portalRight.x) >= Mathf.Abs(portalRight.y))
@@ -63,7 +69,7 @@ public class PortalManager : MonoBehaviour
         //Debug.Log(portalForward);
         //Debug.Log(portalUp);
         //Debug.Log(portalRotation);
-        //Debug.Log("===============");
+        Debug.Log("===============");
 
         return canPortalBeCreated(hitObject, portalRotation, backwardsPortalRotation);
     }
