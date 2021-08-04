@@ -53,16 +53,22 @@ public class PortalTraveller : MonoBehaviour
 
     public void OneSidedTeleport(GameObject thisPortal, GameObject otherPortal)
     {
-        Vector3 relativePos = thisPortal.transform.InverseTransformPoint(transform.position);
-        transform.position = otherPortal.transform.TransformPoint(relativePos);
+        GameObject thisScreen = thisPortal.transform.GetChild(0).gameObject;
+        GameObject otherScreen = otherPortal.transform.GetChild(0).gameObject;
 
-        Quaternion relativeRot = Quaternion.Inverse(thisPortal.transform.rotation) * transform.rotation;
-        transform.rotation = otherPortal.transform.rotation * relativeRot;
+
+        Vector3 relativePos = thisScreen.transform.InverseTransformPoint(transform.position);
+        transform.position = otherScreen.transform.TransformPoint(relativePos);
+
+        Quaternion relativeRot = Quaternion.Inverse(thisScreen.transform.rotation) * transform.rotation;
+        transform.rotation = otherScreen.transform.rotation * relativeRot;
 
         if (transform.GetComponent<CharacterController>() != null)
         {
-            Vector3 relativeVel = thisPortal.transform.InverseTransformDirection(transform.GetComponent<CharacterController>().velocity);
-            //transform.GetComponent<CharacterController>().Move(otherPortal.transform.TransformDirection(relativeVel));
+            Vector3 relativeVel = thisScreen.transform.InverseTransformDirection(transform.GetComponent<CharacterController>().velocity);
+            Debug.Log(relativeVel);
+            Debug.Log(otherScreen.transform.TransformDirection(relativeVel));
+            //transform.GetComponent<CharacterController>().SimpleMove(otherPortal.transform.TransformDirection(relativeVel));
         }
 
 
