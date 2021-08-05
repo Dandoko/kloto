@@ -148,7 +148,6 @@ public class OneSidedPortal : MonoBehaviour
 
 
 
-    //
     private void OnTriggerEnter(Collider collided)
     {
         if (null != linkedPortal)
