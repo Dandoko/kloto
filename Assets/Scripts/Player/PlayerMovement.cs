@@ -13,7 +13,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded = false;
     private bool prevIsGrounded = false;
     private float jumpHeight = 2f;
-    private float angleAdjustIncrement = 2f;
+    private float angleAdjustIncrement = 15f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     void LateUpdate()
     {
-        adjustZAngle();
+        
     }
 
     // Update is called once per frame
@@ -40,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
         float movementZ = Input.GetAxis("Vertical");
 
         Vector3 movement = transform.right * movementX + transform.forward * movementZ;
-        controller.Move(movement * speed * Time.deltaTime);
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Applying gravity
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        controller.Move(velocity * Time.deltaTime + movement * speed * Time.deltaTime);
 
         if (!isGrounded && prevIsGrounded)
         {
@@ -64,67 +64,19 @@ public class PlayerMovement : MonoBehaviour
             SoundManager.playSound(SoundManager.Sounds.PlayerRun, null);
         }
 
-        adjustXAngle();
+
+        ResetCameraUpright();
 
         prevIsGrounded = isGrounded;
     }
 
-    void adjustXAngle()
-    {
-        if ((transform.eulerAngles.x % 360) != 0f)
-        {
-            if ((transform.eulerAngles.x % 360) > 180)
-            {
-                if ((transform.eulerAngles.x % 360) < (360f - angleAdjustIncrement))
-                {
-                    transform.eulerAngles = new Vector3(transform.eulerAngles.x + angleAdjustIncrement, transform.eulerAngles.y, transform.eulerAngles.z);
-                }
-                else if ((transform.eulerAngles.x % 360) > (360f - angleAdjustIncrement))
-                {
-                    transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, transform.eulerAngles.z);
-                }
-            }
-            else if ((transform.eulerAngles.x % 360) <= 180)
-            {
-                if ((transform.eulerAngles.x % 360) > angleAdjustIncrement)
-                {
-                    transform.eulerAngles = new Vector3(transform.eulerAngles.x - angleAdjustIncrement, transform.eulerAngles.y, transform.eulerAngles.z);
-                }
-                else if ((transform.eulerAngles.x % 360) < angleAdjustIncrement)
-                {
-                    transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, transform.eulerAngles.z);
-                }
-            }
-        }
-    }
 
-    void adjustZAngle()
+    private void ResetCameraUpright()
     {
-        if ((transform.eulerAngles.z % 360) != 0f)
-        {
-            if ((transform.eulerAngles.z % 360) > 180)
-            {
-                if ((transform.eulerAngles.z % 360) < (360f - angleAdjustIncrement))
-                {
-                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + angleAdjustIncrement);
-                }
-                else if ((transform.eulerAngles.z % 360) > (360f - angleAdjustIncrement))
-                {
-                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
-                }
-            }
-            else if ((transform.eulerAngles.z % 360) <= 180)
-            {
-                if ((transform.eulerAngles.z % 360) > angleAdjustIncrement)
-                {
-                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z - angleAdjustIncrement);
-                }
-                else if ((transform.eulerAngles.z % 360) < angleAdjustIncrement)
-                {
-                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, 0f);
-                }
-            }
-        }
+        var targetRot = new Vector3(0f, transform.eulerAngles.y, 0f);
+
+        transform.eulerAngles = new Vector3(Mathf.LerpAngle(transform.eulerAngles.x, targetRot.x, Time.deltaTime * angleAdjustIncrement), Mathf.LerpAngle(transform.eulerAngles.y, targetRot.y, Time.deltaTime * angleAdjustIncrement), Mathf.LerpAngle(transform.eulerAngles.z, targetRot.z, Time.deltaTime * angleAdjustIncrement));
+    
     }
 
 }

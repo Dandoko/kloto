@@ -120,7 +120,6 @@ public class OneSidedPortal : MonoBehaviour
                int prevPortalSide = System.Math.Sign(Vector3.Dot(traveller.prevRelPortalPos, transform.forward));
                int curPortalSide = System.Math.Sign(Vector3.Dot(curRelPortalPos, transform.forward));
 
-
                 if (curPortalSide != prevPortalSide)
                 {
                     traveller.OneSidedTeleport(thisPortal, linkedPortal.gameObject);
