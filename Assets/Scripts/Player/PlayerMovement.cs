@@ -7,12 +7,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CharacterController controller;
 
     private float speed = 5f;
-    private float gravity = -19.62f;
-    private Vector3 velocity;
+    private float gravity = -9.81f;
+    private float yVel;
+    public Vector3 velocity;
+    
 
     private bool isGrounded = false;
     private bool prevIsGrounded = false;
-    private float jumpHeight = 2f;
+    private float jumpHeight = 3f;
     private float angleAdjustIncrement = 15f;
 
 
@@ -21,35 +23,33 @@ public class PlayerMovement : MonoBehaviour
     {
     }
 
-    void LateUpdate()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
         isGrounded = controller.isGrounded;
 
-        // Resetting the y velocity after landing
-        if (isGrounded)
+        if (isGrounded && Input.GetButtonDown("Jump"))
         {
-            velocity.y = -2f;
+            yVel = jumpHeight;
+        }
+
+        if (!isGrounded)
+        {
+            //Applying gravity
+            //Added because the gravity coefficient is negative
+            yVel += gravity * Time.deltaTime;
         }
 
         float movementX = Input.GetAxis("Horizontal");
         float movementZ = Input.GetAxis("Vertical");
 
-        Vector3 movement = transform.right * movementX + transform.forward * movementZ;
+        Vector3 movement = transform.right * movementX + transform.forward * movementZ + Vector3.up * yVel;
+        velocity = movement * speed;
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
 
         // Applying gravity
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime + movement * speed * Time.deltaTime);
+        controller.Move(velocity * Time.deltaTime);
 
         if (!isGrounded && prevIsGrounded)
         {

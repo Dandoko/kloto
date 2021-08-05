@@ -5,12 +5,6 @@ using UnityEngine;
 public class PortalTraveller : MonoBehaviour
 {
 
-    private Vector3 objToPortal1;
-    private Vector3 objToPortal2;
-    private Quaternion rotObjToPortal1;
-    private Quaternion rotObjToPortal2;
-    private Quaternion portalRotDif;
-    private Matrix4x4 rotDifMatrix;
     public Vector3 travelPos;
     public Vector3 prevRelPortalPos;
 
@@ -64,14 +58,13 @@ public class PortalTraveller : MonoBehaviour
         Quaternion relativeRot = Quaternion.Inverse(thisScreen.transform.rotation) * transform.rotation;
         transform.rotation = otherScreen.transform.rotation * relativeRot;
 
-        if (transform.GetComponent<CharacterController>() != null)
+        if (transform.tag == "Player")
         {
+            PlayerMovement playerScript = transform.GetComponent<PlayerMovement>();
             Quaternion portalRotDif = otherPortal.transform.rotation * Quaternion.Inverse(thisPortal.transform.rotation);
             Matrix4x4 rotDifMatrix = Matrix4x4.Rotate(portalRotDif);
 
-            Vector3 trueVel = transform.GetComponent<CharacterController>().velocity;
-            Debug.Log(trueVel);
-            Vector3 transformedVel = rotDifMatrix.MultiplyVector(trueVel);
+            Vector3 transformedVel = rotDifMatrix.MultiplyVector(playerScript.velocity);
 
             transform.GetComponent<CharacterController>().Move(transformedVel);
         }
