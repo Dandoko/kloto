@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpHeight = 2f;
     private float angleAdjustIncrement = 15f;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Applying gravity
         velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime + movement*speed*Time.deltaTime);
+        controller.Move(velocity * Time.deltaTime + movement * speed * Time.deltaTime);
 
         if (!isGrounded && prevIsGrounded)
         {
