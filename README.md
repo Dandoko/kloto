@@ -37,6 +37,7 @@ directory with changes someone else could have made
 - [Unity Sound Manager](https://youtu.be/QL29aTa7J5Q)
 - [Unity Glowing Orb](https://youtu.be/pxNzoLfreOo)
 - [Unity AudioSource Doppler Effect](https://youtu.be/eQphjWreQ0U)
+- [Hull Outline Shader in Unity URP](https://youtu.be/1QPA3s0S3Oo)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
@@ -89,6 +90,7 @@ directory with changes someone else could have made
 - [RenderTexture.Release](https://docs.unity3d.com/ScriptReference/RenderTexture.Release.html)
 - [Checks if Renderer is Visible](https://wiki.unity3d.com/index.php/IsVisibleFrom)
 - [Camera.depth](https://docs.unity3d.com/ScriptReference/Camera-depth.html)
+- [Shadow Distance](https://docs.unity3d.com/Manual/shadow-distance.html)
 
 #### Collision Detection
 - [Physics.Raycast](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html)
@@ -147,6 +149,17 @@ directory with changes someone else could have made
 - The type 'UnityEngine.Vector3' cannot be declared const
 	- [Solution Source](https://answers.unity.com/questions/60262/the-type-unityenginevector3-cannot-be-declared-con.html)
 	- Only the C# built-in types (excluding System.Object) may be declared as const
+- Universal Render Pipeline makes turns materials pink
+	- [Solution Source](https://answers.unity.com/questions/1519382/textures-and-materials-turn-pink-after-installing.html)
+	- Upgrade materials to URP materials
+- After upgrading materials to URP, default materials remain pink
+	- Apply a non-default material to the game object
+- URP makes shadows look pixelated
+	- [SolutionSource](https://forum.unity.com/threads/pixelated-shadows.921257/)
+	- Reduce shadow distance
+- A game object can only be in one layer. The layer needs to be in the range [0...31]
+	- [Solution Source](https://answers.unity.com/questions/1103260/a-game-object-can-only-be-in-one-layer-the-layer-n.html)
+	- `mask = LayerMask.NameToLayer("RemotePlayer");`
 
 ## Debugging
 
