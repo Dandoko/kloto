@@ -22,6 +22,8 @@ public class PortalManager : MonoBehaviour
     private GameObject connectedSurface2;
     private GameObject portal1;
     private GameObject portal2;
+    private string outlineName1 = "OutlineBlue";
+    private string outlineName2 = "OutlineRed";
 
     public bool checkPortalCreation(RaycastHit hitObject, Transform playerCamera)
     {
@@ -187,6 +189,12 @@ public class PortalManager : MonoBehaviour
             portal.transform.rotation = tempBackwardsPortalRotation;
             //portal.transform.GetChild(0).gameObject.transform.rotation = tempBackwardsPortalRotation;
             //portal.transform.GetChild(2).gameObject.transform.rotation = tempBackwardsPortalRotation;
+
+            portal.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer(outlineName1);
+        }
+        else
+        {
+            portal.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer(outlineName2);
         }
 
         SoundManager.playSound(SoundManager.Sounds.Portal, portal);
