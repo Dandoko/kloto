@@ -50,10 +50,14 @@ public class PortalTraveller : MonoBehaviour
     {
         GameObject thisScreen = thisPortal.transform.GetChild(0).gameObject;
         GameObject otherScreen = otherPortal.transform.GetChild(0).gameObject;
+        Quaternion portalRotDif = otherPortal.transform.rotation * Quaternion.Inverse(thisPortal.transform.rotation);
+        Matrix4x4 rotDifMatrix = Matrix4x4.Rotate(portalRotDif);
 
 
-        Vector3 relativePos = thisScreen.transform.InverseTransformPoint(transform.position);
-        transform.position = otherScreen.transform.TransformPoint(relativePos);
+        Vector3 relativePos = transform.position - thisScreen.transform.position;
+        Vector3 rotatedRelPos = rotDifMatrix.MultiplyPoint(relativePos);
+        transform.position = rotatedRelPos + otherScreen.transform.position;
+
 
         Quaternion relativeRot = Quaternion.Inverse(thisScreen.transform.rotation) * transform.rotation;
         transform.rotation = otherScreen.transform.rotation * relativeRot;
@@ -61,12 +65,10 @@ public class PortalTraveller : MonoBehaviour
         if (transform.tag == "Player")
         {
             PlayerMovement playerScript = transform.GetComponent<PlayerMovement>();
-            Quaternion portalRotDif = otherPortal.transform.rotation * Quaternion.Inverse(thisPortal.transform.rotation);
-            Matrix4x4 rotDifMatrix = Matrix4x4.Rotate(portalRotDif);
+
 
             Vector3 transformedVel = rotDifMatrix.MultiplyVector(playerScript.velocity);
-
-            transform.GetComponent<CharacterController>().Move(transformedVel);
+            //transform.GetComponent<CharacterController>().Move(transformedVel);
         }
 
 
