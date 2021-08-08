@@ -25,6 +25,8 @@ public class PortalManager : MonoBehaviour
 
     public bool checkPortalCreation(RaycastHit hitObject, Transform playerCamera)
     {
+        //Quaternion surfaceRotation = hitObject.collider.gameObject.transform.rotation;
+
         // Find direction and rotation of portal
         Quaternion cameraRotation = playerCamera.rotation;
         Vector3 portalRight = cameraRotation * Vector3.right;
@@ -32,6 +34,7 @@ public class PortalManager : MonoBehaviour
         if (Mathf.Abs(portalRight.x) >= Mathf.Abs(portalRight.z))
         {
             portalRight = (portalRight.x >= 0) ? Vector3.right : -Vector3.right;
+            //portalRight = (portalRight.x >= 0) ? surfaceRotation * Vector3.right : surfaceRotation  * - Vector3.right;
         }
         else
         {
@@ -40,14 +43,6 @@ public class PortalManager : MonoBehaviour
 
         Vector3 portalForward = -hitObject.normal;
         Vector3 portalUp = -Vector3.Cross(portalRight, portalForward);
-
-        Quaternion surfaceRotation = hitObject.collider.gameObject.transform.rotation;
-        Vector3 surfaceRight = surfaceRotation * Vector3.right;
-        if (Mathf.Abs(Mathf.Abs(surfaceRight.x) - 1.0f) > 0.0001f)
-        {
-            Debug.Log(surfaceRight);
-            portalUp = -Vector3.Cross(surfaceRight, portalForward);
-        }
 
         //portalUp.z -= hitObject.collider.gameObject.transform.rotation.z;
 
@@ -63,13 +58,40 @@ public class PortalManager : MonoBehaviour
         Quaternion portalRotation = Quaternion.LookRotation(portalForward, portalUp);
         Quaternion backwardsPortalRotation = Quaternion.LookRotation(-portalForward, portalUp);
 
+        //Vector3 surfaceRight = surfaceRotation * Vector3.right;
+        //if (Mathf.Abs(Mathf.Abs(surfaceRight.x) - 1.0f) > 0.0001f)
+        //{
+        //    if (portalRight == Vector3.right)
+        //    {
+        //        Debug.Log(portalRight);
+        //        Debug.Log(surfaceRight);
+        //        Debug.Log(portalRotation);
+        //        Debug.Log(backwardsPortalRotation);
+        //        Debug.Log("===============");
+        //    }
+        //    else if (portalRight == -Vector3.right)
+        //    {
+
+        //    }
+        //    else if (portalRight == Vector3.forward)
+        //    {
+
+        //    }
+        //    else /* if (portalRight == -Vector3.forward) */
+        //    {
+
+        //    }
+
+        //    //portalUp = -Vector3.Cross(surfaceRight, portalForward);
+        //}
+
         //Debug.DrawRay(hitObject.point, hitObject.normal * 20f, Color.red, 20f);
 
         //Debug.Log(portalRight);
         //Debug.Log(portalForward);
         //Debug.Log(portalUp);
         //Debug.Log(portalRotation);
-        Debug.Log("===============");
+        //Debug.Log("===============");
 
         return canPortalBeCreated(hitObject, portalRotation, backwardsPortalRotation);
     }
