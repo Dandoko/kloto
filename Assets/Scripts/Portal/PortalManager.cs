@@ -22,27 +22,30 @@ public class PortalManager : MonoBehaviour
     private GameObject connectedSurface2;
     private GameObject portal1;
     private GameObject portal2;
+    private string outlineName1 = "OutlineBlue";
+    private string outlineName2 = "OutlineRed";
 
     public bool checkPortalCreation(RaycastHit hitObject, Transform playerCamera)
     {
+        //Quaternion surfaceRotation = hitObject.collider.gameObject.transform.rotation;
+
         // Find direction and rotation of portal
         Quaternion cameraRotation = playerCamera.rotation;
         Vector3 portalRight = cameraRotation * Vector3.right;
 
-
         if (Mathf.Abs(portalRight.x) >= Mathf.Abs(portalRight.z))
         {
             portalRight = (portalRight.x >= 0) ? Vector3.right : -Vector3.right;
+            //portalRight = (portalRight.x >= 0) ? surfaceRotation * Vector3.right : surfaceRotation  * - Vector3.right;
         }
         else
         {
             portalRight = (portalRight.z >= 0) ? Vector3.forward : -Vector3.forward;
         }
 
-
-
         Vector3 portalForward = -hitObject.normal;
         Vector3 portalUp = -Vector3.Cross(portalRight, portalForward);
+
         //portalUp.z -= hitObject.collider.gameObject.transform.rotation.z;
 
         //if (Mathf.Abs(portalRight.x) >= Mathf.Abs(portalRight.y))
@@ -56,6 +59,33 @@ public class PortalManager : MonoBehaviour
 
         Quaternion portalRotation = Quaternion.LookRotation(portalForward, portalUp);
         Quaternion backwardsPortalRotation = Quaternion.LookRotation(-portalForward, portalUp);
+
+        //Vector3 surfaceRight = surfaceRotation * Vector3.right;
+        //if (Mathf.Abs(Mathf.Abs(surfaceRight.x) - 1.0f) > 0.0001f)
+        //{
+        //    if (portalRight == Vector3.right)
+        //    {
+        //        Debug.Log(portalRight);
+        //        Debug.Log(surfaceRight);
+        //        Debug.Log(portalRotation);
+        //        Debug.Log(backwardsPortalRotation);
+        //        Debug.Log("===============");
+        //    }
+        //    else if (portalRight == -Vector3.right)
+        //    {
+
+        //    }
+        //    else if (portalRight == Vector3.forward)
+        //    {
+
+        //    }
+        //    else /* if (portalRight == -Vector3.forward) */
+        //    {
+
+        //    }
+
+        //    //portalUp = -Vector3.Cross(surfaceRight, portalForward);
+        //}
 
         //Debug.DrawRay(hitObject.point, hitObject.normal * 20f, Color.red, 20f);
 
@@ -159,6 +189,12 @@ public class PortalManager : MonoBehaviour
             portal.transform.rotation = tempBackwardsPortalRotation;
             //portal.transform.GetChild(0).gameObject.transform.rotation = tempBackwardsPortalRotation;
             //portal.transform.GetChild(2).gameObject.transform.rotation = tempBackwardsPortalRotation;
+
+            portal.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer(outlineName1);
+        }
+        else
+        {
+            portal.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer(outlineName2);
         }
 
         SoundManager.playSound(SoundManager.Sounds.Portal, portal);
