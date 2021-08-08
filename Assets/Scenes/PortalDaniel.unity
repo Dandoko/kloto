@@ -2415,8 +2415,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   portalMat: {fileID: 2100000, guid: 3228bee7ed1ead44fa69a1c4aeb5ef55, type: 2}
-  portalFrameMat1: {fileID: 2100000, guid: cc7191043ea69a249bbb44598a76380b, type: 2}
-  portalFrameMat2: {fileID: 2100000, guid: 2f404c59a01990e408c540cc93099a3f, type: 2}
+  singlePortalMat1: {fileID: 2100000, guid: c1f97150bbbd6444888137dfc2a53776, type: 2}
+  singlePortalMat2: {fileID: 2100000, guid: 437c2c7568b08be478537858114373ca, type: 2}
 --- !u!4 &1189184271 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4264948743737971620, guid: 1771e93611363584e986569f16aa3f86, type: 3}
