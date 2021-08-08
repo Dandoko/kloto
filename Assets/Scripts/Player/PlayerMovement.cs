@@ -33,6 +33,9 @@ public class PlayerMovement : MonoBehaviour
         {
             yVel = jumpHeight;
         }
+        else if (isGrounded && !Input.GetButtonDown("Jump")) {
+            yVel = -2f;
+        }
 
         if (!isGrounded)
         {
