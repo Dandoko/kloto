@@ -5,12 +5,6 @@ using UnityEngine;
 public class PortalTraveller : MonoBehaviour
 {
 
-    private Vector3 objToPortal1;
-    private Vector3 objToPortal2;
-    private Quaternion rotObjToPortal1;
-    private Quaternion rotObjToPortal2;
-    private Quaternion portalRotDif;
-    private Matrix4x4 rotDifMatrix;
     public Vector3 travelPos;
     public Vector3 prevRelPortalPos;
 
@@ -45,24 +39,34 @@ public class PortalTraveller : MonoBehaviour
         transform.position = objToPortal2 + otherPortal.transform.position + otherPortal.transform.forward * 0.03f * portalSide;
         //transform.position = objToPortal2 + otherPortal.transform.position;
 
-        transform.rotation = otherPortal.transform.rotation * rotObjToPortal2;
+        
         rotObjToPortal1 = Quaternion.Inverse(thisPortal.transform.rotation) * transform.rotation;
-        rotObjToPortal2 = rotObjToPortal1;*/
+        rotObjToPortal2 = rotObjToPortal1;
+        transform.rotation = otherPortal.transform.rotation * rotObjToPortal2;*/
 
     }
 
     public void OneSidedTeleport(GameObject thisPortal, GameObject otherPortal)
     {
-        Vector3 relativePos = thisPortal.transform.InverseTransformPoint(transform.position);
-        transform.position = otherPortal.transform.TransformPoint(relativePos);
+        GameObject thisScreen = thisPortal.transform.GetChild(0).gameObject;
+        GameObject otherScreen = otherPortal.transform.GetChild(0).gameObject;
 
-        Quaternion relativeRot = Quaternion.Inverse(thisPortal.transform.rotation) * transform.rotation;
-        transform.rotation = otherPortal.transform.rotation * relativeRot;
 
-        if (transform.GetComponent<CharacterController>() != null)
+        Vector3 relativePos = thisScreen.transform.InverseTransformPoint(transform.position);
+        transform.position = otherScreen.transform.TransformPoint(relativePos);
+
+        Quaternion relativeRot = Quaternion.Inverse(thisScreen.transform.rotation) * transform.rotation;
+        transform.rotation = otherScreen.transform.rotation * relativeRot;
+
+        if (transform.tag == "Player")
         {
-            Vector3 relativeVel = thisPortal.transform.InverseTransformDirection(transform.GetComponent<CharacterController>().velocity);
-            //transform.GetComponent<CharacterController>().Move(otherPortal.transform.TransformDirection(relativeVel));
+            PlayerMovement playerScript = transform.GetComponent<PlayerMovement>();
+            Quaternion portalRotDif = otherPortal.transform.rotation * Quaternion.Inverse(thisPortal.transform.rotation);
+            Matrix4x4 rotDifMatrix = Matrix4x4.Rotate(portalRotDif);
+
+            Vector3 transformedVel = rotDifMatrix.MultiplyVector(playerScript.velocity);
+
+            transform.GetComponent<CharacterController>().Move(transformedVel);
         }
 
 
