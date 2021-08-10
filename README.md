@@ -23,6 +23,7 @@ directory with changes someone else could have made
 - [Sci-Fi Orb Bitmaps](https://oxmond.com/glowing-orb-visual-effects-vfx/)
 - [Sci-Fi Portal Sound Effect](https://assetstore.unity.com/packages/audio/sound-fx/sci-fi-evolution-gift-pack-43104)
 - [Particle Pack](https://assetstore.unity.com/packages/essentials/asset-packs/unity-particle-pack-5-x-73777)
+- [YuME Map Prototype](https://assetstore.unity.com/packages/tools/level-design/yume-free-77387)
 
 ### Tutorial
 - [Learn Unity Tutorial](https://youtu.be/pwZpJzpE2lQ)
@@ -78,6 +79,7 @@ directory with changes someone else could have made
 - [Get a Script of a GameObject](https://forum.unity.com/threads/how-to-get-a-script-component-of-a-gameobject-solved.401979/)
 - [Remove a Script from a GameObject](https://answers.unity.com/questions/1505999/how-to-remove-material-from-object.html)
 - [Missing GameObject](https://answers.unity.com/questions/34926/missing-transform-vs-none-how-to-code-this-or-quer.html)
+- [Debug.LogError](https://docs.unity3d.com/ScriptReference/Debug.LogError.html)
 
 #### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
