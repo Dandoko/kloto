@@ -178,7 +178,18 @@ public class OneSidedPortal : MonoBehaviour
             {
                 if (traveller.tag == "Player")
                 {
-                    Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<BoxCollider>(), false);
+                    if (null != connectedSurface.GetComponent<BoxCollider>())
+                    {
+                        Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<BoxCollider>(), false);
+                    }
+                    else if (null != connectedSurface.GetComponent<MeshCollider>())
+                    {
+                        Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<MeshCollider>(), false);
+                    }
+                    else
+                    {
+                        Debug.LogError("Error: " + connectedSurface + " doesn't have a collider");
+                    }
                 }
                 if (trackedTravellers.Contains(traveller))
                 {
@@ -193,7 +204,19 @@ public class OneSidedPortal : MonoBehaviour
     
         if (traveller.tag == "Player")
         {
-            Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<BoxCollider>(), true);
+            if (null != connectedSurface.GetComponent<BoxCollider>())
+            {
+                Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<BoxCollider>(), true);
+            }
+            else if (null != connectedSurface.GetComponent<MeshCollider>())
+            {
+                Debug.Log("bruh");
+                Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<MeshCollider>(), false);
+            }
+            else
+            {
+                Debug.LogError("Error: " + connectedSurface + " doesn't have a collider");
+            }
         }
     
     }
