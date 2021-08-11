@@ -210,8 +210,7 @@ public class OneSidedPortal : MonoBehaviour
             }
             else if (null != connectedSurface.GetComponent<MeshCollider>())
             {
-                Debug.Log("bruh");
-                Physics.IgnoreCollision(traveller.gameObject.GetComponent<CapsuleCollider>(), connectedSurface.GetComponent<MeshCollider>(), false);
+                Physics.IgnoreCollision(traveller.gameObject.GetComponent<CapsuleCollider>(), connectedSurface.GetComponent<MeshCollider>(), true);
             }
             else
             {
