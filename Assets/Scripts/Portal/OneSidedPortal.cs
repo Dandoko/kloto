@@ -180,11 +180,11 @@ public class OneSidedPortal : MonoBehaviour
                 {
                     if (null != connectedSurface.GetComponent<BoxCollider>())
                     {
-                        Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<BoxCollider>(), false);
+                        Physics.IgnoreCollision(traveller.gameObject.GetComponent<CapsuleCollider>(), connectedSurface.GetComponent<BoxCollider>(), false);
                     }
                     else if (null != connectedSurface.GetComponent<MeshCollider>())
                     {
-                        Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<MeshCollider>(), false);
+                        Physics.IgnoreCollision(traveller.gameObject.GetComponent<CapsuleCollider>(), connectedSurface.GetComponent<MeshCollider>(), false);
                     }
                     else
                     {
@@ -206,11 +206,11 @@ public class OneSidedPortal : MonoBehaviour
         {
             if (null != connectedSurface.GetComponent<BoxCollider>())
             {
-                Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<BoxCollider>(), true);
+                Physics.IgnoreCollision(traveller.gameObject.GetComponent<CapsuleCollider>(), connectedSurface.GetComponent<BoxCollider>(), true);
             }
             else if (null != connectedSurface.GetComponent<MeshCollider>())
             {
-                Physics.IgnoreCollision(traveller.gameObject.GetComponent<CharacterController>(), connectedSurface.GetComponent<MeshCollider>(), true);
+                Physics.IgnoreCollision(traveller.gameObject.GetComponent<CapsuleCollider>(), connectedSurface.GetComponent<MeshCollider>(), true);
             }
             else
             {

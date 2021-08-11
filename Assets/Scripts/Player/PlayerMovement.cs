@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private CharacterController controller;
+    [SerializeField] Rigidbody rigidbodyChar;
+    public Vector3 portalVel = new Vector3(0f, 0f, 0f);
 
     private float speed = 5f;
-    private float gravity = -9.81f;
-    private float yVel;
-    public Vector3 velocity;
-    
 
+    private float yVel;
     private bool isGrounded = false;
     private bool prevIsGrounded = false;
-    private float jumpHeight = 3f;
+    private float jumpHeight = 7f;
     private float angleAdjustIncrement = 15f;
 
 
@@ -27,32 +25,24 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isGrounded = controller.isGrounded;
+        float distanceToGround = GetComponent<CapsuleCollider>().bounds.extents.y;
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, distanceToGround + 0.1f);
+
 
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
-            yVel = jumpHeight;
-        }
-        else if (isGrounded && !Input.GetButtonDown("Jump")) {
-            yVel = -2f;
+            rigidbodyChar.AddForce(transform.up * jumpHeight, ForceMode.VelocityChange);
         }
 
-        if (!isGrounded)
-        {
-            //Applying gravity
-            //Added because the gravity coefficient is negative
-            yVel += gravity * Time.deltaTime;
-        }
+
 
         float movementX = Input.GetAxis("Horizontal");
         float movementZ = Input.GetAxis("Vertical");
 
-        Vector3 movement = transform.right * movementX + transform.forward * movementZ + Vector3.up * yVel;
-        velocity = movement * speed;
+        Vector3 movement = portalVel + transform.right * movementX * speed + transform.forward * movementZ * speed + transform.up * rigidbodyChar.velocity.y;
+        movement = new Vector3(Mathf.Clamp(movement.x, -30f, 30f), Mathf.Clamp(movement.y, -30f, 30f), Mathf.Clamp(movement.z, -30f, 30f));
+        rigidbodyChar.velocity = movement;
 
-
-        // Applying gravity
-        controller.Move(velocity * Time.deltaTime);
 
         if (!isGrounded && prevIsGrounded)
         {
@@ -66,9 +56,21 @@ public class PlayerMovement : MonoBehaviour
         {
             SoundManager.playSound(SoundManager.Sounds.PlayerRun, null);
         }
+        
+        if (portalVel != Vector3.zero) {
+            if (isGrounded)
+            {
+                portalVel = Vector3.Lerp(portalVel, Vector3.zero, 0.1f);
+            }
+            else if (!isGrounded)
+            {
+                portalVel = Vector3.Lerp(portalVel, Vector3.zero, 0.01f);
+            }
+        }
 
 
         ResetCameraUpright();
+
 
         prevIsGrounded = isGrounded;
     }
