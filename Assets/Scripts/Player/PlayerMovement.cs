@@ -5,8 +5,9 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] Rigidbody rigidbodyChar;
+    [SerializeField] PortalManager portalManager;
     public Vector3 portalVel = new Vector3(0f, 0f, 0f);
-    public Vector3 movement;
+    private Vector3 movement;
 
     private Vector3 desiredVel = new Vector3(0f, 0f, 0f);
     private float gravity = 9.81f;
@@ -14,9 +15,8 @@ public class PlayerMovement : MonoBehaviour
     private float speed = 5f;
     private bool isGrounded = false;
     private bool prevIsGrounded = false;
-    private float jumpHeight = 5f;
+    private float jumpHeight = 10f;
     private float angleAdjustIncrement = 15f;
-    private bool jumped = false;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +28,12 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         float distanceToGround = GetComponent<CapsuleCollider>().bounds.extents.y;
-        isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
+
+        LayerMask portalLayer = portalManager.getPortalLayerMask();
+        //A raycast is cast downward to determine if the player is on solid ground. The portal layer is ignored.
+        isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f, ~portalLayer);
+
+
 
         movementX = Input.GetAxis("Horizontal");
         movementZ = Input.GetAxis("Vertical");
@@ -90,13 +95,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (portalVel.y != 0)
         {
-            rigidbodyChar.AddForce(portalVel.y * Vector3.up, ForceMode.VelocityChange);
+            rigidbodyChar.AddForce(Mathf.Clamp(portalVel.y, -30f, 30f) * Vector3.up, ForceMode.VelocityChange);
             portalVel.y = 0;
         }
 
         movement = transform.right * movementX * speed + transform.forward * movementZ * speed;
         desiredVel = new Vector3(movement.x + portalVel.x - rigidbodyChar.velocity.x, 0f, movement.z + portalVel.z - rigidbodyChar.velocity.z);
 
+        desiredVel = new Vector3(Mathf.Clamp(desiredVel.x, -30f, 30f), 0f, Mathf.Clamp(desiredVel.z, -30f, 30f));
         rigidbodyChar.AddForce(desiredVel, ForceMode.VelocityChange);
 
     }
