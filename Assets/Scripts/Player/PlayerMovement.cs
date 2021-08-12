@@ -6,15 +6,17 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] Rigidbody rigidbodyChar;
     public Vector3 portalVel = new Vector3(0f, 0f, 0f);
+    public Vector3 movement;
 
+    private Vector3 desiredVel = new Vector3(0f, 0f, 0f);
+    private float gravity = 9.81f;
+    private float movementX, movementZ;
     private float speed = 5f;
-
-    private float yVel;
     private bool isGrounded = false;
     private bool prevIsGrounded = false;
-    private float jumpHeight = 7f;
+    private float jumpHeight = 5f;
     private float angleAdjustIncrement = 15f;
-
+    private bool jumped = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,22 +28,15 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         float distanceToGround = GetComponent<CapsuleCollider>().bounds.extents.y;
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, distanceToGround + 0.1f);
+        isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f);
 
+        movementX = Input.GetAxis("Horizontal");
+        movementZ = Input.GetAxis("Vertical");
 
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
-            rigidbodyChar.AddForce(transform.up * jumpHeight, ForceMode.VelocityChange);
+            rigidbodyChar.AddForce(jumpHeight * transform.up, ForceMode.VelocityChange);
         }
-
-
-
-        float movementX = Input.GetAxis("Horizontal");
-        float movementZ = Input.GetAxis("Vertical");
-
-        Vector3 movement = portalVel + transform.right * movementX * speed + transform.forward * movementZ * speed + transform.up * rigidbodyChar.velocity.y;
-        movement = new Vector3(Mathf.Clamp(movement.x, -30f, 30f), Mathf.Clamp(movement.y, -30f, 30f), Mathf.Clamp(movement.z, -30f, 30f));
-        rigidbodyChar.velocity = movement;
 
 
         if (!isGrounded && prevIsGrounded)
@@ -56,17 +51,34 @@ public class PlayerMovement : MonoBehaviour
         {
             SoundManager.playSound(SoundManager.Sounds.PlayerRun, null);
         }
-        
+
+
+        if (portalVel.y != 0)
+        {
+            rigidbodyChar.AddForce(portalVel.y * transform.up, ForceMode.VelocityChange);
+            Debug.Log(portalVel.y);
+            portalVel.y = 0;
+        }
+
         if (portalVel != Vector3.zero) {
             if (isGrounded)
             {
-                portalVel = Vector3.Lerp(portalVel, Vector3.zero, 0.1f);
+                portalVel.x = Mathf.Lerp(portalVel.x, 0f, 0.1f);
+                portalVel.z = Mathf.Lerp(portalVel.z, 0f, 0.1f);
             }
             else if (!isGrounded)
             {
-                portalVel = Vector3.Lerp(portalVel, Vector3.zero, 0.01f);
+                portalVel.x = Mathf.Lerp(portalVel.x, 0f, 0.01f);
+                portalVel.z = Mathf.Lerp(portalVel.z, 0f, 0.01f);
+            }
+
+            if (portalVel.magnitude < 0.1f)
+            {
+                portalVel = Vector3.zero;
             }
         }
+
+
 
 
         ResetCameraUpright();
@@ -75,6 +87,17 @@ public class PlayerMovement : MonoBehaviour
         prevIsGrounded = isGrounded;
     }
 
+    private void FixedUpdate()
+    {
+
+
+        
+        movement = transform.right * movementX * speed + transform.forward * movementZ * speed;
+        desiredVel = new Vector3(movement.x + portalVel.x - rigidbodyChar.velocity.x, 0f, movement.z + portalVel.z - rigidbodyChar.velocity.z);
+
+        rigidbodyChar.AddForce(desiredVel, ForceMode.VelocityChange);
+
+    }
 
     private void ResetCameraUpright()
     {

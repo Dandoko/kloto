@@ -67,6 +67,7 @@ public class PortalTraveller : MonoBehaviour
 
             Vector3 transformedVel = rotDifMatrix.MultiplyVector(transform.GetComponent<Rigidbody>().velocity);
             transform.GetComponent<PlayerMovement>().portalVel = transformedVel;
+            Debug.Log(transformedVel);
         }
 
 
