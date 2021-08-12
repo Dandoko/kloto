@@ -64,10 +64,14 @@ public class PortalTraveller : MonoBehaviour
 
         if (transform.tag == "Player")
         {
+            
 
             Vector3 transformedVel = rotDifMatrix.MultiplyVector(transform.GetComponent<Rigidbody>().velocity);
+
+
+
             transform.GetComponent<PlayerMovement>().portalVel = transformedVel;
-            Debug.Log(transformedVel);
+            
         }
 
 

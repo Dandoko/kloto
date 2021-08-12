@@ -53,12 +53,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        if (portalVel.y != 0)
-        {
-            rigidbodyChar.AddForce(portalVel.y * transform.up, ForceMode.VelocityChange);
-            Debug.Log(portalVel.y);
-            portalVel.y = 0;
-        }
+
 
         if (portalVel != Vector3.zero) {
             if (isGrounded)
@@ -78,6 +73,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if (transform.position.y < -50f) {
+            transform.position = Vector3.zero + Vector3.up*5f;
+        }
 
 
 
@@ -90,8 +88,12 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
+        if (portalVel.y != 0)
+        {
+            rigidbodyChar.AddForce(portalVel.y * Vector3.up, ForceMode.VelocityChange);
+            portalVel.y = 0;
+        }
 
-        
         movement = transform.right * movementX * speed + transform.forward * movementZ * speed;
         desiredVel = new Vector3(movement.x + portalVel.x - rigidbodyChar.velocity.x, 0f, movement.z + portalVel.z - rigidbodyChar.velocity.z);
 
