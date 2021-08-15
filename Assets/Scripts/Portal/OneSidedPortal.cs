@@ -10,6 +10,7 @@ public class OneSidedPortal : MonoBehaviour
     private OneSidedPortal linkedPortal;
     [SerializeField] GameObject connectedSurface;
 
+    private int portalDirFacing = 0;
     private GameObject thisPortal;
     private Camera playerCamera;
     private Camera portalCamera;
@@ -114,13 +115,12 @@ public class OneSidedPortal : MonoBehaviour
                 PortalTraveller traveller = trackedTravellers[i];
 
 
+                Vector3 curRelPortalPos = traveller.transform.position - portalScreen.transform.position;
 
-               Vector3 curRelPortalPos = traveller.transform.position - portalScreen.transform.position;
+                int prevPortalSide = System.Math.Sign(Vector3.Dot(traveller.prevRelPortalPos, transform.forward));
+                int curPortalSide = System.Math.Sign(Vector3.Dot(curRelPortalPos, transform.forward));
 
-               int prevPortalSide = System.Math.Sign(Vector3.Dot(traveller.prevRelPortalPos, transform.forward));
-               int curPortalSide = System.Math.Sign(Vector3.Dot(curRelPortalPos, transform.forward));
-
-                if (curPortalSide != prevPortalSide)
+                /*if (curPortalSide != prevPortalSide)
                 {
                     traveller.OneSidedTeleport(thisPortal, linkedPortal.gameObject);
                     linkedPortal.trackedTravellers.Remove(traveller);
@@ -130,6 +130,14 @@ public class OneSidedPortal : MonoBehaviour
                 else
                 {
                     traveller.prevRelPortalPos = curRelPortalPos;
+                }*/
+
+                if (transform.InverseTransformPoint(traveller.transform.position).z * portalDirFacing < 0f)
+                {
+                    traveller.OneSidedTeleport(thisPortal, linkedPortal.gameObject);
+                    linkedPortal.trackedTravellers.Remove(traveller);
+                    trackedTravellers.RemoveAt(i);
+                    i--;
                 }
             }
         }
@@ -215,6 +223,19 @@ public class OneSidedPortal : MonoBehaviour
             else
             {
                 Debug.LogError("Error: " + connectedSurface + " doesn't have a collider");
+            }
+
+            if (portalDirFacing == 0)
+            {
+                if (transform.InverseTransformPoint(traveller.transform.position).z < 0f)
+                {
+                    portalDirFacing = -1;
+                }
+                else if (transform.InverseTransformPoint(traveller.transform.position).z > 0f)
+                {
+                    portalDirFacing = 1;
+                }
+
             }
         }
     
