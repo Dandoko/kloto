@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         if (transform.position.y < -50f) {
-            transform.position = Vector3.zero + Vector3.up*5f;
+            transform.position = new Vector3(75.9f, 3f, 132f);
         }
 
 
