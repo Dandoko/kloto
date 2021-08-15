@@ -26,7 +26,7 @@ public class PortalTraveller : MonoBehaviour
 
         transform.position = transformMatrix.GetColumn(3);
         transform.rotation = transformMatrix.rotation;
-        transform.position += otherPortal.transform.forward * 0.03f * portalSide;
+        transform.position += otherPortal.transform.forward * 0.05f * portalSide;
 
         /*//Gets the difference in rotations between the two portals
         portalRotDif = otherPortal.transform.rotation * Quaternion.Inverse(thisPortal.transform.rotation);
@@ -68,10 +68,12 @@ public class PortalTraveller : MonoBehaviour
 
             Vector3 transformedVel = rotDifMatrix.MultiplyVector(transform.GetComponent<Rigidbody>().velocity);
 
-            if (Mathf.Abs(transformedVel.y - transform.GetComponent<Rigidbody>().velocity.y) < 0.1f)
+
+            if (transformedVel.y > 0.5f && transformedVel.y < 5f)
             {
-                transformedVel.y = transformedVel.y * 1.1f;
+                transformedVel.y = 5f;
             }
+
 
             transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
             transform.GetComponent<PlayerMovement>().portalVel = transformedVel;
