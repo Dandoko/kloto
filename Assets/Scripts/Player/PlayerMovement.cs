@@ -10,17 +10,22 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 movement;
 
     private Vector3 desiredVel = new Vector3(0f, 0f, 0f);
-    private float gravity = 9.81f;
     private float movementX, movementZ;
     private float speed = 5f;
     private bool isGrounded = false;
     private bool prevIsGrounded = false;
     private float jumpHeight = 10f;
     private float angleAdjustIncrement = 15f;
+    // The time it takes to walk this distance should be less than footstep sound delay
+    private const float footstepMaxDist = 0.3f;
+    private float footstepDist;
+    private Vector3 prevPos;
 
     // Start is called before the first frame update
     void Start()
     {
+        footstepDist = 0f;
+        prevPos = transform.position;
     }
 
 
@@ -46,19 +51,28 @@ public class PlayerMovement : MonoBehaviour
 
         if (!isGrounded && prevIsGrounded)
         {
+            footstepDist = 0f;
             SoundManager.playSound(SoundManager.Sounds.PlayerJump, null);
         }
         else if (isGrounded && !prevIsGrounded)
         {
+            footstepDist = 0f;
             SoundManager.playSound(SoundManager.Sounds.PlayerLand, null);
         }
         else if ((Mathf.Abs(movementX) > 0 || Mathf.Abs(movementZ) > 0) && isGrounded)
         {
-            SoundManager.playSound(SoundManager.Sounds.PlayerRun, null);
+            footstepDist += Vector3.Distance(transform.position, prevPos);
+
+            if (footstepDist >= footstepMaxDist)
+            {
+                footstepDist = 0f;
+                SoundManager.playSound(SoundManager.Sounds.PlayerRun, null);
+            }
         }
-
-
-
+        else
+        {
+            footstepDist = 0f;
+        }
 
         if (portalVel != Vector3.zero) {
             if (isGrounded)
@@ -88,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         prevIsGrounded = isGrounded;
+        prevPos = transform.position;
     }
 
     private void FixedUpdate()
