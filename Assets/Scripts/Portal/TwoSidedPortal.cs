@@ -116,7 +116,6 @@ public class TwoSidedPortal : MonoBehaviour
 
             if (curPortalSide != prevPortalSide)
             {
-                
                 traveller.TwoSidedTeleport(thisPortal, linkedPortal.gameObject, transformMatrix, curPortalSide);
                 trackedTravellers.RemoveAt(i);
                 i--;
