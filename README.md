@@ -50,6 +50,8 @@ directory with changes someone else could have made
 - [Foreach](https://stackoverflow.com/questions/18863187/how-can-i-loop-through-a-listt-and-grab-each-item)
 - [Shallow Copy a List](https://stackoverflow.com/questions/222598/how-do-i-clone-a-generic-list-in-c)
 - [Pass By Reference](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/ref)
+- [Find Visual Studio Version](https://stackoverflow.com/questions/5089389/how-can-i-check-what-version-edition-of-visual-studio-is-installed-programmatica)
+- [C# Versions](https://stackoverflow.com/questions/247621/what-are-the-correct-version-numbers-for-c)
 
 ### Unity
 
