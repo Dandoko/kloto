@@ -33,10 +33,13 @@ Embed YouTube video here
 - Shoot: Right and Left Mouse Click
 
 ## Features
-- Two
+- Two open maps to explore
+- Two-sided portals that link the two maps
+- A portal gun that creates one-sided portals on surfaces
+- Interactive sound effects
 
 ## Challenges Faced
--
+- 
 
 ## Limitations
 -
