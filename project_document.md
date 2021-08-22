@@ -33,7 +33,7 @@ Embed YouTube video here
 - Shoot: Right and Left Mouse Click
 
 ## Features
-- 
+- Two
 
 ## Challenges Faced
 -
