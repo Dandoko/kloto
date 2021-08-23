@@ -1,5 +1,8 @@
 # Kloto
 
+## Table of Contents
+Add table of contents here
+
 ## Project Description
 Kloto is an FPS portal simulator made on the Unity game engine. Players can
 explore two distinct maps through a first person perspective by teleporting
@@ -9,9 +12,11 @@ players can shoot on surfaces to create portals to teleport through.
 ## Video Demo
 Embed YouTube video here
 
-## Contributors
-- Calum Clark: Programmer
-- Daniel Ko: Programmer
+## Examples
+Add images here
+
+## Usage
+Add link to playable game here if the game is polished
 
 ## Assets
 - [Footsteps Sound Effect](https://assetstore.unity.com/packages/audio/sound-fx/foley/footsteps-essentials-189879)
@@ -38,11 +43,18 @@ Embed YouTube video here
 - A portal gun that creates one-sided portals on surfaces
 - Interactive sound effects
 
-## Challenges Faced
-- 
-
 ## Limitations
--
+- Platform
+	- The game is only playable on the computer
 
 ## Existing Bugs
-- 
+- Looking at a two-sided portal through a one-sided portal can render an unnatural camera view
+- Portal gun bullets occasionally go through objects
+
+## Plans for the Future
+- Add recursive portal renders
+- Slice the models of objects passing through portals
+
+## Contributors
+- Calum Clark: Programmer
+- Daniel Ko: Programmer
