@@ -184,9 +184,15 @@ public class PortalManager : MonoBehaviour
         portal.transform.GetChild(2).gameObject.transform.position = tempPortal.position;
         portal.transform.GetChild(2).gameObject.transform.rotation = tempPortal.rotation;
 
+        // TESTING
+        portal.transform.GetChild(3).gameObject.transform.position = portal.transform.position;
+        portal.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0f, 0f, portal.transform.GetChild(3).gameObject.transform.localScale.z + 0.02f);
+        portal.transform.GetChild(3).gameObject.transform.rotation = portal.transform.rotation;
+
         if (isPortal1)
         {
             portal.transform.rotation = tempBackwardsPortalRotation;
+            portal.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0f, 0f, -(portal.transform.GetChild(3).gameObject.transform.localScale.z + 0.02f));
             //portal.transform.GetChild(0).gameObject.transform.rotation = tempBackwardsPortalRotation;
             //portal.transform.GetChild(2).gameObject.transform.rotation = tempBackwardsPortalRotation;
 
@@ -196,6 +202,9 @@ public class PortalManager : MonoBehaviour
         {
             portal.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer(outlineName2);
         }
+
+
+
 
         SoundManager.playSound(SoundManager.Sounds.Portal, portal);
     }

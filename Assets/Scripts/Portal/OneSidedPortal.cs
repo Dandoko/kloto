@@ -59,6 +59,8 @@ public class OneSidedPortal : MonoBehaviour
 
             // Hide the portal render screens while the render texture is being created
             portalScreen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+            transform.GetChild(3).GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+
 
             // If the render texture has not been created yet, or if the dimensions of the render texture have changed
             if (cameraTexture == null || cameraTexture.width != Screen.width || cameraTexture.height != Screen.height)
@@ -71,6 +73,8 @@ public class OneSidedPortal : MonoBehaviour
                 cameraTexture = new RenderTexture(Screen.width, Screen.height, 24);
                 portalCamera.targetTexture = cameraTexture;
                 linkedPortal.portalScreen.material.mainTexture = cameraTexture;
+                linkedPortal.transform.GetChild(3).GetComponent<MeshRenderer>().material = linkedPortal.portalScreen.material;
+
             }
 
 
@@ -89,8 +93,16 @@ public class OneSidedPortal : MonoBehaviour
             float camSpaceDst = -Vector3.Dot(camSpacePos, camSpaceNormal);
 
             //Creates a near clip plane based on the portal screen's position
-            nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst + 0.1f * sign);
-            portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
+            if (Mathf.Abs(camSpaceDst) > 0.2f)
+            {
+                nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst);
+                portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
+            }
+            else
+            {
+
+                portalCamera.projectionMatrix = playerCamera.projectionMatrix;
+            }
 
 
 
@@ -99,6 +111,7 @@ public class OneSidedPortal : MonoBehaviour
 
 
             portalScreen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+            transform.GetChild(3).GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         }
     }
 
