@@ -69,7 +69,7 @@ public class PortalTraveller : MonoBehaviour
             Vector3 transformedVel = rotDifMatrix.MultiplyVector(transform.GetComponent<Rigidbody>().velocity);
 
 
-            if (transformedVel.y > 0.5f && transformedVel.y < 5f)
+            if (transformedVel.y > 1f && transformedVel.y < 5f)
             {
                 transformedVel.y = 5f;
             }
