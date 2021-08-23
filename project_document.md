@@ -56,4 +56,4 @@ This repo contains everything required to run the program. Clone this repo to ru
 
 ## Contributors
 - Calum Clark: Teleportation, player movement
-- Daniel Ko: Map design, gun model, bullet orb model, shooting and portal creation mechanics, sound effects
+- Daniel Ko: Map design, gun and bullet orb model, shooting and portal creation mechanics, sound effects
