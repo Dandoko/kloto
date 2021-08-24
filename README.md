@@ -83,6 +83,9 @@ directory with changes someone else could have made
 - [Missing GameObject](https://answers.unity.com/questions/34926/missing-transform-vs-none-how-to-code-this-or-quer.html)
 - [Debug.LogError](https://docs.unity3d.com/ScriptReference/Debug.LogError.html)
 
+#### Input
+- [Input.GetButton](https://docs.unity3d.com/ScriptReference/Input.GetButton.html)
+
 #### Math
 - [Linear Interpolation Between Two Points](https://docs.unity3d.com/ScriptReference/Vector3.Lerp.html)
 - [Get Direction Between Two Points](https://answers.unity.com/questions/697830/how-to-calculate-direction-between-2-objects.html)

@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private float jumpHeight = 10f;
     private float angleAdjustIncrement = 15f;
     // The time it takes to walk this distance should be less than footstep sound delay
-    private const float footstepMaxDist = 0.3f;
+    private const float footstepMaxDist = 0.4f;
     private float footstepDist;
     private Vector3 prevPos;
 
@@ -38,8 +38,6 @@ public class PlayerMovement : MonoBehaviour
         //A raycast is cast downward to determine if the player is on solid ground. The portal layer is ignored.
         isGrounded = Physics.Raycast(transform.position, -Vector3.up, distanceToGround + 0.1f, ~portalLayer);
 
-
-
         movementX = Input.GetAxis("Horizontal");
         movementZ = Input.GetAxis("Vertical");
 
@@ -47,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rigidbodyChar.AddForce(jumpHeight * transform.up, ForceMode.VelocityChange);
         }
-
 
         if (!isGrounded && prevIsGrounded)
         {
@@ -59,7 +56,8 @@ public class PlayerMovement : MonoBehaviour
             footstepDist = 0f;
             SoundManager.playSound(SoundManager.Sounds.PlayerLand, null);
         }
-        else if ((Mathf.Abs(movementX) > 0 || Mathf.Abs(movementZ) > 0) && isGrounded)
+        // Using GetButton because GetAxis preserves momentum
+        else if ((Input.GetButton("Vertical") || Input.GetButton("Horizontal")) && isGrounded)
         {
             footstepDist += Vector3.Distance(transform.position, prevPos);
 
@@ -96,10 +94,7 @@ public class PlayerMovement : MonoBehaviour
             transform.position = new Vector3(75.9f, 15f, 132f);
         }
 
-
-
         ResetCameraUpright();
-
 
         prevIsGrounded = isGrounded;
         prevPos = transform.position;
