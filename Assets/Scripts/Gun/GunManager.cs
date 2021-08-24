@@ -38,7 +38,6 @@ public class GunManager : MonoBehaviour
     {
         bool canShoot = false;
 
-
         // Checking if the raycast hit an object that is not a portal
         RaycastHit hitObject;
         if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitObject, gunRange))
