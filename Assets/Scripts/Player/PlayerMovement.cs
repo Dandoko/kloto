@@ -95,6 +95,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (transform.position.y < -50f) {
             transform.position = new Vector3(75.9f, 15f, 132f);
+            rigidbodyChar.velocity = Vector3.zero;
         }
 
         ResetCameraUpright();
