@@ -138,7 +138,7 @@ directory with changes someone else could have made
 	- Attempted repositioning the raycast origin and extending the raycast length, but it didn't solve the issue
 - Physics.OverlapSphere Layer Mask not working
 	- [Solution Source](https://answers.unity.com/questions/681890/how-to-use-physicsoverlapsphere-with-layer-mask.html)
-	- Use `1 << 8` or `1 << layerMask.value`
+	- Use `1 << 8` or `1 << layer`
 - Physics.Raycast layer mask is not working
 	- The [Unity documentation](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html) is misleading
 		- “A Layer mask that is used to selectively ignore Colliders when casting a ray.”
