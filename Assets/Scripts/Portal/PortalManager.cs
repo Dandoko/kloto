@@ -244,7 +244,7 @@ public class PortalManager : MonoBehaviour
             Vector3 raycastPos = tempPortalCentre.TransformPoint(portalEdgePoints[i]);
             Vector3 raycastDir = tempPortalCentre.TransformDirection(testDirs[i]);
 
-            Collider[] edgeColliders = Physics.OverlapSphere(raycastPos, 0.1f, allMasksWithoutMasksToIgnore);
+            Collider[] edgeColliders = Physics.OverlapSphere(raycastPos, 0.05f, allMasksWithoutMasksToIgnore);
             // Overhang occurs because the edge collider didn't collide with anything
             if (edgeColliders.Length == 0)
             {
