@@ -50,7 +50,10 @@ public class PortalTraveller : MonoBehaviour
     {
         GameObject thisScreen = thisPortal.transform.GetChild(0).gameObject;
         GameObject otherScreen = otherPortal.transform.GetChild(0).gameObject;
+
+        //The difference in rotation between the other portal and this portal
         Quaternion portalRotDif = otherPortal.transform.rotation * Quaternion.Inverse(thisPortal.transform.rotation);
+        //The matrix that can be used to shift the player vectors to be relative to the other portal
         Matrix4x4 rotDifMatrix = Matrix4x4.Rotate(portalRotDif);
 
         
@@ -62,19 +65,13 @@ public class PortalTraveller : MonoBehaviour
         Quaternion relativeRot = Quaternion.Inverse(thisScreen.transform.rotation) * transform.rotation;
         transform.rotation = otherScreen.transform.rotation * relativeRot;
 
+
         if (transform.tag == "Player")
         {
             
-
             Vector3 transformedVel = rotDifMatrix.MultiplyVector(transform.GetComponent<Rigidbody>().velocity);
 
-
-            if (transformedVel.y > 1f && transformedVel.y < 5f)
-            {
-                transformedVel.y = 5f;
-            }
-
-
+            //Set the velocity to zero so that 
             transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
             transform.GetComponent<PlayerMovement>().portalVel = transformedVel;
             

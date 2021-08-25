@@ -68,8 +68,10 @@ public class OneSidedPortal : MonoBehaviour
                     // Release the hardware resources used by the existing render texture
                     cameraTexture.Release();
                 }
+                //Create a new render texture and render the child's camera to the texture
                 cameraTexture = new RenderTexture(Screen.width, Screen.height, 24);
                 portalCamera.targetTexture = cameraTexture;
+                //Set the circular portal screen and the hidden portal screen of the linked portal to this child camera's render texture
                 linkedPortal.portalScreen.material.mainTexture = cameraTexture;
                 linkedPortal.transform.GetChild(3).GetComponent<MeshRenderer>().material = linkedPortal.portalScreen.material;
 
@@ -78,27 +80,31 @@ public class OneSidedPortal : MonoBehaviour
 
             // Calculate the position and rotation of the portal camera using the world space
             var cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * playerCamera.transform.localToWorldMatrix;
+            //Move the camera into the proper position relative to this portal
             portalCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
 
 
 
-            //Calculates and sets the clip plane
+            //Sets the clip plane (the plane where the camera stops rendering things that are behind it) to be the same as the plane that the portal is sitting on (i.e. the wall that the portal is on)
             clipPlane = portalScreen.transform;
+            //Calculates which side of the portal the player is on
             int sign = System.Math.Sign(Vector3.Dot(clipPlane.forward, portalScreen.transform.position - portalCamera.transform.position));
 
+            //Variables to create the near clip plane
             Vector3 camSpacePos = portalCamera.worldToCameraMatrix.MultiplyPoint(clipPlane.position);
             Vector3 camSpaceNormal = portalCamera.worldToCameraMatrix.MultiplyVector(clipPlane.forward) * sign;
             float camSpaceDst = -Vector3.Dot(camSpacePos, camSpaceNormal);
 
-            //Creates a near clip plane based on the portal screen's position
+            //If the camera is greater than a certain, set distance activate the near clip plane and don't render anything before the plane
             if (Mathf.Abs(camSpaceDst) > 0.2f)
             {
+                //Creates the plane using a vector4
                 nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst);
                 portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
             }
             else
             {
-
+                //If the camera is close to the portal, don't render the near clip plane, render everything. The clip plane is needed if you're close because nothing would be blocking your view
                 portalCamera.projectionMatrix = playerCamera.projectionMatrix;
             }
 
@@ -107,7 +113,7 @@ public class OneSidedPortal : MonoBehaviour
             // Renders the camera manually each update frame
             portalCamera.Render();
 
-
+            //Show the screens again
             portalScreen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
             transform.GetChild(3).GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
         }
@@ -126,23 +132,7 @@ public class OneSidedPortal : MonoBehaviour
                 PortalTraveller traveller = trackedTravellers[i];
 
 
-                Vector3 curRelPortalPos = traveller.transform.position - portalScreen.transform.position;
-
-                int prevPortalSide = System.Math.Sign(Vector3.Dot(traveller.prevRelPortalPos, transform.forward));
-                int curPortalSide = System.Math.Sign(Vector3.Dot(curRelPortalPos, transform.forward));
-
-                /*if (curPortalSide != prevPortalSide)
-                {
-                    traveller.OneSidedTeleport(thisPortal, linkedPortal.gameObject);
-                    linkedPortal.trackedTravellers.Remove(traveller);
-                    trackedTravellers.RemoveAt(i);
-                    i--;
-                }
-                else
-                {
-                    traveller.prevRelPortalPos = curRelPortalPos;
-                }*/
-
+                //If you're on the backside of the portal (i.e. your relative z is less than the portal's, teleport)
                 if (transform.InverseTransformPoint(traveller.transform.position).z * portalDirFacing < 0f)
                 {
                     traveller.OneSidedTeleport(thisPortal, linkedPortal.gameObject);
@@ -173,12 +163,13 @@ public class OneSidedPortal : MonoBehaviour
         {
             GameObject hitObject = collided.gameObject;
             var traveller = hitObject.GetComponent<PortalTraveller>();
+            
             if (traveller)
             {
                 if (!trackedTravellers.Contains(traveller))
                 {
+                    //Disable collisions with the wall while the player is inside the portal
                     InsidePortal(traveller);
-                    traveller.prevRelPortalPos = traveller.transform.position - portalScreen.transform.position + 0.05f * portalScreen.transform.forward;
                     trackedTravellers.Add(traveller);
                 }
             }
@@ -195,6 +186,7 @@ public class OneSidedPortal : MonoBehaviour
 
             if (traveller)
             {
+                //Reenable all the collisions if the traveller leaves the portal
                 if (traveller.tag == "Player")
                 {
                     if (null != connectedSurface.GetComponent<BoxCollider>())
@@ -210,6 +202,7 @@ public class OneSidedPortal : MonoBehaviour
                         Debug.LogError("Error: " + connectedSurface + " doesn't have a collider");
                     }
                 }
+                //If the traveller is tracked, remove it from the list
                 if (trackedTravellers.Contains(traveller))
                 {
                     trackedTravellers.Remove(traveller);
@@ -221,6 +214,7 @@ public class OneSidedPortal : MonoBehaviour
 
     void InsidePortal(PortalTraveller traveller) { 
     
+        //If the traveller is inside the portal, disable all collisions with the surface the portal is on
         if (traveller.tag == "Player")
         {
             if (null != connectedSurface.GetComponent<BoxCollider>())
@@ -235,6 +229,7 @@ public class OneSidedPortal : MonoBehaviour
             {
                 Debug.LogError("Error: " + connectedSurface + " doesn't have a collider");
             }
+
 
             if (portalDirFacing == 0)
             {

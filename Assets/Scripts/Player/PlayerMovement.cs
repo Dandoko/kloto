@@ -59,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
             footstepDist = 0f;
             SoundManager.playSound(SoundManager.Sounds.PlayerLand, null);
         }
+
         // Using GetButton because GetAxis preserves momentum
         else if ((Input.GetButton("Vertical") || Input.GetButton("Horizontal")) && isGrounded)
         {
@@ -75,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
             footstepDist = 0f;
         }
 
+        //If the portal velocity is not zero, decrease it quickly. It decreases faster if the player is on the ground
         if (portalVel != Vector3.zero) {
             if (isGrounded)
             {
@@ -87,12 +89,14 @@ public class PlayerMovement : MonoBehaviour
                 portalVel.z = Mathf.Lerp(portalVel.z, 0f, 0.01f);
             }
 
+            //The velocity will never be exactly zero, so if it's close enough, set it to zero
             if (portalVel.magnitude < 0.1f)
             {
                 portalVel = Vector3.zero;
             }
         }
 
+        //Reset the player if they fall out of the map
         if (transform.position.y < -50f) {
             transform.position = new Vector3(75.9f, 15f, 132f);
             rigidbodyChar.velocity = Vector3.zero;
@@ -107,15 +111,19 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
+        //If there is vertical velocity from the portal teleportation, add it to the player ONCE but max it out at 30
         if (portalVel.y != 0)
         {
             rigidbodyChar.AddForce(Mathf.Clamp(portalVel.y, -30f, 30f) * Vector3.up, ForceMode.VelocityChange);
             portalVel.y = 0;
         }
 
+
         movement = transform.right * movementX * speed + transform.forward * movementZ * speed;
+        //Do not set the y vel. The y vel is controlled by unity's default physics engine and gravity
         desiredVel = new Vector3(movement.x + portalVel.x - rigidbodyChar.velocity.x, 0f, movement.z + portalVel.z - rigidbodyChar.velocity.z);
 
+        //Set a max limit on movement speed, no greater than 30 
         desiredVel = new Vector3(Mathf.Clamp(desiredVel.x, -30f, 30f), 0f, Mathf.Clamp(desiredVel.z, -30f, 30f));
         rigidbodyChar.AddForce(desiredVel, ForceMode.VelocityChange);
 
