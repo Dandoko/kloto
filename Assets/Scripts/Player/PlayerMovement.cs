@@ -6,6 +6,9 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] Rigidbody rigidbodyChar;
     [SerializeField] PortalManager portalManager;
+    [SerializeField] LayerMask portalLayer;
+    [SerializeField] LayerMask portalScreenLayer;
+    [SerializeField] GunManager gunManager;
     public Vector3 portalVel = new Vector3(0f, 0f, 0f);
     private Vector3 movement;
 
@@ -122,7 +125,24 @@ public class PlayerMovement : MonoBehaviour
         var targetRot = new Vector3(0f, transform.eulerAngles.y, 0f);
 
         transform.eulerAngles = new Vector3(Mathf.LerpAngle(transform.eulerAngles.x, targetRot.x, Time.deltaTime * angleAdjustIncrement), Mathf.LerpAngle(transform.eulerAngles.y, targetRot.y, Time.deltaTime * angleAdjustIncrement), Mathf.LerpAngle(transform.eulerAngles.z, targetRot.z, Time.deltaTime * angleAdjustIncrement));
-    
+
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        int collidingLayer = 1 << other.gameObject.layer;
+        if (collidingLayer == portalLayer.value || collidingLayer == portalScreenLayer.value)
+        {
+            gunManager.setCollidingWithPortal(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        int collidingLayer = 1 << other.gameObject.layer;
+        if (collidingLayer == portalLayer.value || collidingLayer == portalScreenLayer.value)
+        {
+            gunManager.setCollidingWithPortal(false);
+        }
+    }
 }

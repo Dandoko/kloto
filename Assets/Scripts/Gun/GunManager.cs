@@ -20,6 +20,7 @@ public class GunManager : MonoBehaviour
     private Color canShootColor;
     private Color cannotShootColor;
     private BulletManager bulletManager;
+    private bool isCollidingWithPortal;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,8 @@ public class GunManager : MonoBehaviour
 
         canShootColor = new Color(1, 0, 0, 1);
         cannotShootColor = new Color(1, 0.3f, 0.6f, 0.5f);
+
+        isCollidingWithPortal = false;
     }
 
     // Update is called once per frame
@@ -99,6 +102,12 @@ public class GunManager : MonoBehaviour
             return false;
         }
 
+        // Cannot create portals when inside of a portal
+        if (isCollidingWithPortal)
+        {
+            return false;
+        }
+
         // Check if the surface is a portal
         if (1 << hitObject.collider.gameObject.layer == portalManager.getPortalLayerMask())
         {
@@ -112,5 +121,10 @@ public class GunManager : MonoBehaviour
     public void removeBullet()
     {
         bulletManager = null;
+    }
+
+    public void setCollidingWithPortal(bool isColliding)
+    {
+        isCollidingWithPortal = isColliding;
     }
 }

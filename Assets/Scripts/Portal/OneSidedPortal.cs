@@ -18,10 +18,8 @@ public class OneSidedPortal : MonoBehaviour
     private MeshRenderer portalScreen;
     public List<PortalTraveller> trackedTravellers;
 
-
     private Transform clipPlane;
     private Vector4 nearClipPlane;
-
 
     // Start is called before the first frame update
     void Start()
