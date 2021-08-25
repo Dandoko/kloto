@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private const float resetYLevel = -50f;
+    private Vector3 resetPos = new Vector3(75.9f, 5f, 132f);
+
     [SerializeField] Rigidbody rigidbodyChar;
     [SerializeField] PortalManager portalManager;
     [SerializeField] LayerMask portalLayer;
@@ -97,8 +100,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Reset the player if they fall out of the map
-        if (transform.position.y < -50f) {
-            transform.position = new Vector3(75.9f, 15f, 132f);
+        if (transform.position.y < resetYLevel) {
+            transform.position = resetPos;
             rigidbodyChar.velocity = Vector3.zero;
         }
 
