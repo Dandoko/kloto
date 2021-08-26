@@ -49,6 +49,7 @@ This repo contains everything required to run the program. Clone this repo to ru
 ## Existing Bugs
 - Looking at a two-sided portal through a one-sided portal can render an unnatural camera view and angle
 - Portal gun bullets occasionally go through objects
+- A "Screen position out of view frustrum" Unity error inconsistently occurs
 
 ## Plans for the Future
 - Add recursive portal renders
