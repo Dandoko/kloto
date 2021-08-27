@@ -56,5 +56,5 @@ This repo contains everything required to run the program. Clone this repo to ru
 - Slice the models of objects passing through portals
 
 ## Contributors
-- Calum Clark: Teleportation, player movement
+- Calum Clark: Portal rendering, teleportation, player movement
 - Daniel Ko: Map design, gun and bullet orb model, shooting and portal creation mechanics, sound effects
