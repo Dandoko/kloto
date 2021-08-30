@@ -15,7 +15,6 @@ public class TwoSidedPortal : MonoBehaviour
     private MeshRenderer portalScreen;
     private List<PortalTraveller> trackedTravellers;
 
-
     private Transform clipPlane;
     private Vector4 nearClipPlane;
 
@@ -71,7 +70,7 @@ public class TwoSidedPortal : MonoBehaviour
         //=====================================================================
 
         //setScreenWidth();
-        
+
         //=====================================================================
         // End - Commented out to understand the flickering bug
         //=====================================================================
@@ -140,6 +139,7 @@ public class TwoSidedPortal : MonoBehaviour
                 traveller.prevRelPortalPos = curRelPortalPos;
             }
         }
+
     }
     
 
