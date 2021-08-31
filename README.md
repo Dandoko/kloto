@@ -42,6 +42,7 @@ directory with changes someone else could have made
 - [Dolly Track Cinemachine](https://youtu.be/IFeKFr4kOkc)
 	- The video above is slightly outdated, so the video below covers what has changed with the Unity Timeline animation package
 	- [Animation Track](https://youtu.be/taIEYXHgW-w)
+- [Unity Recorder](https://youtu.be/2HVhnh93JZY)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)

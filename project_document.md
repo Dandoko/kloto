@@ -29,6 +29,11 @@ This repo contains everything required to run the program. Clone this repo to ru
 - Visual Studio 16.4.2
 - C# 8.0
 
+## Unity Resources
+- Universal Render Pipeline
+- Render Textures and Shaders
+- Resources Class
+
 ## How to Play
 - Walk: WASD or Arrow Keys
 - Jump: Space Bar
@@ -47,14 +52,16 @@ This repo contains everything required to run the program. Clone this repo to ru
 	- The game is only playable on the computer
 
 ## Existing Bugs
-- Looking at a two-sided portal through a one-sided portal can render an unnatural camera view and angle
-- Portal gun bullets occasionally go through objects
-- A "Screen position out of view frustrum" Unity error inconsistently occurs
+- Portal gun bullets have been spotted going through objects
+- A "Screen position out of view frustrum" Unity error seldom occurs
+- The portal screen infrequently flickers when passing through it
+- One-sided portals are rotated incorrectly at times
 
 ## Plans for the Future
+- Project a more natural camera view when looking at a two-sided portal through a one-sided portal and vice versa
 - Add recursive portal renders
 - Slice the models of objects passing through portals
 
 ## Contributors
-- Calum Clark: Portal rendering, teleportation, player movement
-- Daniel Ko: Map design, gun and bullet orb model, shooting and portal creation mechanics, sound effects
+- Calum Clark: Portal rendering, portal teleportation, player movement
+- Daniel Ko: Portal rendering, map design, 3D modeling, shooting and creating portals, sound effects
