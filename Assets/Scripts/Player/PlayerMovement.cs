@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private const float resetYLevel = -50f;
-    private Vector3 resetPos = new Vector3(20f, 5f, 50f);
+    private Vector3 resetPos = new Vector3(23f, 3f, 17f);
 
     [SerializeField] Rigidbody rigidbodyChar;
     [SerializeField] PortalManager portalManager;

@@ -39,6 +39,9 @@ directory with changes someone else could have made
 - [Unity Glowing Orb](https://youtu.be/pxNzoLfreOo)
 - [Unity AudioSource Doppler Effect](https://youtu.be/eQphjWreQ0U)
 - [Hull Outline Shader in Unity URP](https://youtu.be/1QPA3s0S3Oo)
+- [Dolly Track Cinemachine](https://youtu.be/IFeKFr4kOkc)
+	- The video above is slightly outdated, so the video below covers what has changed with the Unity Timeline animation package
+	- [Animation Track](https://youtu.be/taIEYXHgW-w)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
