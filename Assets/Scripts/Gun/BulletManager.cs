@@ -14,9 +14,10 @@ public class BulletManager
     // Bullet
     //=========================================================================
     private GameObject bulletGameObject;
-    private const float speed = 40f;
+    private const float speed = 60f;
     private int bulletType;
-    private LayerMask bulletMask = LayerMask.NameToLayer("Bullet");
+    // Note: Different from [SerializedField] LayerMask bulletMask
+    private LayerMask bulletMask = LayerMask.NameToLayer("Bullet"); // Decimal value
 
     //=========================================================================
     // Continuous Collision Detection
@@ -87,7 +88,7 @@ public class BulletManager
                 if (!hitObject.collider.isTrigger)
                 {
                     // Move the bullet to where the collision occurred
-                    bulletRigidbody.position = hitObject.point - (movementThisFrame / movementMagnitude) * partialExtent;
+                    bulletGameObject.transform.position = hitObject.point - (movementThisFrame / movementMagnitude) * partialExtent;
                 }
             }
         }
