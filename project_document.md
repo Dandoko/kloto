@@ -52,7 +52,8 @@ This repo contains everything required to run the program. Clone this repo to ru
 	- The game is only playable on the computer
 
 ## Existing Bugs
-- Portal gun bullets have been spotted going through objects
+- Although continuous collision detection was implemented, portal gun bullets
+have rarely been spotted going through objects
 - A "Screen position out of view frustrum" Unity error seldom occurs
 - The portal screen infrequently flickers when passing through it
 
