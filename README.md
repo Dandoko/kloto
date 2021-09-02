@@ -86,6 +86,7 @@ directory with changes someone else could have made
 - [Remove a Script from a GameObject](https://answers.unity.com/questions/1505999/how-to-remove-material-from-object.html)
 - [Missing GameObject](https://answers.unity.com/questions/34926/missing-transform-vs-none-how-to-code-this-or-quer.html)
 - [Debug.LogError](https://docs.unity3d.com/ScriptReference/Debug.LogError.html)
+- [Quaternion.Euler](https://docs.unity3d.com/ScriptReference/Quaternion.Euler.html)
 
 #### Input
 - [Input.GetButton](https://docs.unity3d.com/ScriptReference/Input.GetButton.html)
