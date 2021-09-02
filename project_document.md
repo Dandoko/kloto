@@ -1,7 +1,7 @@
 # Kloto
 
 ## Project Description
-Kloto is a single player FPS portal simulator made on the Unity game engine.
+Kloto is a single-player FPS portal simulator made on the Unity game engine.
 Players can explore two distinct maps through a first-person perspective by
 teleporting through existing portals or creating their own portals. Using a
 portal gun, players can shoot on surfaces to create portals to teleport
@@ -55,7 +55,6 @@ This repo contains everything required to run the program. Clone this repo to ru
 - Portal gun bullets have been spotted going through objects
 - A "Screen position out of view frustrum" Unity error seldom occurs
 - The portal screen infrequently flickers when passing through it
-- One-sided portals are rotated incorrectly at times
 
 ## Plans for the Future
 - Project a more natural camera view when looking at a two-sided portal through a one-sided portal and vice versa

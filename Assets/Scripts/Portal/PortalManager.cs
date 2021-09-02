@@ -24,6 +24,7 @@ public class PortalManager : MonoBehaviour
     private GameObject portal2;
     private string outlineName1 = "OutlineBlue";
     private string outlineName2 = "OutlineRed";
+    private Vector3 connectedSurfaceNormal;
 
     public bool checkPortalCreation(RaycastHit hitObject, Transform playerCamera)
     {
@@ -117,6 +118,7 @@ public class PortalManager : MonoBehaviour
             tempPortal.rotation = tempPortalCentre.rotation;
             tempBackwardsPortalRotation = backwardsPortalRotation;
             connectingSurface = hitObject.collider.gameObject;
+            connectedSurfaceNormal = hitObject.normal;
 
             return true;
         }
@@ -189,22 +191,32 @@ public class PortalManager : MonoBehaviour
         portal.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0f, 0f, portal.transform.GetChild(3).gameObject.transform.localScale.z/2f + 0.02f);
         portal.transform.GetChild(3).gameObject.transform.rotation = portal.transform.rotation;
 
+        // Blue
         if (isPortal1)
         {
             portal.transform.rotation = tempBackwardsPortalRotation;
-            portal.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0f, 0f, -(portal.transform.GetChild(3).gameObject.transform.localScale.z/2f + 0.02f));
+            portal.transform.GetChild(3).gameObject.transform.localPosition = new Vector3(0f, 0f, -(portal.transform.GetChild(3).gameObject.transform.localScale.z / 2f + 0.02f));
+
             //portal.transform.GetChild(0).gameObject.transform.rotation = tempBackwardsPortalRotation;
             //portal.transform.GetChild(2).gameObject.transform.rotation = tempBackwardsPortalRotation;
 
             portal.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer(outlineName1);
+
+            if (connectedSurfaceNormal.z == -1)
+            {
+                portal.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            }
         }
-        else
+        // Red
+        else /* if (!isPortal1) */
         {
             portal.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer(outlineName2);
+
+            if (connectedSurfaceNormal.z == 1)
+            {
+                portal.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            }
         }
-
-
-
 
         SoundManager.playSound(SoundManager.Sounds.Portal, portal);
     }
