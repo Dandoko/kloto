@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class AssetManager : MonoBehaviour
 {
+    // Single instance of the AssetManager
     private static AssetManager _i;
-
     public SoundAudioClip[] soundAudioClips;
 
     public static AssetManager instance
@@ -20,6 +20,7 @@ public class AssetManager : MonoBehaviour
         }
     }
 
+    // Class to store audio clips
     [System.Serializable]
     public class SoundAudioClip
     {
