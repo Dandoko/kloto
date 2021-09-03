@@ -7,6 +7,7 @@ public static class SoundManager
     private const float playerRunTimeDelay = 0.45f;
     private static Dictionary<Sounds, float> soundTimer = new Dictionary<Sounds, float>();
 
+    // Enum to categorize audio clips
     public enum Sounds
     {
         PlayerRun,
