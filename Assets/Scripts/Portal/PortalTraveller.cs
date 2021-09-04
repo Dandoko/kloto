@@ -26,7 +26,6 @@ public class PortalTraveller : MonoBehaviour
 
         transform.position = transformMatrix.GetColumn(3);
         transform.rotation = transformMatrix.rotation;
-        transform.position += otherPortal.transform.forward * 0.07f * portalSide;
 
         /*//Gets the difference in rotations between the two portals
         portalRotDif = otherPortal.transform.rotation * Quaternion.Inverse(thisPortal.transform.rotation);
