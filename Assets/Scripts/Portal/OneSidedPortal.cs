@@ -25,14 +25,8 @@ public class OneSidedPortal : MonoBehaviour
     private LayerMask playerMask;
     private bool portalCameraSeesTwoWayPortal;
 
-    List<Vector3> portalOffsets = new List<Vector3>
-    {
-        new Vector3( 0.0f,  0.0f, 0f), // Centre
-        new Vector3(-0.5f, -0.5f, 0f), // Bottom Left
-        new Vector3(-0.5f,  0.5f, 0f), // Top Left
-        new Vector3( 0.5f, -0.5f, 0f), // Bottom Right
-        new Vector3( 0.5f,  0.5f, 0f)  // Top Right
-    };
+    private bool isBeingLookedThroughTwoWayPortal;
+    private Camera twoWayPortal;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +44,8 @@ public class OneSidedPortal : MonoBehaviour
         portalScreen.material.SetInt("displayMask", 1);
 
         portalCameraSeesTwoWayPortal = false;
+
+        isBeingLookedThroughTwoWayPortal = false;
     }
 
     public void setPortal(OneSidedPortal linkedPortal, GameObject connectedSurface, PortalManager portalManager, LayerMask playerMask)
@@ -67,7 +63,7 @@ public class OneSidedPortal : MonoBehaviour
         if (null != linkedPortal)
         {
             // Don't update the linked portal screen if the player camera cannot see the linked portal
-            if (!isVisibleOnPlayerCamera() && !portalCameraSeesTwoWayPortal)
+            if (!isVisibleOnPlayerCamera() && !portalCameraSeesTwoWayPortal && !isBeingLookedThroughTwoWayPortal)
             {
                 return;
             }
@@ -102,6 +98,12 @@ public class OneSidedPortal : MonoBehaviour
 
             // Calculate the position and rotation of the portal camera using the world space
             var cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * playerCamera.transform.localToWorldMatrix;
+            if (isBeingLookedThroughTwoWayPortal)
+            {
+                isBeingLookedThroughTwoWayPortal = false;
+                cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * twoWayPortal.transform.localToWorldMatrix;
+            }
+
             //Move the camera into the proper position relative to this portal
             portalCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
 
@@ -340,13 +342,13 @@ public class OneSidedPortal : MonoBehaviour
         //       screen instead for multiple raycast points
         //=====================================================================
 
-        for (int i = 0; i < portalOffsets.Count; i++)
+        for (int i = 0; i < PortalManager.portalOffsets.Count; i++)
         {
-            for (int j = 0; j < portalOffsets.Count; j++)
+            for (int j = 0; j < PortalManager.portalOffsets.Count; j++)
             {
                 RaycastHit hit;
-                Vector3 startPos = transform.GetChild(0).transform.TransformPoint(portalOffsets[i]);
-                Vector3 dir = twoWayPortal.transform.GetChild(0).gameObject.transform.TransformPoint(portalOffsets[j]) - startPos;
+                Vector3 startPos = transform.GetChild(0).transform.TransformPoint(PortalManager.portalOffsets[i]);
+                Vector3 dir = twoWayPortal.transform.GetChild(0).gameObject.transform.TransformPoint(PortalManager.portalOffsets[j]) - startPos;
                 if (Physics.Raycast(startPos, dir, out hit, Mathf.Infinity, allMasksWithoutMasksToIgnore))
                 {
                     if (hit.collider.gameObject == twoWayPortal)
@@ -363,5 +365,15 @@ public class OneSidedPortal : MonoBehaviour
     public bool getSeesTwoWayPortal()
     {
         return portalCameraSeesTwoWayPortal;
+    }
+
+    public void setIsBeingLookedThroughTwoWayPortal(bool isBeingLookedThrough)
+    {
+        isBeingLookedThroughTwoWayPortal = isBeingLookedThrough;
+    }
+
+    public void setTwoWayPortalPos(Camera twoWayPortal)
+    {
+        this.twoWayPortal = twoWayPortal;
     }
 }

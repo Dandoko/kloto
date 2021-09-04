@@ -8,6 +8,17 @@ public class PortalManager : MonoBehaviour
     // Rotation (0, 90, 0)
     // Scale (1.4, 2,2, 0.005)
 
+    public static List<Vector3> portalOffsets = new List<Vector3>
+    {
+        new Vector3( 0.0f,  0.0f, 0f), // Centre
+        new Vector3(-0.5f, -0.5f, 0f), // Bottom Left
+        new Vector3(-0.5f,  0.5f, 0f), // Top Left
+        new Vector3( 0.5f, -0.5f, 0f), // Bottom Right
+        new Vector3( 0.5f,  0.5f, 0f)  // Top Right
+    };
+    // The two maps must be farther apart than this distance
+    public static float mapDistance = 50f;
+
     [SerializeField] private GameObject portalPrefab;
     [SerializeField] private LayerMask portalMask;
     [SerializeField] private LayerMask playerMask;
@@ -17,9 +28,6 @@ public class PortalManager : MonoBehaviour
     [SerializeField] private GameObject twoSidedPortal1;
     [SerializeField] private GameObject twoSidedPortal2;
     [SerializeField] private Camera playerCamera;
-
-    // The two maps must be farther apart than this distance
-    private const float mapDistance = 50f;
 
     private Transform tempPortal;
     private Quaternion tempBackwardsPortalRotation;
@@ -32,20 +40,11 @@ public class PortalManager : MonoBehaviour
     private string outlineName2 = "OutlineRed";
     private Vector3 connectedSurfaceNormal;
 
-    List<Vector3> portalOffsets = new List<Vector3>
-    {
-        new Vector3( 0.0f,  0.0f, 0f), // Centre
-        new Vector3(-0.5f, -0.5f, 0f), // Bottom Left
-        new Vector3(-0.5f,  0.5f, 0f), // Top Left
-        new Vector3( 0.5f, -0.5f, 0f), // Bottom Right
-        new Vector3( 0.5f,  0.5f, 0f)  // Top Right
-    };
-
     void Update()
     {
         oneWayPortalsSeeTwoWayPortals();
 
-        
+        twoWayPortalsSeeOneWayPortals();
     }
 
     public bool checkPortalCreation(RaycastHit hitObject, Transform playerCamera)
@@ -316,7 +315,7 @@ public class PortalManager : MonoBehaviour
         return true;
     }
 
-    private bool bothPortalsExist()
+    public bool bothPortalsExist()
     {
         return portal1 != null && portal2 != null;
     }
@@ -344,7 +343,19 @@ public class PortalManager : MonoBehaviour
         }
     }
 
-    void oneWayPortalsSeeTwoWayPortals()
+    public GameObject getOneWayPortal(int portalNum)
+    {
+        if (1 == portalNum)
+        {
+            return portal1;
+        }
+        else /* if (2 == portalNum) */
+        {
+            return portal2;
+        }
+    }
+
+    private void oneWayPortalsSeeTwoWayPortals()
     {
         if (!bothPortalsExist())
         {
@@ -437,6 +448,35 @@ public class PortalManager : MonoBehaviour
         {
             twoSidedPortal.GetComponent<TwoSidedPortal>().setOneWayPortalPos(portal1.GetComponentInChildren<Camera>());
             twoSidedPortal.GetComponent<TwoSidedPortal>().setIsBeingLookedThroughOneWayPortal(true);
+        }
+    }
+
+    private void twoWayPortalsSeeOneWayPortals()
+    {
+        if (!bothPortalsExist())
+        {
+            return;
+        }
+
+        GameObject twoWayPortal = Vector3.Distance(twoSidedPortal1.transform.position, playerCamera.transform.position) >
+                                  Vector3.Distance(twoSidedPortal2.transform.position, playerCamera.transform.position) ?
+                                  twoSidedPortal1 : twoSidedPortal2;
+
+        twoWayPortalsSeeOneWayPortalsHelper(ref twoWayPortal, ref portal1, 1);
+        twoWayPortalsSeeOneWayPortalsHelper(ref twoWayPortal, ref portal2, 2);
+    }
+
+    private void twoWayPortalsSeeOneWayPortalsHelper(ref GameObject twoWayPortal, ref GameObject oneWayPortal, int portalNum)
+    {
+        oneWayPortal.GetComponent<OneSidedPortal>().setIsBeingLookedThroughTwoWayPortal(false);
+
+        var twoWayPortalScreen = twoWayPortal.GetComponent<TwoSidedPortal>();
+        bool twoWayPortalScreenSeesOneWay = twoWayPortalScreen.getSeesOneWayPortal(portalNum);
+
+        if (twoWayPortalScreenSeesOneWay)
+        {
+            oneWayPortal.GetComponent<OneSidedPortal>().setTwoWayPortalPos(twoWayPortal.GetComponentInChildren<Camera>());
+            oneWayPortal.GetComponent<OneSidedPortal>().setIsBeingLookedThroughTwoWayPortal(true);
         }
     }
 }
