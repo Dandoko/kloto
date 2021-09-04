@@ -11,7 +11,7 @@ through.
 Embed YouTube video here  
 Add images here
 
-## Usage
+## Usage 
 Add link here to playable game here if the game is polished  
 This repo contains everything required to run the program. Clone this repo to run the program on Unity.
 
