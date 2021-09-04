@@ -6,7 +6,6 @@ public class TwoSidedPortal : MonoBehaviour
 {
 
     [SerializeField] private TwoSidedPortal linkedPortal;
-    [SerializeField] private Transform player;
 
     private GameObject thisPortal;
     private Camera playerCamera;
@@ -17,6 +16,9 @@ public class TwoSidedPortal : MonoBehaviour
 
     private Transform clipPlane;
     private Vector4 nearClipPlane;
+
+    private bool isBeingLookedThroughOneWayPortal;
+    private Camera oneWayPortal;
 
     // Start is called before the first frame update
     void Start()
@@ -32,12 +34,14 @@ public class TwoSidedPortal : MonoBehaviour
 
         portalScreen = transform.GetChild(0).GetComponent<MeshRenderer>();
         portalScreen.material.SetInt("displayMask", 1);
+
+        isBeingLookedThroughOneWayPortal = false;
     }
 
     void Update()
     {
         // Don't update the linked portal screen if the player camera cannot see the linked portal
-        if (!isVisibleOnPlayerCamera())
+        if (!isVisibleOnPlayerCamera() && !isBeingLookedThroughOneWayPortal)
         {
             return;
         }
@@ -60,6 +64,13 @@ public class TwoSidedPortal : MonoBehaviour
 
         // Calculate the position and rotation of the portal camera using the world space
         var cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * playerCamera.transform.localToWorldMatrix;
+        if (isBeingLookedThroughOneWayPortal)
+        {
+            isBeingLookedThroughOneWayPortal = false;
+            cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * oneWayPortal.transform.localToWorldMatrix;
+        }
+
+        
         portalCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
 
 
@@ -86,11 +97,8 @@ public class TwoSidedPortal : MonoBehaviour
             portalCamera.projectionMatrix = playerCamera.projectionMatrix;
         }
 
-
-
         // Renders the camera manually each update frame
         portalCamera.Render();
-
 
         portalScreen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
@@ -167,7 +175,6 @@ public class TwoSidedPortal : MonoBehaviour
 
     }
 
-
     private void OnTriggerExit(Collider collided)
     {
         GameObject hitObject = collided.gameObject;
@@ -180,6 +187,16 @@ public class TwoSidedPortal : MonoBehaviour
                 trackedTravellers.Remove(traveller);
             }
         }
+    }
+
+    public void setIsBeingLookedThroughOneWayPortal(bool isBeingLookedThrough)
+    {
+        isBeingLookedThroughOneWayPortal = isBeingLookedThrough;
+    }
+
+    public void setOneWayPortalPos(Camera oneWayPortal)
+    {
+        this.oneWayPortal = oneWayPortal;
     }
 
 }
