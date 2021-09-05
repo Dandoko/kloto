@@ -367,10 +367,6 @@ public class PortalManager : MonoBehaviour
         // see either two-way portals
         //=====================================================================
 
-        GameObject twoWayPortal = Vector3.Distance(twoSidedPortal1.transform.position, playerCamera.transform.position) >
-                                  Vector3.Distance(twoSidedPortal2.transform.position, playerCamera.transform.position) ?
-                                  twoSidedPortal1 : twoSidedPortal2;
-
         twoSidedPortal1.GetComponent<TwoSidedPortal>().setIsBeingLookedThroughOneWayPortal(false);
         twoSidedPortal2.GetComponent<TwoSidedPortal>().setIsBeingLookedThroughOneWayPortal(false);
 
@@ -385,6 +381,18 @@ public class PortalManager : MonoBehaviour
                 Vector3 dir = twoSidedPortal1.transform.GetChild(0).gameObject.transform.TransformPoint(portalOffsets[i]) - startPos;
                 if (Physics.Raycast(startPos, dir, out hit, Mathf.Infinity))
                 {
+                    //Debug.DrawRay(startPos, dir, Color.red, 0.5f);
+                    if (hit.collider.gameObject == twoSidedPortal1 || hit.collider.gameObject == twoSidedPortal1.transform.GetChild(0).gameObject)
+                    {
+                        projectBothOneWayPortalsThroughSameTwoWayPortal(twoSidedPortal2, ref twoSidedPortal1);
+                        return;
+                    }
+                }
+
+                // Checking the camera's forward direction as well
+                if (Physics.Raycast(startPos, playerCamera.transform.forward, out hit, Mathf.Infinity))
+                {
+                    Debug.DrawRay(startPos, playerCamera.transform.forward, Color.red, 0.5f);
                     if (hit.collider.gameObject == twoSidedPortal1 || hit.collider.gameObject == twoSidedPortal1.transform.GetChild(0).gameObject)
                     {
                         projectBothOneWayPortalsThroughSameTwoWayPortal(twoSidedPortal2, ref twoSidedPortal1);
@@ -408,6 +416,15 @@ public class PortalManager : MonoBehaviour
                     if (hit.collider.gameObject == twoSidedPortal2 || hit.collider.gameObject == twoSidedPortal2.transform.GetChild(0).gameObject)
                     {
                         projectBothOneWayPortalsThroughSameTwoWayPortal(twoSidedPortal1, ref twoSidedPortal2);
+                        return;
+                    }
+                }
+
+                if (Physics.Raycast(startPos, playerCamera.transform.forward, out hit, Mathf.Infinity))
+                {
+                    if (hit.collider.gameObject == twoSidedPortal1 || hit.collider.gameObject == twoSidedPortal1.transform.GetChild(0).gameObject)
+                    {
+                        projectBothOneWayPortalsThroughSameTwoWayPortal(twoSidedPortal2, ref twoSidedPortal1);
                         return;
                     }
                 }
