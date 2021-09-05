@@ -44,6 +44,7 @@ This repo contains everything required to run the program. Clone this repo to ru
 - Two open maps to explore
 - Two-sided portals that link the two maps
 - A portal gun that creates one-sided portals on surfaces
+- Portal rendering using render textures and shaders
 - Rendering two-sided portal perspectives on one-sided portals and vice versa
 - Preserved player momentum when teleporting
 - Interactive sound effects
