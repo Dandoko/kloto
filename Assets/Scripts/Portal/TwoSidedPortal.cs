@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class TwoSidedPortal : MonoBehaviour
 {
-
     [SerializeField] private TwoSidedPortal linkedPortal;
-    [SerializeField] private Transform player;
+    [SerializeField] private PortalManager portalManager;
 
     private GameObject thisPortal;
     private Camera playerCamera;
@@ -17,6 +16,12 @@ public class TwoSidedPortal : MonoBehaviour
 
     private Transform clipPlane;
     private Vector4 nearClipPlane;
+
+    private bool isBeingLookedThroughOneWayPortal;
+    private Camera oneWayPortal;
+
+    private bool portalCameraSeesOneWayPortal1;
+    private bool portalCameraSeesOneWayPortal2;
 
     // Start is called before the first frame update
     void Start()
@@ -32,15 +37,24 @@ public class TwoSidedPortal : MonoBehaviour
 
         portalScreen = transform.GetChild(0).GetComponent<MeshRenderer>();
         portalScreen.material.SetInt("displayMask", 1);
+
+        isBeingLookedThroughOneWayPortal = false;
+
+        portalCameraSeesOneWayPortal1 = false;
+        portalCameraSeesOneWayPortal2 = false;
     }
 
     void Update()
     {
         // Don't update the linked portal screen if the player camera cannot see the linked portal
-        if (!isVisibleOnPlayerCamera())
+        if (!isVisibleOnPlayerCamera() && !isBeingLookedThroughOneWayPortal &&
+            !portalCameraSeesOneWayPortal1 && !portalCameraSeesOneWayPortal2)
         {
             return;
         }
+
+        projectOneWayPortal(1, ref portalCameraSeesOneWayPortal2);
+        projectOneWayPortal(2, ref portalCameraSeesOneWayPortal1);
 
         // Hide the portal render screens while the render texture is being created
         portalScreen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
@@ -60,6 +74,13 @@ public class TwoSidedPortal : MonoBehaviour
 
         // Calculate the position and rotation of the portal camera using the world space
         var cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * playerCamera.transform.localToWorldMatrix;
+        if (isBeingLookedThroughOneWayPortal)
+        {
+            isBeingLookedThroughOneWayPortal = false;
+            cameraPositionMatrix = transform.localToWorldMatrix * linkedPortal.transform.worldToLocalMatrix * oneWayPortal.transform.localToWorldMatrix;
+        }
+
+        
         portalCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
 
 
@@ -86,11 +107,8 @@ public class TwoSidedPortal : MonoBehaviour
             portalCamera.projectionMatrix = playerCamera.projectionMatrix;
         }
 
-
-
         // Renders the camera manually each update frame
         portalCamera.Render();
-
 
         portalScreen.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
@@ -167,7 +185,6 @@ public class TwoSidedPortal : MonoBehaviour
 
     }
 
-
     private void OnTriggerExit(Collider collided)
     {
         GameObject hitObject = collided.gameObject;
@@ -182,4 +199,73 @@ public class TwoSidedPortal : MonoBehaviour
         }
     }
 
+    public void setIsBeingLookedThroughOneWayPortal(bool isBeingLookedThrough)
+    {
+        isBeingLookedThroughOneWayPortal = isBeingLookedThrough;
+    }
+
+    public void setOneWayPortalPos(Camera oneWayPortal)
+    {
+        this.oneWayPortal = oneWayPortal;
+    }
+
+    private void projectOneWayPortal(int portalNum, ref bool portalCameraSeesOneWayPortal)
+    {
+        if (!portalManager.bothPortalsExist())
+        {
+            return;
+        }
+
+        GameObject oneWayPortal = portalManager.getOneWayPortal(portalNum);
+        portalCameraSeesOneWayPortal = isOneWayPortalVisibleFromPortalCamera(oneWayPortal);
+    }
+
+    private bool isOneWayPortalVisibleFromPortalCamera(GameObject oneWayPortal)
+    {
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(portalCamera);
+        bool portalCamSeesOneWayPortal = false;
+
+        // Only checks if the two-way portal is within the bounding box of the portal camera
+        // It does not check if the portal camera has an unobstructed view of the two-way portal
+        if (GeometryUtility.TestPlanesAABB(planes, oneWayPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().bounds))
+        {
+            portalCamSeesOneWayPortal = isOneWayPortalVisibleRaycast(oneWayPortal);
+        }
+
+        return portalCamSeesOneWayPortal;
+    }
+
+    private bool isOneWayPortalVisibleRaycast(GameObject oneWayPortal)
+    {
+        for (int i = 0; i < PortalManager.portalOffsets.Count; i++)
+        {
+            for (int j = 0; j < PortalManager.portalOffsets.Count; j++)
+            {
+                RaycastHit hit;
+                Vector3 startPos = transform.GetChild(0).transform.TransformPoint(PortalManager.portalOffsets[i]);
+                Vector3 dir = oneWayPortal.transform.GetChild(0).gameObject.transform.TransformPoint(PortalManager.portalOffsets[j]) - startPos;
+                if (Physics.Raycast(startPos, dir, out hit, Mathf.Infinity))
+                {
+                    if (hit.collider.gameObject == oneWayPortal)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public bool getSeesOneWayPortal(int portalNum)
+    {
+        if (portalNum == 1)
+        {
+            return portalCameraSeesOneWayPortal1;
+        }
+        else /* if (portalNum == 2) */
+        {
+            return portalCameraSeesOneWayPortal2;
+        }
+    }
 }

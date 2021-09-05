@@ -8,12 +8,26 @@ public class PortalManager : MonoBehaviour
     // Rotation (0, 90, 0)
     // Scale (1.4, 2,2, 0.005)
 
+    public static List<Vector3> portalOffsets = new List<Vector3>
+    {
+        new Vector3( 0.0f,  0.0f, 0f), // Centre
+        new Vector3(-0.5f, -0.5f, 0f), // Bottom Left
+        new Vector3(-0.5f,  0.5f, 0f), // Top Left
+        new Vector3( 0.5f, -0.5f, 0f), // Bottom Right
+        new Vector3( 0.5f,  0.5f, 0f)  // Top Right
+    };
+    // The two maps must be farther apart than this distance
+    public static float mapDistance = 50f;
+
     [SerializeField] private GameObject portalPrefab;
     [SerializeField] private LayerMask portalMask;
     [SerializeField] private LayerMask playerMask;
     [SerializeField] private Material portalMat;
     [SerializeField] private Material singlePortalMat1;
     [SerializeField] private Material singlePortalMat2;
+    [SerializeField] private GameObject twoSidedPortal1;
+    [SerializeField] private GameObject twoSidedPortal2;
+    [SerializeField] private Camera playerCamera;
 
     private Transform tempPortal;
     private Quaternion tempBackwardsPortalRotation;
@@ -25,6 +39,13 @@ public class PortalManager : MonoBehaviour
     private string outlineName1 = "OutlineBlue";
     private string outlineName2 = "OutlineRed";
     private Vector3 connectedSurfaceNormal;
+
+    void Update()
+    {
+        oneWayPortalsSeeTwoWayPortals();
+
+        twoWayPortalsSeeOneWayPortals();
+    }
 
     public bool checkPortalCreation(RaycastHit hitObject, Transform playerCamera)
     {
@@ -108,12 +129,13 @@ public class PortalManager : MonoBehaviour
         {
             portal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = portalMat;
             Destroy(linkedPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material);
+            destroyPortalScript(ref linkedPortal);
             linkedPortal.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = portalMat;
 
             var linkedPortalComponent = linkedPortal.AddComponent<OneSidedPortal>();
 
-            portalComponent.setPortal(linkedPortalComponent, portalSurface);
-            linkedPortalComponent.setPortal(portalComponent, linkedPortalSurface);
+            portalComponent.setPortal(linkedPortalComponent, portalSurface, this, playerMask);
+            linkedPortalComponent.setPortal(portalComponent, linkedPortalSurface, this, playerMask);
         }
         else
         {
@@ -148,6 +170,8 @@ public class PortalManager : MonoBehaviour
             {
                 portal.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             }
+
+            portal.name = "BluePortal";
         }
         // Red
         else /* if (!isPortal1) */
@@ -158,6 +182,8 @@ public class PortalManager : MonoBehaviour
             {
                 portal.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             }
+
+            portal.name = "RedPortal";
         }
 
         SoundManager.playSound(SoundManager.Sounds.Portal, portal);
@@ -289,7 +315,7 @@ public class PortalManager : MonoBehaviour
         return true;
     }
 
-    private bool bothPortalsExist()
+    public bool bothPortalsExist()
     {
         return portal1 != null && portal2 != null;
     }
@@ -302,6 +328,157 @@ public class PortalManager : MonoBehaviour
             {
                 Destroy(portal.GetComponent<OneSidedPortal>());
             }
+        }
+    }
+
+    public GameObject getTwoWayPortal(int portalNum)
+    {
+        if (1 == portalNum)
+        {
+            return twoSidedPortal1;
+        }
+        else /* if (2 == portalNum) */
+        {
+            return twoSidedPortal2;
+        }
+    }
+
+    public GameObject getOneWayPortal(int portalNum)
+    {
+        if (1 == portalNum)
+        {
+            return portal1;
+        }
+        else /* if (2 == portalNum) */
+        {
+            return portal2;
+        }
+    }
+
+    private void oneWayPortalsSeeTwoWayPortals()
+    {
+        if (!bothPortalsExist())
+        {
+            return;
+        }
+
+        twoSidedPortal1.GetComponent<TwoSidedPortal>().setIsBeingLookedThroughOneWayPortal(false);
+        twoSidedPortal2.GetComponent<TwoSidedPortal>().setIsBeingLookedThroughOneWayPortal(false);
+
+        //=====================================================================
+        // Using camera bounding boxes and raycasts to check if the player can
+        // see either two-way portals
+        //=====================================================================
+
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(playerCamera);
+
+        if (GeometryUtility.TestPlanesAABB(planes, twoSidedPortal1.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().bounds))
+        {
+            for (int i = 0; i < portalOffsets.Count; i++)
+            {
+                RaycastHit hit;
+                Vector3 startPos = playerCamera.transform.position;
+                Vector3 dir = twoSidedPortal1.transform.GetChild(0).gameObject.transform.TransformPoint(portalOffsets[i]) - startPos;
+                if (Physics.Raycast(startPos, dir, out hit, Mathf.Infinity))
+                {
+                    if (hit.collider.gameObject == twoSidedPortal1 || hit.collider.gameObject == twoSidedPortal1.transform.GetChild(0).gameObject)
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Need to check the two-way portals separatey because the raycasts are not using the
+        // direction the camera is facing but just the position of the camera
+        if (GeometryUtility.TestPlanesAABB(planes, twoSidedPortal2.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().bounds))
+        {
+            for (int i = 0; i < portalOffsets.Count; i++)
+            {
+                RaycastHit hit;
+                Vector3 startPos = playerCamera.transform.position;
+                Vector3 dir = twoSidedPortal2.transform.GetChild(0).gameObject.transform.TransformPoint(portalOffsets[i]) - startPos;
+                if (Physics.Raycast(startPos, dir, out hit, Mathf.Infinity))
+                {
+                    if (hit.collider.gameObject == twoSidedPortal2 || hit.collider.gameObject == twoSidedPortal2.transform.GetChild(0).gameObject)
+                    {
+                        return;
+                    }
+                }
+            }
+        }
+
+        //=====================================================================
+        // Preparing the camera orientation of the two-way portal
+        //=====================================================================
+        var oneWayPortalScreen1 = portal1.GetComponent<OneSidedPortal>();
+        var oneWayPortalScreen2 = portal2.GetComponent<OneSidedPortal>();
+
+        bool oneWayPortalScreen1SeesTwoWay = oneWayPortalScreen2.getSeesTwoWayPortal();
+        bool oneWayPortalScreen2SeesTwoWay = oneWayPortalScreen1.getSeesTwoWayPortal();
+
+        float twoWayPortaldist1 = Vector3.Distance(playerCamera.transform.position, twoSidedPortal1.transform.position);
+        float twoWayPortaldist2 = Vector3.Distance(playerCamera.transform.position, twoSidedPortal2.transform.position);
+        GameObject twoSidedPortal = twoWayPortaldist1 < twoWayPortaldist2 ? twoSidedPortal2 : twoSidedPortal1;
+
+        // Check if the one-way portals are on different maps
+        if (Vector3.Distance(portal1.transform.position, portal2.transform.position) > mapDistance)
+        {
+            twoSidedPortal = twoWayPortaldist1 > twoWayPortaldist2 ? twoSidedPortal2 : twoSidedPortal1;
+        }
+
+        // If both one-way portals can see a two-way portal
+        if (oneWayPortalScreen1SeesTwoWay && oneWayPortalScreen2SeesTwoWay)
+        {
+            // Assign the perspective of the one-way portal closest to the player to the two-way portal
+            float oneWayPortaldist1 = Vector3.Distance(playerCamera.transform.position, portal1.transform.position);
+            float oneWayPortaldist2 = Vector3.Distance(playerCamera.transform.position, portal2.transform.position);
+            Camera oneWayPortalCamera = oneWayPortaldist1 < oneWayPortaldist2 ? portal2.GetComponentInChildren<Camera>() : portal1.GetComponentInChildren<Camera>();
+
+            twoSidedPortal.GetComponent<TwoSidedPortal>().setOneWayPortalPos(oneWayPortalCamera);
+            twoSidedPortal.GetComponent<TwoSidedPortal>().setIsBeingLookedThroughOneWayPortal(true);
+        }
+        else if (oneWayPortalScreen1SeesTwoWay)
+        {
+            twoSidedPortal.GetComponent<TwoSidedPortal>().setOneWayPortalPos(portal2.GetComponentInChildren<Camera>());
+            twoSidedPortal.GetComponent<TwoSidedPortal>().setIsBeingLookedThroughOneWayPortal(true);
+
+        }
+        else if (oneWayPortalScreen2SeesTwoWay)
+        {
+            twoSidedPortal.GetComponent<TwoSidedPortal>().setOneWayPortalPos(portal1.GetComponentInChildren<Camera>());
+            twoSidedPortal.GetComponent<TwoSidedPortal>().setIsBeingLookedThroughOneWayPortal(true);
+        }
+    }
+
+    private void twoWayPortalsSeeOneWayPortals()
+    {
+        if (!bothPortalsExist())
+        {
+            return;
+        }
+
+        // Only checking the two-way portal that is on the other map of the player
+        // which means it's the farther away portal
+        GameObject twoWayPortal = Vector3.Distance(twoSidedPortal1.transform.position, playerCamera.transform.position) >
+                                  Vector3.Distance(twoSidedPortal2.transform.position, playerCamera.transform.position) ?
+                                  twoSidedPortal1 : twoSidedPortal2;
+
+        twoWayPortalsSeeOneWayPortalsHelper(ref twoWayPortal, ref portal1, 1);
+        twoWayPortalsSeeOneWayPortalsHelper(ref twoWayPortal, ref portal2, 2);
+    }
+
+    private void twoWayPortalsSeeOneWayPortalsHelper(ref GameObject twoWayPortal, ref GameObject oneWayPortal, int portalNum)
+    {
+        oneWayPortal.GetComponent<OneSidedPortal>().setIsBeingLookedThroughTwoWayPortal(false);
+
+        var twoWayPortalScreen = twoWayPortal.GetComponent<TwoSidedPortal>();
+        bool twoWayPortalScreenSeesOneWay = twoWayPortalScreen.getSeesOneWayPortal(portalNum);
+
+        if (twoWayPortalScreenSeesOneWay)
+        {
+            oneWayPortal.GetComponent<OneSidedPortal>().setTwoWayPortalPos(twoWayPortal.GetComponentInChildren<Camera>());
+            oneWayPortal.GetComponent<OneSidedPortal>().setIsBeingLookedThroughTwoWayPortal(true);
         }
     }
 }
