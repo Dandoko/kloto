@@ -44,6 +44,8 @@ This repo contains everything required to run the program. Clone this repo to ru
 - Two open maps to explore
 - Two-sided portals that link the two maps
 - A portal gun that creates one-sided portals on surfaces
+- Portal rendering using render textures and shaders
+- Rendering two-sided portal perspectives on one-sided portals and vice versa
 - Preserved player momentum when teleporting
 - Interactive sound effects
 
@@ -57,7 +59,6 @@ have rarely been spotted going through objects
 - The portal screen infrequently flickers when passing through it
 
 ## Plans for the Future
-- Project a more natural camera view when looking at a two-sided portal through a one-sided portal and vice versa
 - Add recursive portal renders
 - Slice the models of objects passing through portals
 
