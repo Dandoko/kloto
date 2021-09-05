@@ -458,6 +458,8 @@ public class PortalManager : MonoBehaviour
             return;
         }
 
+        // Only checking the two-way portal that is on the other map of the player
+        // which means it's the farther away portal
         GameObject twoWayPortal = Vector3.Distance(twoSidedPortal1.transform.position, playerCamera.transform.position) >
                                   Vector3.Distance(twoSidedPortal2.transform.position, playerCamera.transform.position) ?
                                   twoSidedPortal1 : twoSidedPortal2;

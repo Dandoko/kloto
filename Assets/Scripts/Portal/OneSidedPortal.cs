@@ -308,31 +308,6 @@ public class OneSidedPortal : MonoBehaviour
     // Note: This raycast method is not perfect
     private bool isTwoWayPortalVisibleRaycast(ref GameObject twoWayPortal)
     {
-        //List<GameObject> tempSpheres = new List<GameObject>
-        //{
-        //    GameObject.CreatePrimitive(PrimitiveType.Sphere), // Centre
-        //    GameObject.CreatePrimitive(PrimitiveType.Sphere), // Top Right
-        //    GameObject.CreatePrimitive(PrimitiveType.Sphere), // Bottom Right
-        //    GameObject.CreatePrimitive(PrimitiveType.Sphere), // Top Left
-        //    GameObject.CreatePrimitive(PrimitiveType.Sphere), // Bottom Left
-        //};
-
-        //for (int i = 0; i < tempSpheres.Count; i++)
-        //{
-        //    tempSpheres[i].transform.position = twoWayPortalScreen.transform.TransformPoint(twoWayPortalOffsets[i]);
-        //    tempSpheres[i].GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-        //    tempSpheres[i].transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-        //    tempSpheres[i].GetComponent<Collider>().enabled = false;
-        //}
-
-        //for (int i = 0; i < tempSpheres.Count; i++)
-        //{
-        //    tempSpheres[i].transform.position = transform.GetChild(0).transform.TransformPoint(oneWayPortalOffsets[i]);
-        //    tempSpheres[i].GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-        //    tempSpheres[i].transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
-        //    tempSpheres[i].GetComponent<Collider>().enabled = false;
-        //}
-
         int layerMasksToIgnore = playerMask.value;
         int allMasksWithoutMasksToIgnore = ~layerMasksToIgnore;
 
