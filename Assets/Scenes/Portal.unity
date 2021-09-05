@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44970918, g: 0.49977744, b: 0.575634, a: 1}
+  m_IndirectSpecularColor: {r: 0.44970924, g: 0.4997775, b: 0.57563436, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5747,6 +5747,10 @@ PrefabInstance:
       propertyPath: linkedPortal
       value: 
       objectReference: {fileID: 1387626829}
+    - target: {fileID: 633625137965863562, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: portalManager
+      value: 
+      objectReference: {fileID: 1184047880}
     - target: {fileID: 2885799262469982322, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -5964,6 +5968,10 @@ PrefabInstance:
       propertyPath: linkedPortal
       value: 
       objectReference: {fileID: 1372753307}
+    - target: {fileID: 633625137965863562, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
+      propertyPath: portalManager
+      value: 
+      objectReference: {fileID: 1184047880}
     - target: {fileID: 2885799262469982322, guid: 931f4a06438b8354bb2935cdbfdea4c5, type: 3}
       propertyPath: m_Enabled
       value: 0
