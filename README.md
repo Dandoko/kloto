@@ -43,6 +43,8 @@ directory with changes someone else could have made
 	- The video above is slightly outdated, so the video below covers what has changed with the Unity Timeline animation package
 	- [Animation Track](https://youtu.be/taIEYXHgW-w)
 - [Unity Recorder](https://youtu.be/2HVhnh93JZY)
+- [Unity to SIMMER.io](https://youtu.be/5we9W_CEIb0)
+- [Export WebGL without compression in Unity 2020.1+](https://youtu.be/2jjESP58jsA)
 
 ### Portal Examples
 - [Coding Adventure: Portals](https://youtu.be/cWpFZbjtSQg)
