@@ -87,25 +87,6 @@ public class TwoSidedPortal : MonoBehaviour
         //Sets the screen's to the appropriate width so that screen flickering is minimized
         setScreenWidth();
 
-        //Calculates and sets the clip plane
-        clipPlane = transform;
-        int sign = System.Math.Sign(Vector3.Dot(clipPlane.forward, transform.position - portalCamera.transform.position));
-
-        Vector3 camSpacePos = portalCamera.worldToCameraMatrix.MultiplyPoint(clipPlane.position);
-        Vector3 camSpaceNormal = portalCamera.worldToCameraMatrix.MultiplyVector(clipPlane.forward) * sign;
-        float camSpaceDst = -Vector3.Dot(camSpacePos, camSpaceNormal) + 0.15f;
-
-        //Creates a near clip plane based on the portal screen's position
-        if (Mathf.Abs(camSpaceDst) > 0.2f)
-        {
-            nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst);
-            portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
-        }
-        else
-        {
-
-            portalCamera.projectionMatrix = playerCamera.projectionMatrix;
-        }
 
         // Renders the camera manually each update frame
         portalCamera.Render();
