@@ -24,6 +24,7 @@ public class OneSidedPortal : MonoBehaviour
     private PortalManager portalManager;
     private LayerMask playerMask;
     private bool portalCameraSeesTwoWayPortal;
+    private GameObject lookingatTwoWayPortal;
 
     private bool isBeingLookedThroughTwoWayPortal;
     private Camera twoWayPortal;
@@ -288,6 +289,10 @@ public class OneSidedPortal : MonoBehaviour
     {
         GameObject twoWayPortal = portalManager.getTwoWayPortal(portalNum);
         portalCameraSeesTwoWayPortal = isTwoWayPortalVisibleFromPortalCamera(twoWayPortal);
+        if (portalCameraSeesTwoWayPortal)
+        {
+            lookingatTwoWayPortal = twoWayPortal;
+        }
     }
 
     private bool isTwoWayPortalVisibleFromPortalCamera(GameObject twoWayPortal)
@@ -340,6 +345,11 @@ public class OneSidedPortal : MonoBehaviour
     public bool getSeesTwoWayPortal()
     {
         return portalCameraSeesTwoWayPortal;
+    }
+
+    public GameObject getLookingatTwoWayPortal()
+    {
+        return lookingatTwoWayPortal;
     }
 
     public void setIsBeingLookedThroughTwoWayPortal(bool isBeingLookedThrough)
