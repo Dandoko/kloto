@@ -13,7 +13,7 @@ through.
 ## Usage  
 This repo contains everything required to run the program. Clone this repo to run the program on Unity.  
 You can also play it [here](https://simmer.io/@Dandoko/kloto).  
-For the best quality of gameplay, we recommend you to play it on Unity because WebGL and simmer.io compress files 
+**Note:** For the best quality of gameplay, we recommend you to play it on Unity because WebGL and simmer.io compress files 
 which can render the Unity Universal Render Pipeline and Render Texture poorly.
 
 ## Assets
