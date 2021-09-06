@@ -7,8 +7,8 @@ teleporting through existing portals or creating their own portals. Using a
 portal gun, players can shoot on surfaces to create portals to teleport
 through.
 
-## Demo
-[![Kloto](https://img.youtube.com/vi/i44ZGvUswMY/0.jpg)](https://www.youtube.com/watch?v=i44ZGvUswMY&ab_channel=DanielKo)
+## Video Demo
+[![Kloto Image](https://img.youtube.com/vi/i44ZGvUswMY/0.jpg)](https://www.youtube.com/watch?v=i44ZGvUswMY)
 
 ## Usage  
 This repo contains everything required to run the program. Clone this repo to run the program on Unity.  
