@@ -105,6 +105,7 @@ directory with changes someone else could have made
 - [Checks if Renderer is Visible](https://wiki.unity3d.com/index.php/IsVisibleFrom)
 - [Camera.depth](https://docs.unity3d.com/ScriptReference/Camera-depth.html)
 - [Shadow Distance](https://docs.unity3d.com/Manual/shadow-distance.html)
+- [Get Absolute Position of the Corner of the NearClipPlane](https://answers.unity.com/questions/1609172/absolute-position-of-bottom-left-hand-corner-of-ca.html)
 
 #### Collision Detection
 - [Physics.Raycast](https://docs.unity3d.com/ScriptReference/Physics.Raycast.html)

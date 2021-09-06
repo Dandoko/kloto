@@ -40,6 +40,15 @@ public class PortalManager : MonoBehaviour
     private string outlineName2 = "OutlineRed";
     private Vector3 connectedSurfaceNormal;
 
+    // 0.3f acts as the depth of the screen corners
+    private List<Vector3> playerCameraNearClipPlaneCorners = new List<Vector3>
+    {
+        new Vector3(0, 0, 0.3f),
+        new Vector3(0, 1, 0.3f),
+        new Vector3(1, 0, 0.3f),
+        new Vector3(1, 1, 0.3f)
+    };
+
     void Update()
     {
         oneWayPortalsSeeTwoWayPortals();
@@ -367,10 +376,6 @@ public class PortalManager : MonoBehaviour
         // see either two-way portals
         //=====================================================================
 
-        GameObject twoWayPortal = Vector3.Distance(twoSidedPortal1.transform.position, playerCamera.transform.position) >
-                                  Vector3.Distance(twoSidedPortal2.transform.position, playerCamera.transform.position) ?
-                                  twoSidedPortal1 : twoSidedPortal2;
-
         twoSidedPortal1.GetComponent<TwoSidedPortal>().setIsBeingLookedThroughOneWayPortal(false);
         twoSidedPortal2.GetComponent<TwoSidedPortal>().setIsBeingLookedThroughOneWayPortal(false);
 
@@ -380,15 +385,19 @@ public class PortalManager : MonoBehaviour
         {
             for (int i = 0; i < portalOffsets.Count; i++)
             {
-                RaycastHit hit;
-                Vector3 startPos = playerCamera.transform.position;
-                Vector3 dir = twoSidedPortal1.transform.GetChild(0).gameObject.transform.TransformPoint(portalOffsets[i]) - startPos;
-                if (Physics.Raycast(startPos, dir, out hit, Mathf.Infinity))
+                for (int j = 0; j < playerCameraNearClipPlaneCorners.Count; j++)
                 {
-                    if (hit.collider.gameObject == twoSidedPortal1 || hit.collider.gameObject == twoSidedPortal1.transform.GetChild(0).gameObject)
+                    RaycastHit hit;
+                    Vector3 startPos = playerCamera.ViewportToWorldPoint(playerCameraNearClipPlaneCorners[j]);
+                    Vector3 dir = twoSidedPortal1.transform.GetChild(0).gameObject.transform.TransformPoint(portalOffsets[i]) - startPos;
+                    if (Physics.Raycast(startPos, dir, out hit, Mathf.Infinity))
                     {
-                        projectBothOneWayPortalsThroughSameTwoWayPortal(twoSidedPortal2, ref twoSidedPortal1);
-                        return;
+                        Debug.DrawRay(startPos, dir, Color.red, 0.5f);
+                        if (hit.collider.gameObject == twoSidedPortal1 || hit.collider.gameObject == twoSidedPortal1.transform.GetChild(0).gameObject)
+                        {
+                            projectBothOneWayPortalsThroughSameTwoWayPortal(twoSidedPortal2, ref twoSidedPortal1);
+                            return;
+                        }
                     }
                 }
             }
@@ -400,15 +409,19 @@ public class PortalManager : MonoBehaviour
         {
             for (int i = 0; i < portalOffsets.Count; i++)
             {
-                RaycastHit hit;
-                Vector3 startPos = playerCamera.transform.position;
-                Vector3 dir = twoSidedPortal2.transform.GetChild(0).gameObject.transform.TransformPoint(portalOffsets[i]) - startPos;
-                if (Physics.Raycast(startPos, dir, out hit, Mathf.Infinity))
+                for (int j = 0; j < playerCameraNearClipPlaneCorners.Count; j++)
                 {
-                    if (hit.collider.gameObject == twoSidedPortal2 || hit.collider.gameObject == twoSidedPortal2.transform.GetChild(0).gameObject)
+                    RaycastHit hit;
+                    Vector3 startPos = playerCamera.ViewportToWorldPoint(playerCameraNearClipPlaneCorners[j]);
+                    Vector3 dir = twoSidedPortal2.transform.GetChild(0).gameObject.transform.TransformPoint(portalOffsets[i]) - startPos;
+                    if (Physics.Raycast(startPos, dir, out hit, Mathf.Infinity))
                     {
-                        projectBothOneWayPortalsThroughSameTwoWayPortal(twoSidedPortal1, ref twoSidedPortal2);
-                        return;
+                        Debug.DrawRay(startPos, dir, Color.red, 0.5f);
+                        if (hit.collider.gameObject == twoSidedPortal2 || hit.collider.gameObject == twoSidedPortal2.transform.GetChild(0).gameObject)
+                        {
+                            projectBothOneWayPortalsThroughSameTwoWayPortal(twoSidedPortal1, ref twoSidedPortal2);
+                            return;
+                        }
                     }
                 }
             }

@@ -109,32 +109,6 @@ public class OneSidedPortal : MonoBehaviour
             portalCamera.transform.SetPositionAndRotation(cameraPositionMatrix.GetColumn(3), cameraPositionMatrix.rotation);
 
 
-
-            //Sets the clip plane (the plane where the camera stops rendering things that are behind it) to be the same as the plane that the portal is sitting on (i.e. the wall that the portal is on)
-            clipPlane = portalScreen.transform;
-            //Calculates which side of the portal the player is on
-            int sign = System.Math.Sign(Vector3.Dot(clipPlane.forward, portalScreen.transform.position - portalCamera.transform.position));
-
-            //Variables to create the near clip plane
-            Vector3 camSpacePos = portalCamera.worldToCameraMatrix.MultiplyPoint(clipPlane.position);
-            Vector3 camSpaceNormal = portalCamera.worldToCameraMatrix.MultiplyVector(clipPlane.forward) * sign;
-            float camSpaceDst = -Vector3.Dot(camSpacePos, camSpaceNormal);
-
-            //If the camera is greater than a certain, set distance activate the near clip plane and don't render anything before the plane
-            if (Mathf.Abs(camSpaceDst) > 0.2f)
-            {
-                //Creates the plane using a vector4
-                nearClipPlane = new Vector4(camSpaceNormal.x, camSpaceNormal.y, camSpaceNormal.z, camSpaceDst);
-                portalCamera.projectionMatrix = playerCamera.CalculateObliqueMatrix(nearClipPlane);
-            }
-            else
-            {
-                //If the camera is close to the portal, don't render the near clip plane, render everything. The clip plane is needed if you're close because nothing would be blocking your view
-                portalCamera.projectionMatrix = playerCamera.projectionMatrix;
-            }
-
-
-
             // Renders the camera manually each update frame
             portalCamera.Render();
 
