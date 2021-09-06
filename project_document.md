@@ -8,12 +8,13 @@ portal gun, players can shoot on surfaces to create portals to teleport
 through.
 
 ## Demo
-Embed YouTube video here  
-Add images here
+[![Kloto](https://img.youtube.com/vi/i44ZGvUswMY/0.jpg)](https://www.youtube.com/watch?v=i44ZGvUswMY&ab_channel=DanielKo)
 
-## Usage 
-Add link here to playable game here if the game is polished  
-This repo contains everything required to run the program. Clone this repo to run the program on Unity.
+## Usage  
+This repo contains everything required to run the program. Clone this repo to run the program on Unity.  
+You can also play it [here](https://simmer.io/@Dandoko/kloto).  
+For the best quality of gameplay, we recommend you to play it on Unity because WebGL and simmer.io compress files 
+which can render the Unity Universal Render Pipeline and Render Texture poorly.
 
 ## Assets
 - [Footsteps Sound Effect](https://assetstore.unity.com/packages/audio/sound-fx/foley/footsteps-essentials-189879)
@@ -54,8 +55,6 @@ This repo contains everything required to run the program. Clone this repo to ru
 	- The game is only playable on the computer
 
 ## Existing Bugs
-- Although continuous collision detection was implemented, portal gun bullets
-have rarely been spotted going through objects
 - The portal screen infrequently flickers when passing through it
 
 ## Plans for the Future
