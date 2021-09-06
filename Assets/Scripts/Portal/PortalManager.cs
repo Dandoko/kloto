@@ -40,16 +40,14 @@ public class PortalManager : MonoBehaviour
     private string outlineName2 = "OutlineRed";
     private Vector3 connectedSurfaceNormal;
 
-    private List<Vector3> playerCameraNearClipPlaneCorners = new List<Vector3>();
-
-    private void Start()
+    // 0.3f acts as the depth of the screen corners
+    private List<Vector3> playerCameraNearClipPlaneCorners = new List<Vector3>
     {
-        // 0.3f acts as the depth of the screen corners
-        playerCameraNearClipPlaneCorners.Add(new Vector3(0, 0, 0.3f));
-        playerCameraNearClipPlaneCorners.Add(new Vector3(0, 1, 0.3f));
-        playerCameraNearClipPlaneCorners.Add(new Vector3(1, 0, 0.3f));
-        playerCameraNearClipPlaneCorners.Add(new Vector3(1, 1, 0.3f));
-    }
+        new Vector3(0, 0, 0.3f),
+        new Vector3(0, 1, 0.3f),
+        new Vector3(1, 0, 0.3f),
+        new Vector3(1, 1, 0.3f)
+    };
 
     void Update()
     {
