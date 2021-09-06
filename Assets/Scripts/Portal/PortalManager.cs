@@ -392,8 +392,8 @@ public class PortalManager : MonoBehaviour
                     Vector3 dir = twoSidedPortal1.transform.GetChild(0).gameObject.transform.TransformPoint(portalOffsets[i]) - startPos;
                     if (Physics.Raycast(startPos, dir, out hit, Mathf.Infinity))
                     {
-                        Debug.DrawRay(startPos, dir, Color.red, 0.5f);
-                        if (hit.collider.gameObject == twoSidedPortal1 || hit.collider.gameObject == twoSidedPortal1.transform.GetChild(0).gameObject)
+                        if (hit.collider.gameObject == twoSidedPortal1 || hit.collider.gameObject == twoSidedPortal1.transform.GetChild(0).gameObject ||
+                            hit.collider.gameObject == twoSidedPortal1.transform.GetChild(1).gameObject)
                         {
                             projectBothOneWayPortalsThroughSameTwoWayPortal(twoSidedPortal2, ref twoSidedPortal1);
                             return;
@@ -416,8 +416,8 @@ public class PortalManager : MonoBehaviour
                     Vector3 dir = twoSidedPortal2.transform.GetChild(0).gameObject.transform.TransformPoint(portalOffsets[i]) - startPos;
                     if (Physics.Raycast(startPos, dir, out hit, Mathf.Infinity))
                     {
-                        Debug.DrawRay(startPos, dir, Color.red, 0.5f);
-                        if (hit.collider.gameObject == twoSidedPortal2 || hit.collider.gameObject == twoSidedPortal2.transform.GetChild(0).gameObject)
+                        if (hit.collider.gameObject == twoSidedPortal2 || hit.collider.gameObject == twoSidedPortal2.transform.GetChild(0).gameObject ||
+                            hit.collider.gameObject == twoSidedPortal2.transform.GetChild(1).gameObject)
                         {
                             projectBothOneWayPortalsThroughSameTwoWayPortal(twoSidedPortal1, ref twoSidedPortal2);
                             return;
